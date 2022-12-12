@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+	font-family: sourceCodePro;
+	src: url('/fonts/SourceCodePro-Regular.ttf');
+}
+
+.shadow {
+	box-shadow: 3px 5px 3px black;
+}
+
+.translate-anim-container {
+	display: block;
+	overflow: hidden;
+}
+
+.translate-anim {
+	display: block;
+	animation: translate-landing 1.5s ease forwards;
+	transform: translateY(150%);
+}
+
+@keyframes translate-landing {
+	100% {
+		transform: translateY(0);
+	}
+}
+
+.layout-container {
+	width: 100vw;
+	height: 100vh;
+}
+
+@screen xl {
+	.layout-container {
+		max-width: 700px;
+		max-height: 900px;
+	}
+}
+
+@screen 2xl {
+	.layout-container {
+		max-width: 800px;
+		max-height: 1000px;
+	}
+}
+
+.del-btn {
+	@apply bg-red-400 text-white p-2
+}
+
+.create-btn {
+	@apply bg-green-500 text-white p-2 drop-shadow-sm
+}
+
+
+.form-text {
+	@apply text-gray-500 text-lg;
+}
+
+.crop {
+	white-space: nowrap;
+	overflow: hidden;
+	display: block;
+	text-overflow: ellipsis;
+}
+
+.disabled {
+	@apply opacity-50
+}
