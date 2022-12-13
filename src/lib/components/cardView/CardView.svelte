@@ -4,18 +4,18 @@
 	import TopicMap from '$lib/components/cardView/utils/topicMap/TopicMap.svelte';
 	import Map from '$lib/components/map/Map.svelte';
 	import MapButton from '$lib/components/cardView/utils/MapButton.svelte';
-	import SelectEnvironment from '$lib/components/environment/EnvironmentSelector.svelte';
+	import SelectEnv from '$lib/components/SelectEnv/index.svelte';
 	import Card from '../Card/Card.svelte';
 
-	export let selectedEnvironment = 'undefined';
+	export let selectedEnvId = 'undefined';
+	export let cards;
+	export let onEnvIdChange;
 
-	let cards = undefined;
 	let selectedCardId = null;
 	let map = false;
 	let centerLocation = '';
 
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
-	$: if ($store.envs) cards = $store.envs?.find((env) => env.id === selectedEnvironment)?.cards;
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
 
 	$: console.log('curCard', curCard);
@@ -25,7 +25,7 @@
 	{#if cards?.length > 0}
 		<Slider
 			{cards}
-			{selectedEnvironment}
+			selectedEnvironment={selectedEnvId}
 			{selectedCardId}
 			onClick={(id) => (selectedCardId = id)}
 		/>
@@ -36,7 +36,7 @@
 				h={500}
 				{cards}
 				selectedCard={curCard}
-				{selectedEnvironment}
+				selectedEnvironment={selectedEnvId}
 				onClick={(id) => (selectedCard = id)}
 			/>
 		</div>
@@ -51,12 +51,12 @@
 {#key selectedCardId}
 	<Card
 		open={!!selectedCardId}
-		selectedEnvId={selectedEnvironment}
+		{selectedEnvId}
 		onClose={() => (selectedCardId = null)}
 		onActivitySubmit={(sub) => {}}
 		{...curCard}
 	/>
 {/key}
-{#if selectedEnvironment === 'undefined'}
-	<SelectEnvironment {selectedEnvironment} isOpen={true} isMandatory={true} />
+{#if selectedEnvId === 'undefined'}
+	<SelectEnv {selectedEnvId} isOpen={true} isMandatory={true} onChange={onEnvIdChange} />
 {/if}

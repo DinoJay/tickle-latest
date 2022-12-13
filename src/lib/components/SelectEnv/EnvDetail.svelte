@@ -1,11 +1,12 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	export let id = '';
-	export let title = '';
-	export let description = '';
-	export let img = '';
-	export let openEnv = '';
+	export let id;
+	export let title;
+	export let description;
+	export let img;
+	export let openEnv;
+	export let visible;
 	export let onClick = () => {};
 </script>
 
@@ -13,16 +14,16 @@
 	<h2>
 		<button
 			on:click={() => {
-				onClick(openEnv === id ? null : id);
+				onClick(visible ? null : id);
 			}}
 		>
 			<p class="flex items-center text-xl">
-				<span class="mr-1 ">{openEnv === id ? '🤯' : '🙂'}</span>
+				<span class="mr-1 ">{visible ? '🤯' : '🙂'}</span>
 				<span>{title}</span>
 			</p>
 		</button>
 	</h2>
-	{#if openEnv === id}
+	{#if visible}
 		<div class="my-2">
 			<img
 				style="max-height:20rem"

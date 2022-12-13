@@ -9,20 +9,19 @@
 	import { clickOutside } from '$lib/components/utils/clickOutside';
 	import Logo from './Logo.svelte';
 	import Burger from './Burger.svelte';
-	import LoadEnvironments from '../utils/LoadEnvironments.svelte';
-	import SelectEnvironment from '$lib/components/environment/EnvironmentSelector.svelte';
 
-	$: selectedEnvironment = $page.params.environmentId;
+	$: selectedEnvId = $page.params.slug;
+
+	$: console.log('selectedEnvId', selectedEnvId);
 
 	let collapsed = false;
 	let selectEnvOpen = false;
 	let mobileNavWidth = 0;
 	let sections = [
 		{
-			name: 'Select environments',
+			name: 'Select environments/User View',
 			foo: () => {
-				selectEnvOpen = !selectEnvOpen;
-				collapsed = !collapsed;
+				goto('/cardview/environment/undefined');
 			}
 		},
 		{ name: 'Home', foo: () => goto('/home') },
@@ -101,6 +100,5 @@
 				{/each}
 			</div>
 		{/if}
-		<SelectEnvironment {selectedEnvironment} bind:isOpen={selectEnvOpen} isMandatory={false} />
 	{/if}
 </nav>

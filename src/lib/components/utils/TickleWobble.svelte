@@ -1,4 +1,4 @@
-<div class="flex h-full w-full bg-transparent">
+<div class="flex flex-grow bg-transparent">
 	<img class="wobble m-auto" src="/alt_tickle_icon.svg" alt="loader" />
 </div>
 

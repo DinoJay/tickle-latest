@@ -1,16 +1,19 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { store } from '/src/stores/index';
-	import ShowEnv from './Environment.svelte';
+	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
-	export let selectedEnvironment = '';
 	export let isOpen = false;
 	export let isMandatory = false;
+	export let envs;
 
-	const elems = $store.envs.map(() => null);
+	let selectedEnvId = null;
+	$: console.log('envs', envs);
+
+	const elems = envs.map(() => null);
 	afterUpdate(() => {
-		const i = $store.envs.findIndex((c) => c.id === selectedEnvironment);
+		const i = envs.findIndex((c) => c.id === selectedEnvId);
 		elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'start' });
 	});
 </script>
@@ -20,11 +23,11 @@
 		<h2 class="text-3xl mb-1 text-c-black">Welcome to TICKLE!</h2>
 
 		<div class="grow overflow-y-auto">
-			{#each $store.envs as env}
-				<ShowEnv
+			{#each envs as env}
+				<EnvDetail
 					{...env}
-					openEnv={selectedEnvironment}
-					onClick={(id) => (selectedEnvironment = id)}
+					visible={selectedEnvId === env.id}
+					onClick={(id) => (selectedEnvId = id)}
 				/>
 			{/each}
 		</div>
