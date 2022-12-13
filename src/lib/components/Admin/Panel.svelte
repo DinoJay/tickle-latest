@@ -11,7 +11,7 @@
 <div
 	class="transition-all {expanded
 		? 'expanded '
-		: ''} p-2 flex flex-col border-2 border-c-black custom-shadow "
+		: ''} p-2 flex flex-col border-2 border-black custom-shadow "
 	style={height !== null && expanded ? `height:${height}` : ''}
 >
 	<div
