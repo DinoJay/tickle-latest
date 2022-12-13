@@ -1,6 +1,6 @@
 <script>
 	import Logo from '$lib/components/navigationBar/Logo.svelte';
-	import UploadFile from './../utils/edit/UploadFile.svelte';
+	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 	import { v4 as uuidv4 } from 'uuid';

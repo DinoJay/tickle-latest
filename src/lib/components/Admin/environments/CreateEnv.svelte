@@ -3,7 +3,7 @@
 	import { doc, setDoc } from 'firebase/firestore';
 	import { v4 as uuidv4 } from 'uuid';
 
-	import UploadFile from '$lib/components/Admin/utils/edit/UploadFile.svelte';
+	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	$: id = uuidv4();
 	let env = { id: '', title: '', description: '', img: {} };
 	/**

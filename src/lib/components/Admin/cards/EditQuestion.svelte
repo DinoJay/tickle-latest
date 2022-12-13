@@ -2,7 +2,7 @@
 	import Check from 'svelte-material-icons/CheckCircleOutline.svelte';
 	import AlphaX from 'svelte-material-icons/CloseOctagonOutline.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
-	import UploadFile from '../utils/edit/UploadFile.svelte';
+	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	export let q;
 	export let onChange;
 	export let onCreate;

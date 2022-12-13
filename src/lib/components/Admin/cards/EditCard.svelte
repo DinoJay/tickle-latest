@@ -2,7 +2,7 @@
 	import EditLinks from './edit/EditLinks.svelte';
 	import EditDescr from './../../Admin/cards/EditDescr.svelte';
 	import FieldThumb from './../../Admin/cards/FieldThumb.svelte';
-	import UploadFile from './../utils/edit/UploadFile.svelte';
+	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';

@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import HangmanActivity from './hangman/HangmanActivity.svelte';
 	import QuizActivity from './quiz/QuizActivity.svelte';
-	import EditText from '$lib/components/Admin/utils/edit/EditText.svelte';
+	// import EditText from '$lib/components/Admin/utils/edit/EditText.svelte';
 
 	export let currentCard = {};
 	export let selectedEnvironment = '';
@@ -64,14 +64,7 @@
 		</select>
 	</div>
 
-	<div class="w-[90%] mx-auto mb-[3%]">
-		<EditText
-			labelName={'Title'}
-			labelFor={'title'}
-			bind:bindValue={currentActivity.value.title}
-			onInput={() => saveActivity()}
-		/>
-	</div>
+	<div class="w-[90%] mx-auto mb-[3%]" />
 
 	{#if currentActivity.type == 'Hangman'}
 		<div class="w-[90%] mx-auto mb-[3%]">

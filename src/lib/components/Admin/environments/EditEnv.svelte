@@ -2,7 +2,7 @@
 	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, updateDoc, setDoc } from 'firebase/firestore';
-	import UploadFile from '../utils/edit/UploadFile.svelte';
+	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 
 	export let env = {
 		// id: uuidv4(),

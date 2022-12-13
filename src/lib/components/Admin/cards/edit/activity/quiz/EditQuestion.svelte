@@ -1,5 +1,5 @@
 <script>
-	import EditText from '$lib/components/Admin/utils/edit/EditText.svelte';
+	// import EditText from '$lib/components/Admin/utils/edit/EditText.svelte';
 
 	export let question = {};
 	export let saveActivity = () => {};
@@ -17,7 +17,7 @@
 
 <div class="flex flex-col bg-white overflow-y-auto" style="height: {height}px;width: {width}px;">
 	<input bind:value={question.text} on />
-	<EditText labelName={'Title'} labelFor={'title'} bind:bindValue={question.text} />
+	<!-- <EditText labelName={'Title'} labelFor={'title'} bind:bindValue={question.text} /> -->
 
 	<!-- <EditImage
 		labelName={'Image'}
@@ -35,7 +35,6 @@
 					bind:value={answer.text}
 				/>
 				<input type="checkbox" class="h-auto w-[7%] mx-1" bind:checked={answer.correct} />
-				<DeleteButton onClick={() => removeAnswer(answer)} />
 			</div>
 		{/each}
 	</div>
