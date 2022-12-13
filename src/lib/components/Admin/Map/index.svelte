@@ -7,7 +7,6 @@
 	import EditCard from '../cards/EditCard.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
-	import ActivityCard from '../cards/edit/activity/ActivityCard.svelte';
 
 	export let selectedEnvId = null;
 	export let selectedCardId = null;

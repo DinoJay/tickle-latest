@@ -1,5 +1,5 @@
 <script>
-	import EditLinks from './edit/EditLinks.svelte';
+	import EditLinks from './EditLinks.svelte';
 	import EditDescr from './../../Admin/cards/EditDescr.svelte';
 	import FieldThumb from './../../Admin/cards/FieldThumb.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
@@ -7,7 +7,6 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, getDocs } from 'firebase/firestore';
-	import TopicsCard from './edit/EditCardTopics/index.svelte';
 	import EditTitle from './EditTitle.svelte';
 	import EditTopics from './EditTopics.svelte';
 	import EditActivity from './EditActivity.svelte';

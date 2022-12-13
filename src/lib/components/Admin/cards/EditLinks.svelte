@@ -2,15 +2,11 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 	import { onMount } from 'svelte';
-
 	export let links = [];
 	export let onChange;
-
 	let newLink = '';
-
 	let height = 600;
 	let width = 400;
-
 	// console.log('link');
 	/**
 	 * LightBox height width for mobile
@@ -19,7 +15,6 @@
 	// 	if (window.innerWidth < width) width = window.innerWidth;
 	// 	if (window.innerHeight < height) height = window.innerHeight;
 	// });
-
 	/**
 	 * Get all the topics from the card
 	 */
@@ -28,7 +23,6 @@
 	// 	// Get all the topics from the topics id of the card
 	// 	links = card?.links || [];
 	// });
-
 	/**
 	 * Add the selected topic to the card
 	 * @param topic
@@ -43,14 +37,12 @@
 		// links = newLinks;
 		newLink = '';
 	};
-
 	/**
 	 * Remove the topic from the card
 	 * @param topic
 	 */
 	const removeLink = (link) => {
 		let newLinks = links.filter((l) => l !== link);
-
 		// updateDoc(docRef, {
 		// 	links: newLinks
 		// });

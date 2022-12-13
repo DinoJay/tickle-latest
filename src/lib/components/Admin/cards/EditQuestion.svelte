@@ -3,6 +3,8 @@
 	import AlphaX from 'svelte-material-icons/CloseOctagonOutline.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
+	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
+
 	export let q;
 	export let onChange;
 	export let onCreate;
@@ -11,7 +13,6 @@
 	export let open;
 
 	$: textQ = q ? q.text : null;
-	$: console.log('q', q);
 	$: answers = q ? q.answers : [];
 	let nw = '';
 	$: console.log('q', q);
@@ -52,16 +53,18 @@
 			<h2 class="form-text">Answers:</h2>
 			<ul class="mb-2">
 				{#each answers as a}
-					<li class="flex">
+					<li class="flex mb-1">
 						<input
+							class="border-2 p-1 flex-grow"
 							value={a.text}
-							on:change={(a) => {
-								const nq = editAnswer(a, { text: a.target.value.trim() });
+							on:change={(e) => {
+								const nq = editAnswer(a, { text: e.target.value.trim() });
 								onChange(nq);
 							}}
 						/>
 						<button
-							class="ml-auto"
+							class="ml-2"
+							style="width:2rem"
 							on:click={() => {
 								const nq = editAnswer(a, { correct: !a.correct });
 								onChange(nq);
@@ -69,18 +72,28 @@
 							}}
 						>
 							{#if a.correct}
-								<Check size={30} />
+								<div class="text-green-500 font-bold border-2 border-green-500">T</div>
 							{:else}
-								<AlphaX size={30} color="red" />
+								<div class="text-red-500 border-2 border-red-500 font-bold">W</div>
 							{/if}
+						</button>
+						<button
+							class="ml-3"
+							on:click={() => {
+								const answers = q.answers.filter((b) => b.text !== a.text);
+								onChange({ ...q, answers });
+								nw = '';
+							}}
+						>
+							<WindowClose />
 						</button>
 					</li>
 				{/each}
 			</ul>
-			<div class="flex">
+			<div class="flex mt-1">
 				<input class="border-2 p-1 w-full" bind:value={nw} placeholder="Please add Answer" />
 				<button
-					class="create-btn"
+					class="create-btn ml-2"
 					on:click={() => {
 						onChange({ ...q, answers: [...q.answers, { text: nw, correct: false }] });
 						nw = '';
@@ -89,7 +102,7 @@
 			</div>
 		</div>
 		{#if onCreate}
-			<button class="create-btn mt-3" on:click={onCreate}>Add new Question</button>
+			<button class="create-btn mt-3" on:click={onCreate}>Add Question</button>
 		{/if}
 		{#if onRemove}
 			<button class="del-btn mt-3" on:click={() => onRemove(q.id)}>Remove Question</button>

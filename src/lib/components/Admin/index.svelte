@@ -32,6 +32,7 @@
 		{...$$props}
 		{cards}
 		{envs}
+		{selectedEnvId}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}
 	/>

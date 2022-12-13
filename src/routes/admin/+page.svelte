@@ -1,5 +1,5 @@
 <script>
-	import Admin from '$lib/components/Admin/index.svelte';
+	import Admin from '$lib/components/Admin/AdminPage.svelte';
 </script>
 
 <Admin />

@@ -5,34 +5,30 @@
 	import PreviewTopic from './PreviewT.svelte';
 	export let selectedEnvId = null;
 
-	let currentTopic = {
-		title: '',
-		description: '',
-		id: 'null',
-		img: { name: '', url: '' },
-		color: ''
-	};
+	// let currentTopic = {
+	// 	title: '',
+	// 	description: '',
+	// 	id: 'null',
+	// 	img: { name: '', url: '' },
+	// 	color: ''
+	// };
 
 	let selectedTopicId = null;
 	let topics = [];
-	let loading = false;
 
-	loading = true;
+	$: console.log('selectedEnvId', selectedEnvId);
 	$: topicPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
 		const ts = snap.docs.map((doc) => doc.data());
 		topics = ts;
-		loading = false;
-		// console.log('topics', topics);
 	});
 
 	$: selectedTopic = topics.find((d) => d.id === selectedTopicId);
 </script>
 
 <div class="flex flex-col flex-grow">
-	{#if loading}
+	{#await topicPromise}
 		<div>Loading...</div>
-	{/if}
-	{#if !loading}
+	{:then _}
 		<TopicPage
 			{topics}
 			{selectedEnvId}
@@ -40,5 +36,5 @@
 			onChange={(ts) => (topics = ts)}
 			onClick={(id) => (selectedTopicId = id)}
 		/>
-	{/if}
+	{/await}
 </div>

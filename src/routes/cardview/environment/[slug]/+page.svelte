@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import CardViewPage from '$lib/components/cardView/CardView.svelte';
+	import CardViewPage from '$lib/components/CardView/index.svelte';
 	import ListenUserLocation from '$lib/components/geoLocation/ListenUserLocation.svelte';
 	import { collection, getDocs } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
@@ -12,11 +12,14 @@
 	$: cardsPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((sn) => {
 		return sn.docs.map((doc) => doc.data());
 	});
+	$: topixPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((sn) => {
+		return sn.docs.map((doc) => doc.data());
+	});
 </script>
 
 <ListenUserLocation />
-{#await cardsPromise}
+{#await Promise.all([cardsPromise, topixPromise])}
 	<TickleWobble />
-{:then cards}
-	<CardViewPage {selectedEnvId} {cards} />
+{:then [cards, topics]}
+	<CardViewPage {selectedEnvId} {cards} {topics} />
 {/await}

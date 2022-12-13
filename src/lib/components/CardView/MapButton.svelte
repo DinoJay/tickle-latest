@@ -1,6 +1,5 @@
 <script>
 	import CompassOutline from 'svelte-material-icons/CompassOutline.svelte';
-
 	export let map;
 	export let onClick;
 </script>
@@ -20,7 +19,6 @@
 		animation-name: spin;
 		animation-iteration-count: infinite;
 	}
-
 	@keyframes spin {
 		0% {
 			transform: rotate(0deg);

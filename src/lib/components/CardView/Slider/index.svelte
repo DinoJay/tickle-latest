@@ -1,10 +1,6 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
-	import LightBox from '$lib/components/utils/LightBox.svelte';
-	import Card from '$lib/components/card/Card.svelte';
-	import ActivityCard from '$lib/components/Admin/cards/edit/activity/ActivityCard.svelte';
-	import { curveCardinal } from 'd3';
 
 	export let cards = [{}];
 	export let selectedEnvironment = '';

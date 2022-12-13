@@ -1,14 +1,15 @@
 <script>
 	import { store } from '/src/stores/index';
-	import Slider from '$lib/components/cardView/utils/slider/Slider.svelte';
-	import TopicMap from '$lib/components/cardView/utils/topicMap/TopicMap.svelte';
+	import Slider from '$lib/components/CardView/Slider/index.svelte';
+	import TopicMap from '$lib/components/CardView/TopicMap/index.svelte';
 	import Map from '$lib/components/map/Map.svelte';
-	import MapButton from '$lib/components/cardView/utils/MapButton.svelte';
+	import MapButton from './MapButton.svelte';
 	import SelectEnv from '$lib/components/SelectEnv/index.svelte';
 	import Card from '../Card/Card.svelte';
 
 	export let selectedEnvId = 'undefined';
 	export let cards;
+	export let topics;
 	export let onEnvIdChange;
 
 	let selectedCardId = null;
@@ -17,8 +18,6 @@
 
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
-
-	$: console.log('curCard', curCard);
 </script>
 
 <div class="flex-grow flex flex-col w-full relative">
@@ -35,6 +34,7 @@
 				w={800}
 				h={500}
 				{cards}
+				{topics}
 				selectedCard={curCard}
 				selectedEnvironment={selectedEnvId}
 				onClick={(id) => (selectedCard = id)}

@@ -6,7 +6,7 @@
 	import { store } from '/src/stores/index';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
-	import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
+	// import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
 	import GeoCatching from './Challenge/geoCaching/geoCaching.svelte';
 	import Activity from './Challenge/Activity.svelte';
 
