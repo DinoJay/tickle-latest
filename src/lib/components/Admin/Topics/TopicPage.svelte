@@ -44,7 +44,12 @@
 </div>
 <button class="create-btn mt-auto mt-3" on:click={() => (clbOpen = true)}>Create Topic</button>
 
-<LightBox title={selectedTopic?.title} isOpen={lbOpen} close={() => (lbOpen = false)}>
+<LightBox
+	cls="overflow-y-auto"
+	title={selectedTopic?.title}
+	isOpen={lbOpen}
+	close={() => (lbOpen = false)}
+>
 	<EditTopic
 		{selectedEnvId}
 		onChange={(t) => {
@@ -69,7 +74,7 @@
 	/>
 </LightBox>
 
-<LightBox isOpen={clbOpen} close={() => (clbOpen = false)}
+<LightBox cls="overflow-y-auto" isOpen={clbOpen} close={() => (clbOpen = false)}
 	><CreateTopic
 		onCreate={(nt) => {
 			console.log('onChange', nt);

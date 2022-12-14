@@ -1,8 +1,12 @@
 
 import { packSiblings } from 'd3';
 import { points } from './diagram';
-const calcLayout = ({ cards, topics, width, height, NODERAD = 12 }) => {
-    if (cards.length == 0) return;
+const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) => {
+    if (tmpCards.length == 0) return;
+
+    const cards = tmpCards.map(d => ({ ...d, topics: d.topics.map(d => d.id) }))
+
+    // const topics = tmpTopix.map(d => d.id)
 
     const sort = (ar, acc = (a) => a.title) => {
         ar = ar.slice().sort((a, b) => acc(b).localeCompare(a.title));

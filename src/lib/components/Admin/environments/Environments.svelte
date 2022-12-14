@@ -1,11 +1,15 @@
 <script>
 	import { db } from '$lib/firebaseConfig/firebase';
 	import LightBox from '../../utils/LightBox.svelte';
-	import { doc, deleteDoc } from 'firebase/firestore';
+	import { doc, deleteDoc, setDoc } from 'firebase/firestore';
 	import EditEnvironment from './EditEnv.svelte';
-	import { map } from 'd3';
+	import { map, select } from 'd3';
 	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import CreateEnv from './CreateEnv.svelte';
+
+	import { v4 as uuidv4 } from 'uuid';
+
+	export let defEnvId = 'bnW56f62WWEJ0bwJwQ0m';
 
 	/**
 	 * @type {any[]}
@@ -31,7 +35,7 @@
 	let nlbOpen = false;
 
 	const onEnvClick = (/** @type {{ id: string; }} */ env) => {
-		if (selectedEnv?.id !== env.id) {
+		if (selectedEnv?.id !== env?.id) {
 			onSelectEnv(env.id);
 			return;
 		}
@@ -52,7 +56,7 @@
 				</span>
 			</button>
 
-			{#if selectedEnv?.id === env.id}
+			<!-- {#if selectedEnv?.id === env.id}
 				<div class="my-auto">
 					{#if env.title !== 'TOXIN'}
 						<button
@@ -64,7 +68,7 @@
 						>
 					{/if}
 				</div>
-			{/if}
+			{/if} -->
 		</div>
 	{/each}
 	<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
@@ -74,22 +78,37 @@
 	<EditEnvironment
 		env={selectedEnv}
 		onChange={(/** @type {any} */ newEnv) => {
+			const docRef = doc(db, 'card-envs', newEnv.id);
+			setDoc(docRef, newEnv).catch((error) => {
+				console.log(error);
+			});
 			const newEnvs = envs.map((e) => {
 				if (e.id === selectedEnv?.id) {
-					console.log('newEnv', newEnv);
 					return newEnv;
 				}
 				return e;
 			});
 			onChange(newEnvs);
 		}}
+		onRemove={selectedEnv.id !== defEnvId
+			? () => {
+					onChange(envs.filter((e) => e.id !== selectedEnv.id));
+					deleteDoc(doc(db, 'card-envs', selectedEnv.id));
+					onSelectEnv(defEnvId);
+					lbOpen = false;
+			  }
+			: null}
 	/>
 </LightBox>
 
 <LightBox isOpen={nlbOpen} close={() => (nlbOpen = false)}>
 	<CreateEnv
-		onChange={(/** @type {any} */ newEnv) => {
-			onChange([...envs, newEnv]);
+		onCreate={(env) => {
+			const id = uuidv4();
+			setDoc(doc(db, 'card-envs', id), { ...env, id }).catch((error) => {
+				console.log(error);
+			});
+			onChange([...envs, env]);
 			nlbOpen = false;
 		}}
 	/>

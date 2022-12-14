@@ -1,27 +1,31 @@
 <script>
 	import Logo from '$lib/components/navigationBar/Logo.svelte';
+	import DropDown from '$lib/components/utils/DropDown.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 	import { v4 as uuidv4 } from 'uuid';
+	import SelectColor from './SelectColor.svelte';
 
 	export let currentTopic = {
 		title: '',
 		description: '',
 		id: null,
 		img: { name: '', url: '' },
-		color: ''
+		color: null
 	};
 	export let onChange;
 	export let onCreate;
 	export let onRemove;
 
-	// $: id = uuidv4();
+	$: console.log('color', currentTopic);
 </script>
 
-<form class="flex-grow flex flex-col" on:submit={(e) => e.preventDefault()}>
+<form class="flex-initial flex flex-col overlflow-y-auto" on:submit={(e) => e.preventDefault()}>
 	<div class="mb-3 ">
-		<div><label for="title">Title:</label></div>
+		<div class="label">
+			<label for="title">Title:</label>
+		</div>
 		<input
 			value={currentTopic.title}
 			on:input={(e) => {
@@ -34,7 +38,9 @@
 		/>
 	</div>
 	<div>
-		<div><label for="description">Description:</label></div>
+		<div class="label">
+			<label for="description">Description:</label>
+		</div>
 		<textarea
 			value={currentTopic.description}
 			on:input={(e) => {
@@ -46,8 +52,10 @@
 			placeholder="description"
 		/>
 	</div>
-	<div>
-		<p>Image</p>
+	<div class="mb-3">
+		<div class="label">
+			<label for="image">Image:</label>
+		</div>
 		<UploadFile
 			url={currentTopic.img?.url}
 			onChange={(url, name) => {
@@ -57,6 +65,20 @@
 			}}
 		/>
 	</div>
+	<div class="mb-3">
+		<div class="label">
+			<label for="color">Color:</label>
+		</div>
+		<SelectColor
+			color={currentTopic.color}
+			onChange={(color) => {
+				console.log('sel color', color);
+				const newTopic = { ...currentTopic, color };
+				onChange(newTopic);
+			}}
+		/>
+	</div>
+
 	<div class="mt-auto">
 		{#if onCreate}
 			<button
@@ -80,4 +102,7 @@
 	input {
 		@apply border-2 p-1;
 	}
+	/* label {
+		@apply label;
+	} */
 </style>

@@ -1,62 +1,41 @@
 <script>
+	// import { page } from '$app/stores';
+	import CardViewPage from '$lib/components/CardView/CardViewPage.svelte';
+	import ListenUserLocation from '$lib/components/geoLocation/ListenUserLocation.svelte';
+	import { collection, getDocs } from 'firebase/firestore';
+	import { db } from '$lib/firebaseConfig/firebase';
+	import TickleWobble from '$lib/components/utils/TickleWobble.svelte';
+
 	import { store } from '/src/stores/index';
-	import Slider from '$lib/components/CardView/Slider/index.svelte';
-	import TopicMap from '$lib/components/CardView/TopicMap/index.svelte';
-	import Map from '$lib/components/map/Map.svelte';
-	import MapButton from './MapButton.svelte';
-	import SelectEnv from '$lib/components/SelectEnv/index.svelte';
-	import Card from '../Card/Card.svelte';
 
-	export let selectedEnvId = 'undefined';
-	export let cards;
-	export let topics;
-	export let onEnvIdChange;
+	export let selectedEnvId;
 
-	let selectedCardId = null;
-	let map = false;
-	let centerLocation = '';
+	// $: console.log('id environment', $page);
 
-	$: curCard = cards?.find((card) => card.id === selectedCardId);
-	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
+	$: promise = getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((sn) => {
+		const cs = sn.docs.map((doc) => doc.data());
+		return getDocs(collection(db, 'card-envs', selectedEnvId, 'topics'))
+			.then((sn) => {
+				return sn.docs.map((doc) => doc.data());
+			})
+			.then((topix) => {
+				const cards = cs.map((c) => ({
+					...c,
+					topics: topix.filter((t) => c.topics.includes(t.id))
+				}));
+				console.log('cards', cards, 'topix', topix);
+				return [cards, topix];
+			});
+	});
 </script>
 
-<div class="flex-grow flex flex-col w-full relative">
-	{#if cards?.length > 0}
-		<Slider
-			{cards}
-			selectedEnvironment={selectedEnvId}
-			{selectedCardId}
-			onClick={(id) => (selectedCardId = id)}
-		/>
-
-		<div class={!map ? 'visible' : 'invisible'}>
-			<TopicMap
-				w={800}
-				h={500}
-				{cards}
-				{topics}
-				selectedCard={curCard}
-				selectedEnvironment={selectedEnvId}
-				onClick={(id) => (selectedCard = id)}
-			/>
-		</div>
-
-		<div class="absolute h-full w-full  {map ? 'visible' : 'invisible'}">
-			<Map {cards} {centerLocation} onClick={(id) => (selectedCardId = id)} />
-		</div>
-
-		<MapButton {map} onClick={() => (map = !map)} />
+<ListenUserLocation />
+{#await promise}
+	<TickleWobble />
+{:then [cards, topics]}
+	{#if !!$store.currentUser}
+		<CardViewPage {...$$props} {cards} {topics} />
+	{:else}
+		<TickleWobble />
 	{/if}
-</div>
-{#key selectedCardId}
-	<Card
-		open={!!selectedCardId}
-		{selectedEnvId}
-		onClose={() => (selectedCardId = null)}
-		onActivitySubmit={(sub) => {}}
-		{...curCard}
-	/>
-{/key}
-{#if selectedEnvId === 'undefined'}
-	<SelectEnv {selectedEnvId} isOpen={true} isMandatory={true} onChange={onEnvIdChange} />
-{/if}
+{/await}

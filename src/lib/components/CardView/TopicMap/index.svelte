@@ -1,7 +1,4 @@
 <script>
-	import { db } from '$lib/firebaseConfig/firebase';
-	import { collection, getDocs } from 'firebase/firestore';
-	import * as d3 from 'd3';
 	import { calcLayout, getRadius } from './venn/index';
 
 	export let cards = [{}];
@@ -22,7 +19,8 @@
 	const NODERAD = 12;
 	$: layout = calcLayout({ cards, topics, width, height, NODERAD });
 
-	const getColor = (t) => 'gray';
+	$: console.log('color', layout);
+	$: getTopic = (title) => topics.find((d) => d.title === title);
 </script>
 
 <div class="flex w-full ">
@@ -31,7 +29,7 @@
 			<div
 				class="absolute border border-sky-500 rounded-full center opacity-20"
 				style="left:{c.value.x}px;top:{c.value.y}px;width:{c.value.radius * 2}px;height:{c.value
-					.radius * 2}px;background:{getColor(c.title)}"
+					.radius * 2}px;background:{getTopic(c.title).color};"
 			/>
 		{/each}
 		{#each layout.labels as l}

@@ -5,37 +5,23 @@
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 
 	export let env = {
-		// id: uuidv4(),
+		id: null,
 		title: '',
 		description: '',
 		img: { name: '', url: '' }
 	};
 	export let onChange;
-
-	$: docRef = doc(db, 'card-envs', env.id);
-	$: console.log('db env', env);
-	// let collectionRef = collection(db, 'card-envs');
-	let imgUrl = null;
-	const updateDb = (data) => {
-		setDoc(docRef, data)
-			.then((docRef) => {
-				console.log('Entire Document has been updated successfully');
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+	export let onRemove;
+	export let onCreate;
 </script>
 
-<!-- <EditWindow bind:currentElement={env} {fields} bind:docRef {collectionRef} /> -->
-<form on:submit={(e) => e.preventDefault()}>
+<form class="flex-grow flex flex-col" on:submit={(e) => e.preventDefault()}>
 	<div class="mb-3">
 		<div><label for="title">Title:</label></div>
 		<input
 			value={env.title}
 			on:input={(e) => {
 				const newEnv = { ...env, title: e.target.value };
-				updateDb(newEnv);
 				onChange(newEnv);
 			}}
 			class="w-full"
@@ -49,7 +35,6 @@
 			value={env.description}
 			on:input={(e) => {
 				const newEnv = { ...env, description: e.target.value };
-				updateDb(newEnv);
 				onChange(newEnv);
 			}}
 			class="border w-full"
@@ -64,9 +49,16 @@
 			onChange={(url, name) => {
 				const newEnv = { ...env, img: { name, url } };
 				onChange(newEnv);
-				updateDb(newEnv);
 			}}
 		/>
+	</div>
+	<div class="mt-auto">
+		{#if onRemove}
+			<button class="del-btn w-full" on:click={() => onRemove(env.id)}>Delete Environment</button>
+		{/if}
+		{#if onCreate}
+			<button class="create-btn w-full" on:click={onCreate}>Create Environment</button>
+		{/if}
 	</div>
 </form>
 

@@ -9,6 +9,7 @@
 	export let height = 500;
 	export let width = 400;
 	export let title = '';
+	export let cls = '';
 </script>
 
 {#if isOpen}
@@ -34,7 +35,7 @@
 				</div>
 			{/if}
 
-			<div class="flex flex-col" style="height:{height}px;width:{width}px">
+			<div class="flex flex-col {cls}" style="height:{height}px;width:{width}px">
 				<slot />
 			</div>
 		</div>

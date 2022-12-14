@@ -67,6 +67,10 @@
 	text-overflow: ellipsis;
 }
 
+.label {
+	@apply text-gray-500 mb-1
+}
+
 .disabled {
 	@apply opacity-50
 }

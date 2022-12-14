@@ -1,6 +1,5 @@
 <script>
 	import { afterUpdate } from 'svelte';
-	import { store } from '/src/stores/index';
 	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 

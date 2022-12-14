@@ -5,6 +5,7 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { doc, getDoc } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
+	import TickleWobble from '../utils/TickleWobble.svelte';
 
 	let allowedNavigation = ['/', '/register-user'];
 
@@ -43,4 +44,9 @@
 	});
 </script>
 
-<slot />
+{#if $store.currentUser}
+	<slot />
+	<!-- <TickleWobble /> -->
+{:else}
+	<TickleWobble />
+{/if}
