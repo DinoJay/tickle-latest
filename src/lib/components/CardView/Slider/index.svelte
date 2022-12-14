@@ -28,10 +28,21 @@
 	let openModal = false;
 
 	afterUpdate(() => {
-		const i = cards.findIndex((card) => card.id === selectedCardId);
+		setTimeout(() => {
+			const i = cards.findIndex((card) => card.id === selectedCardId);
 
-		elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
+			console.log('scroll', !!elems[i]);
+			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
+		}, 100);
 	});
+	// $: {
+	// 	setTimeout(() => {
+	// 		const i = cards.findIndex((card) => card.id === selectedCardId);
+
+	// 		console.log('scroll', !!elems[i]);
+	// 		elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
+	// 	}, 400);
+	// }
 </script>
 
 <div class="flex h-auto px-3 py-8 z-10 overflow-x-auto">

@@ -12,8 +12,6 @@
 
 	$: selectedEnvId = $page.params.slug;
 
-	$: console.log('selectedEnvId', selectedEnvId);
-
 	let collapsed = false;
 	let selectEnvOpen = false;
 	let mobileNavWidth = 0;
@@ -21,7 +19,7 @@
 		{
 			name: 'Select environments/User View',
 			foo: () => {
-				goto('/cardview/environment/undefined');
+				goto('/cardview/environment');
 			}
 		},
 		{ name: 'Home', foo: () => goto('/home') },

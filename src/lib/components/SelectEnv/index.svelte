@@ -8,10 +8,10 @@
 	import SelectEnvCont from './SelectEnvCont.svelte';
 
 	$: promise = getDocs(collection(db, 'card-envs')).then((sn) => {
-		console.log(
-			'sn doc',
-			sn.docs.map((doc) => doc.data())
-		);
+		// console.log(
+		// 	'sn doc',
+		// 	sn.docs.map((doc) => doc.data())
+		// );
 		return sn.docs.map((doc) => doc.data());
 	});
 </script>

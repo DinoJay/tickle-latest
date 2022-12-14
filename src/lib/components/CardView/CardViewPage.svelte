@@ -6,20 +6,21 @@
 	import MapButton from './MapButton.svelte';
 	import SelectEnv from '$lib/components/SelectEnv/index.svelte';
 	import Card from '../Card/Card.svelte';
+	import { goto } from '$app/navigation';
 
 	export let selectedEnvId = 'undefined';
 	export let cards;
 	export let topics;
-	export let onEnvIdChange;
+	export let extended;
 
-	let selectedCardId = null;
+	export let selectedCardId = null;
 	let map = false;
 	let centerLocation = '';
 
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
 
-	console.log(' card view props', $$props);
+	$: console.log(' selectedCardId', selectedCardId, 'extended', extended);
 </script>
 
 <div class="flex-grow flex flex-col w-full relative">
@@ -28,7 +29,16 @@
 			{cards}
 			selectedEnvironment={selectedEnvId}
 			{selectedCardId}
-			onClick={(id) => (selectedCardId = id)}
+			onClick={(id) => {
+				if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
+				else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
+				// if (selectedCardId === id && !extended) {
+				// 	goto(`/cardview/environment/${selectedEnvId}/${id}`);
+				// 	return;
+				// }
+				// if (selectedCardId === id && extended)
+				// 	goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
+			}}
 		/>
 
 		<div class={!map ? 'visible' : 'invisible'}>
@@ -50,15 +60,14 @@
 		<MapButton {map} onClick={() => (map = !map)} />
 	{/if}
 </div>
-{#key !!selectedCardId}
-	<Card
-		open={!!selectedCardId}
-		{selectedEnvId}
-		onClose={() => (selectedCardId = null)}
-		onActivitySubmit={(sub) => {}}
-		{...curCard}
-	/>
-{/key}
-{#if selectedEnvId === 'undefined'}
-	<SelectEnv {selectedEnvId} isOpen={true} isMandatory={true} onChange={onEnvIdChange} />
+{#if !!selectedCardId && !!extended}
+	{#key selectedCardId}
+		<Card
+			open={!!selectedCardId}
+			{selectedEnvId}
+			onClose={() => (selectedCardId = null)}
+			onActivitySubmit={(sub) => {}}
+			{...curCard}
+		/>
+	{/key}
 {/if}

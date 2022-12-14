@@ -33,9 +33,5 @@
 {#await promise}
 	<TickleWobble />
 {:then [cards, topics]}
-	{#if !!$store.currentUser}
-		<CardViewPage {...$$props} {cards} {topics} />
-	{:else}
-		<TickleWobble />
-	{/if}
+	<CardViewPage {...$$props} {cards} {topics} />
 {/await}
