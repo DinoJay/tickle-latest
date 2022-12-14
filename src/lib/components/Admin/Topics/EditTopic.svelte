@@ -1,5 +1,4 @@
 <script>
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import DropDown from '$lib/components/utils/DropDown.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';

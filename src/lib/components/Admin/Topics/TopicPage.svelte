@@ -5,7 +5,6 @@
 	import CreateTopic from './CreateTopic.svelte';
 	import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	/**
 	 * @type {any[]}
 	 */

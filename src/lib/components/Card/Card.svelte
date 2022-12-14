@@ -49,7 +49,7 @@
 	}
 </script>
 
-<LightBox {title} isOpen={open} close={onClose}>
+<LightBox {title} isOpen={open} close={onClose} cls="flex-grow flex flex-col overflow-y-auto">
 	<img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
 	<p class="max-h-32 mb-3 overflow-y-auto ">
 		{description}

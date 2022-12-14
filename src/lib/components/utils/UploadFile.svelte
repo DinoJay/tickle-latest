@@ -1,6 +1,5 @@
 <script>
 	import { store } from '/src/stores/index';
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import { ref, uploadString, getDownloadURL } from 'firebase/storage';
 	import { storage } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuidv4 } from 'uuid';

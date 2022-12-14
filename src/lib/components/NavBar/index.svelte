@@ -36,28 +36,28 @@
 	 * Dynamic method to catch the size of the screen
 	 * 0.4 - full screen mode => nav 40% of the screen
 	 */
-	onMount(() => {
-		const getMobileNavWidth = () => {
-			if (window.innerWidth > 640) {
-				mobileNavWidth = window.innerWidth * 0.4;
-			} else {
-				mobileNavWidth = window.innerWidth;
-			}
-		};
+	// onMount(() => {
+	// 	const getMobileNavWidth = () => {
+	// 		if (window.innerWidth > 640) {
+	// 			mobileNavWidth = window.innerWidth * 0.4;
+	// 		} else {
+	// 			mobileNavWidth = window.innerWidth;
+	// 		}
+	// 	};
 
-		getMobileNavWidth();
-		window.addEventListener('resize', () => {
-			getMobileNavWidth();
-		});
-	});
+	// 	getMobileNavWidth();
+	// 	window.addEventListener('resize', () => {
+	// 		getMobileNavWidth();
+	// 	});
+	// });
 
 	/**
 	 * Reset the Navbar after a 'goto' redirection
 	 */
-	afterNavigate(() => {
-		collapsed = false;
-		selectEnvOpen = false;
-	});
+	// afterNavigate(() => {
+	// 	collapsed = false;
+	// 	selectEnvOpen = false;
+	// });
 
 	/**
 	 * Function use to logout the user
@@ -82,10 +82,10 @@
 
 		{#if collapsed}
 			<div
-				transition:fly={{ x: mobileNavWidth, duration: 500, opacity: 1 }}
+				transition:fly={{ x: 400, duration: 500, opacity: 1 }}
 				class="flex flex-col h-auto sm:w-[40%] w-full  
 				 	absolute top-[4rem] right-0 z-20
-					bg-gray-500"
+					bg-gray-500 "
 			>
 				{#each sections as section}
 					<button

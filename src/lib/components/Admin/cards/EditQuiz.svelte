@@ -2,7 +2,6 @@
 	import EditQuestion from './EditQuestion.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import EditNewQuestion from './EditNewQuestion.svelte';
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 
 	export let questions = [];
 	export let onChange;

@@ -6,7 +6,7 @@
 	export let isOpen = false;
 	export let close = () => {};
 	export let isMandatory = false;
-	export let height = 500;
+	export let height = 600;
 	export let width = 400;
 	export let title = '';
 	export let cls = '';
@@ -25,17 +25,22 @@
 			}
 		}}
 	>
-		<div on:keydown={() => null} class="m-auto bg-white p-3" on:click={(e) => e.stopPropagation()}>
+		<div
+			on:keydown={() => null}
+			style="height:{height}px;width:{width}px"
+			class="m-auto bg-white p-3 flex flex-col h-screen w-screen"
+			on:click={(e) => e.stopPropagation()}
+		>
 			{#if !isMandatory}
 				<div class=" flex mb-3">
-					<div class="text-xl crop" style="max-width:{width - 20}px">{title}</div>
+					<div class="text-xl crop" style="max-width:90%">{title}</div>
 					<button on:click={close} class=" ml-auto">
 						<WindowClose size="1.5em" />
 					</button>
 				</div>
 			{/if}
 
-			<div class="flex flex-col {cls}" style="height:{height}px;width:{width}px">
+			<div class="flex flex-col {cls}">
 				<slot />
 			</div>
 		</div>

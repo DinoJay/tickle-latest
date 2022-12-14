@@ -1,7 +1,7 @@
 <script>
 	import '../app.css';
 	import Notifications from '$lib/components/Notifications/index.svelte';
-	import NavigationBar from '$lib/components/navigationBar/NavigationBar.svelte';
+	import NavBar from '$lib/components/NavBar/index.svelte';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	export const ssr = false;
@@ -11,10 +11,10 @@
 <Notifications>
 	<div class="flex flex-col">
 		<div
-			class="mx-auto flex flex-col flex-grow"
-			style="min-width:800px; max-width:800px; min-height:800px"
+			class="mx-auto sm:border-2 flex flex-col flex-grow h-screen w-screen overflow-x-hidden"
+			style="max-width:800px; max-height:800px"
 		>
-			<NavigationBar />
+			<NavBar />
 			<slot />
 		</div>
 	</div>

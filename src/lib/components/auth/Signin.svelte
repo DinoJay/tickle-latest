@@ -28,7 +28,7 @@
 	const signInUser = () => {
 		signInWithEmailAndPassword(auth, email.trim(), pwd)
 			.then(() => {
-				goto('/cardview/environment/undefined');
+				goto('/cardview/environment');
 			})
 			.catch((error) => {
 				addNotification({ text: errors[error.code] });

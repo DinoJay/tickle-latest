@@ -19,7 +19,7 @@
 			if (!currentUser) {
 				localStorage.clear();
 				store.update((obj) => ({ ...obj, currentUser: null }));
-				console.log('currentUser', currentUser);
+				// console.log('currentUser', currentUser);
 				goto('/');
 				return;
 			}

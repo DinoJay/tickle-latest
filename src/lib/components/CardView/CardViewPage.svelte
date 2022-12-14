@@ -32,12 +32,6 @@
 			onClick={(id) => {
 				if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
 				else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
-				// if (selectedCardId === id && !extended) {
-				// 	goto(`/cardview/environment/${selectedEnvId}/${id}`);
-				// 	return;
-				// }
-				// if (selectedCardId === id && extended)
-				// 	goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
 			}}
 		/>
 

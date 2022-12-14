@@ -1,5 +1,4 @@
 <script>
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import Question from './Question.svelte';
 	import Result from './Result.svelte';
 

@@ -12,7 +12,6 @@
 	// @ts-ignore
 	import { store } from '/src/stores/index';
 	import { getAllContexts } from 'svelte';
-	import Logo from '../navigationBar/Logo.svelte';
 
 	import { LOG_ACTIVITY_SUBTYPE } from './UserActivities/logTypes';
 

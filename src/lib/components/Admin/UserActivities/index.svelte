@@ -1,5 +1,4 @@
 <script>
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import { db } from '$lib/firebaseConfig/firebase.js';
 	import { deleteDoc, doc } from 'firebase/firestore';
 	import { LOG_ACTIVITY_SUBTYPE } from './logTypes.js';

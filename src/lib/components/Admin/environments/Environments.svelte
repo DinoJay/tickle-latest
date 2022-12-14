@@ -4,7 +4,6 @@
 	import { doc, deleteDoc, setDoc } from 'firebase/firestore';
 	import EditEnvironment from './EditEnv.svelte';
 	import { map, select } from 'd3';
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import CreateEnv from './CreateEnv.svelte';
 
 	import { v4 as uuidv4 } from 'uuid';
