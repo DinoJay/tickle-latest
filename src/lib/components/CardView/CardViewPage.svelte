@@ -35,17 +35,14 @@
 			}}
 		/>
 
-		<div class={!map ? 'visible' : 'invisible'}>
-			<TopicMap
-				w={800}
-				h={500}
-				{cards}
-				{topics}
-				selectedCardId={curCard?.id}
-				selectedEnvironment={selectedEnvId}
-				onClick={(id) => (selectedCardId = id)}
-			/>
-		</div>
+		<TopicMap
+			visible={!!!map}
+			{cards}
+			{topics}
+			selectedCardId={curCard?.id}
+			selectedEnvironment={selectedEnvId}
+			onClick={(id) => (selectedCardId = id)}
+		/>
 
 		<div class="absolute h-full w-full  {map ? 'visible' : 'invisible'}">
 			<Map {cards} {centerLocation} onClick={(id) => (selectedCardId = id)} />

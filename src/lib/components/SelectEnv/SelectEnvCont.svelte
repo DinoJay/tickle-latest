@@ -10,18 +10,21 @@
 	let selectedEnvId = null;
 	$: console.log('envs', envs);
 
+	//todo: fix
 	const elems = envs.map(() => null);
-	afterUpdate(() => {
+	$: () => {
 		const i = envs.findIndex((c) => c.id === selectedEnvId);
-		elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'start' });
-	});
+		setTimeout(() => {
+			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'end', block: 'start' });
+		}, 200);
+	};
 </script>
 
-<LightBox {isOpen} close={() => (isOpen = false)} {isMandatory}>
+<LightBox {isOpen} close={() => (isOpen = false)} {isMandatory} cls="flex-grow overflow-y-auto">
 	<div class="flex-grow flex flex-col overflow-y-auto">
 		<h2 class="text-3xl mb-1 text-c-black">Welcome to TICKLE!</h2>
 
-		<div class="grow overflow-y-auto">
+		<div class="flex-grow flex flex-col overflow-y-auto">
 			{#each envs as env}
 				<EnvDetail
 					{...env}

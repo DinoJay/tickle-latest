@@ -1,9 +1,7 @@
 <script>
-	import { select } from 'd3-selection';
 	import Mapbox from '$lib/components/map/Mapbox.svelte';
 	import DraggableMarker from '$lib/components/map/markers/DraggableMarker.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
-	import Logo from '$lib/components/navigationBar/Logo.svelte';
 	import EditCard from '../cards/EditCard.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
