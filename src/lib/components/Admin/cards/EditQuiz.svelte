@@ -32,7 +32,7 @@
 	console.log('questions', questions);
 </script>
 
-<div class="flex flex-col w-full  flex-grow overflow-y-auto  ">
+<div class="flex mb-auto flex-col w-full  flex-grow overflow-y-auto  ">
 	{#if questions.length === 0}
 		<div class="m-auto text-xl text-gray-500">No Questions added!</div>
 	{/if}
@@ -47,7 +47,7 @@
 		</button>
 	{/each}
 </div>
-<button class="w-full border-2 mt-auto p-2" on:click={() => (sq = true)}> Add a question </button>
+<button class="w-full border-2  p-2" on:click={() => (sq = true)}> Add a question </button>
 
 <EditNewQuestion
 	onCreate={(q) => {

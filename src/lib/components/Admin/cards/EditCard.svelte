@@ -1,4 +1,5 @@
 <script>
+	import Activity from './../../Card/Challenge/Activity.svelte';
 	import EditLinks from './EditLinks.svelte';
 	import EditDescr from './../../Admin/cards/EditDescr.svelte';
 	import FieldThumb from './../../Admin/cards/FieldThumb.svelte';
@@ -43,54 +44,49 @@
 	});
 </script>
 
-<div class="flex flex-col overflow-y-auto">
-	<div class="mb-3 flex-shrink-0">
-		<UploadFile
-			url={currentCard.img?.url}
-			onChange={(url, name) => {
-				onChange({ ...currentCard, img: { url, name } });
-			}}
-		/>
-	</div>
-	<div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto">
-		<FieldThumb name="Title" value={currentCard.title} onClick={() => (selectedField = TITLE)} />
-		<FieldThumb
-			type="string"
-			name="Description"
-			value={currentCard.description}
-			onClick={() => (selectedField = DESCR)}
-		/>
-		<TopicsThumb
-			{allTopics}
-			topicIds={currentCard.topics}
-			onClick={() => (selectedField = TOPICS)}
-		/>
-		<FieldThumb
-			type="array"
-			name="Links"
-			value={currentCard.links}
-			onClick={() => (selectedField = LINKS)}
-		/>
-		<FieldThumb
-			type="array"
-			name="Activity"
-			value={currentCard.activity?.type || 'None'}
-			onClick={() => (selectedField = ACTIVITY)}
-		/>
-	</div>
-	{#if !!onRemove}
-		<button class="del-btn mt-3" on:click={() => onRemove(currentCard)}>Remove Card</button>
-	{/if}
-	{#if !!onCreate}
-		<button class="create-btn mt-3" on:click={() => onCreate(currentCard)}>Create Card</button>
-	{/if}
+<div class="mb-3 flex-shrink-0">
+	<UploadFile
+		url={currentCard.img?.url}
+		onChange={(url, name) => {
+			onChange({ ...currentCard, img: { url, name } });
+		}}
+	/>
 </div>
+<div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto mb-auto">
+	<FieldThumb name="Title" value={currentCard.title} onClick={() => (selectedField = TITLE)} />
+	<FieldThumb
+		type="string"
+		name="Description"
+		value={currentCard.description}
+		onClick={() => (selectedField = DESCR)}
+	/>
+	<TopicsThumb {allTopics} topicIds={currentCard.topics} onClick={() => (selectedField = TOPICS)} />
+	<FieldThumb
+		type="array"
+		name="Links"
+		value={currentCard.links}
+		accessor={(d) => d.name}
+		onClick={() => (selectedField = LINKS)}
+	/>
+	<FieldThumb
+		type="array"
+		name="Activity"
+		value={currentCard.activity?.type || 'None'}
+		onClick={() => (selectedField = ACTIVITY)}
+	/>
+</div>
+{#if !!onRemove}
+	<button class=" del-btn mt-3" on:click={() => onRemove(currentCard)}>Remove Card</button>
+{/if}
+{#if !!onCreate}
+	<button class=" create-btn mt-3" on:click={() => onCreate(currentCard)}>Create Card</button>
+{/if}
 
 <LightBox
 	isOpen={selectedField === TITLE}
 	title={selectedField}
 	close={() => (selectedField = null)}
-	height={null}
+	cls="overflow-y-auto"
 >
 	<EditTitle value={currentCard.title} onChange={(title) => onChange({ ...currentCard, title })} />
 </LightBox>
@@ -99,7 +95,6 @@
 	isOpen={selectedField === DESCR}
 	title={selectedField}
 	close={() => (selectedField = null)}
-	height={null}
 >
 	<EditDescr
 		value={currentCard.description}
@@ -111,7 +106,7 @@
 	isOpen={selectedField === LINKS}
 	title={selectedField}
 	close={() => (selectedField = null)}
-	height={null}
+	cls="flex-grow"
 >
 	<EditLinks links={currentCard.links} onChange={(links) => onChange({ ...currentCard, links })} />
 </LightBox>
@@ -132,10 +127,11 @@
 	isOpen={selectedField === ACTIVITY}
 	title={selectedField}
 	close={() => (selectedField = null)}
-	height={null}
+	cls="flex-grow"
 >
 	<EditActivity
 		activity={currentCard.activity}
 		onChange={(activity) => onChange({ ...currentCard, activity })}
+		onRemove={() => onChange({ ...currentCard, activity: null })}
 	/>
 </LightBox>

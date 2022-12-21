@@ -6,6 +6,7 @@
 
 	export let activity;
 	export let onChange;
+	export let onRemove;
 
 	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN];
 
@@ -15,16 +16,23 @@
 	let selectedActivity = null;
 </script>
 
-<div class="flex flex-wrap gap-2">
+<div class="flex flex-col gap-2 flex-grow">
 	{#each ACTIVITIES as a}
 		<button
-			class="p-2 text-xl border-2 {activity?.type === a ? 'bg-gray-500 text-white' : ''}"
+			class="p-2 text-xl flex-grow border-2 {activity?.type === a ? 'bg-gray-400 text-white' : ''}"
 			on:click={() => (selectedActivity = a)}>{a}</button
 		>
 	{/each}
+	{#if !!activity}
+		<button class="del-btn" on:click={onRemove}>Remove Activity</button>
+	{/if}
 </div>
 
-<LightBox isOpen={selectedActivity === QUIZ} close={() => (selectedActivity = null)}>
+<LightBox
+	cls="flex-grow"
+	isOpen={selectedActivity === QUIZ}
+	close={() => (selectedActivity = null)}
+>
 	<EditQuiz
 		{activity}
 		questions={activity?.value}

@@ -27,13 +27,13 @@
 	>
 		<div
 			on:keydown={() => null}
-			style="height:{height}px;width:{width}px"
+			style="max-height:{height}px;max-width:{width}px"
 			class="m-auto bg-white p-3 flex flex-col h-screen w-screen"
 			on:click={(e) => e.stopPropagation()}
 		>
 			{#if !isMandatory}
 				<div class=" flex mb-3">
-					<div class="text-xl crop" style="max-width:90%">{title}</div>
+					<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
 					<button on:click={close} class=" ml-auto">
 						<WindowClose size="1.5em" />
 					</button>

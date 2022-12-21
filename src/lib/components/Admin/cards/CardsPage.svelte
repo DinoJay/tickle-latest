@@ -35,6 +35,7 @@
 	isOpen={!!selectedCardId}
 	title={selectedCard?.title}
 	close={() => (selectedCardId = null)}
+	cls="overflow-y-auto flex-grow"
 >
 	<EditCard
 		currentCard={selectedCard}

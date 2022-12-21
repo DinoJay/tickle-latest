@@ -9,11 +9,13 @@
 	// import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
 	import GeoCatching from './Challenge/geoCaching/geoCaching.svelte';
 	import Activity from './Challenge/Activity.svelte';
+	import TopicsPreview from './TopicsField.svelte';
 
 	export let title = '';
 	export let description = '';
 	export let img = '';
 	export let activity;
+	export let topics;
 	export let links = [];
 	export let id = '';
 	export let envId = '';
@@ -49,18 +51,23 @@
 	}
 </script>
 
-<LightBox {title} isOpen={open} close={onClose} cls="flex-grow flex flex-col overflow-y-auto">
-	<img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
-	<p class="max-h-32 mb-3 overflow-y-auto ">
-		{description}
-	</p>
-	{#if links}
-		<div>
-			{#each links as l}
-				<div><a target="_blank" class="text-blue-500" href={l}>{l}</a></div>
-			{/each}
-		</div>
-	{/if}
+<LightBox {title} isOpen={open} close={onClose} cls="flex-grow overflow-y-auto">
+	<!-- <FlipCard cls="flex-grow flex flex-col"> -->
+	<!-- <div class=" flex flex-col" slot="front"> -->
+	<div class=" flex flex-col overflow-y-auto">
+		<img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
+		<TopicsPreview {topics} />
+		<p class="max-h-32 mb-3 overflow-y-auto ">
+			{description}
+		</p>
+		{#if links}
+			<div class="mb-3">
+				{#each links as l}
+					<div><a target="_blank" class="text-blue-500" href={l?.ref}>{l?.name}</a></div>
+				{/each}
+			</div>
+		{/if}
+	</div>
 	<button
 		on:click={() => {
 			if (!!activity) activityOpen = true;
@@ -82,6 +89,9 @@
 			Collect
 		{/if}
 	</button>
+	<!-- </div> -->
+	<!-- <div slot="back">Not yet implemented</div> -->
+	<!-- </FlipCard> -->
 </LightBox>
 
 <Activity
