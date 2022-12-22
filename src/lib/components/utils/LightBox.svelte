@@ -15,6 +15,8 @@
 	export let cls = '';
 	export let backCls;
 	export let flipped = false;
+
+	$: flippable = $$slots.front && $$slots.back;
 </script>
 
 {#if isOpen}
@@ -44,19 +46,19 @@
 				<div class=" flex mb-3">
 					<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
 					{#if !isMandatory}
-						<button on:click={onFlip} class=" ml-auto">
-							<TurnIcon size="1.5em" />
-						</button>
-						{#if $$slots.front && $$slots.back}
-							<button on:click={close} class="ml-3 ">
-								<WindowClose size="1.5em" />
+						{#if flippable}
+							<button on:click={onFlip} class=" ml-auto">
+								<TurnIcon size="1.5em" />
 							</button>
 						{/if}
+						<button on:click={close} class={flippable ? 'ml-3' : 'ml-auto'}>
+							<WindowClose size="1.5em" />
+						</button>
 					{/if}
 				</div>
 
 				<div class="flex-grow flex flex-col w-full {cls}">
-					{#if $$slots.front && $$slots.back}
+					{#if flippable}
 						<slot name="front" />
 					{:else}
 						<slot />
@@ -72,7 +74,7 @@
 								<button on:click={onFlip} class=" ml-auto">
 									<TurnIcon size="1.5em" />
 								</button>
-								{#if $$slots.front && $$slots.back}
+								{#if flippable}
 									<button on:click={close} class="ml-3 ">
 										<WindowClose size="1.5em" />
 									</button>
