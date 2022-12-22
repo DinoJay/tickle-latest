@@ -1,15 +1,20 @@
 <script>
 	import { portal } from '$lib/portalAction';
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
+	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import { blur } from 'svelte/transition';
+	import FlipCard from '../Card/FlipCard.svelte';
 
 	export let isOpen = false;
-	export let close = () => {};
+	export let close;
+	export let onFlip = () => false;
 	export let isMandatory = false;
 	export let height = 600;
 	export let width = 400;
 	export let title = '';
 	export let cls = '';
+	export let backCls;
+	export let flipped = false;
 </script>
 
 {#if isOpen}
@@ -21,29 +26,64 @@
 		on:click={(e) => {
 			if (!isMandatory) {
 				e.stopPropagation();
-				close();
+				// close();
 			}
 		}}
 	>
-		<div
-			on:keydown={() => null}
+		<FlipCard
 			style="max-height:{height}px;max-width:{width}px"
-			class="m-auto bg-white p-3 flex flex-col h-screen w-screen"
-			on:click={(e) => e.stopPropagation()}
+			cls="m-auto bg-white h-screen w-screen"
+			{flipped}
 		>
-			{#if !isMandatory}
+			<div
+				class="bg-white  h-full w-full flex flex-col p-3"
+				slot="front"
+				on:keydown={() => null}
+				on:click={(e) => e.stopPropagation()}
+			>
 				<div class=" flex mb-3">
 					<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
-					<button on:click={close} class=" ml-auto">
-						<WindowClose size="1.5em" />
-					</button>
+					{#if !isMandatory}
+						<button on:click={onFlip} class=" ml-auto">
+							<TurnIcon size="1.5em" />
+						</button>
+						{#if $$slots.front && $$slots.back}
+							<button on:click={close} class="ml-3 ">
+								<WindowClose size="1.5em" />
+							</button>
+						{/if}
+					{/if}
 				</div>
-			{/if}
 
-			<div class="flex flex-col {cls}">
-				<slot />
+				<div class="flex-grow flex flex-col w-full {cls}">
+					{#if $$slots.front && $$slots.back}
+						<slot name="front" />
+					{:else}
+						<slot />
+					{/if}
+				</div>
 			</div>
-		</div>
+			<div slot="back" class={`${backCls} flex flex-col h-full w-full`}>
+				{#if $$slots.back && $$slots.front}
+					<div class="bg-white  h-full w-full flex flex-col p-3">
+						<div class=" flex mb-3">
+							<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
+							{#if !isMandatory}
+								<button on:click={onFlip} class=" ml-auto">
+									<TurnIcon size="1.5em" />
+								</button>
+								{#if $$slots.front && $$slots.back}
+									<button on:click={close} class="ml-3 ">
+										<WindowClose size="1.5em" />
+									</button>
+								{/if}
+							{/if}
+						</div>
+						<slot name="back" />
+					</div>
+				{/if}
+			</div>
+		</FlipCard>
 	</div>
 {/if}
 

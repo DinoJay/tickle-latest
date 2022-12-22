@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
@@ -9,89 +8,79 @@
 	// import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
 	import GeoCatching from './Challenge/geoCaching/geoCaching.svelte';
 	import Activity from './Challenge/Activity.svelte';
-	import TopicsPreview from './TopicsField.svelte';
+	import CardFront from './CardFront.svelte';
 
 	export let title = '';
-	export let description = '';
-	export let img = '';
+	/**
+	 * @type {any}
+	 */
 	export let activity;
-	export let topics;
-	export let links = [];
 	export let id = '';
-	export let envId = '';
 	export let open = false;
+	/**
+	 * @type {any}
+	 */
 	export let onClose;
-	export let onChange;
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
+	/**
+	 * @type {any}
+	 */
+	export let description;
+	/**
+	 * @type {any}
+	 */
+	export let img;
+	/**
+	 * @type {any}
+	 */
+	export let topics;
+	/**
+	 * @type {any}
+	 */
+	export let links;
+	/**
+	 * @type {any}
+	 */
+	export let envId;
+	/**
+	 * @type {any}
+	 */
+	export let onChange;
 
 	let activityOpen = false;
 
-	$: uid = $store.currentUser.uid;
-	$: activityInformation = {
-		id: uuid(),
-		completed: false,
-		date: new Date().getTime(),
-		cardId: id,
-		envId: envId,
-		type: activity?.type || null,
-		succeeded: false,
-		uid,
-		score: 0,
-		maxScore: 0
-	};
-
-	$: console.log('activity', activity);
-	$: console.log('links', links);
-	let curActSub = null;
-	$: {
-		if (!!id && !curActSub) {
-			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-			getDoc(docRef).then((snap) => (curActSub = snap.data()));
-		}
-	}
+	let flipped = false;
 </script>
 
-<LightBox {title} isOpen={open} close={onClose} cls="flex-grow overflow-y-auto">
-	<!-- <FlipCard cls="flex-grow flex flex-col"> -->
+<LightBox
+	{title}
+	{flipped}
+	isOpen={open}
+	close={onClose}
+	onFlip={() => (flipped = !flipped)}
+	cls="flex-grow overflow-y-auto"
+>
 	<!-- <div class=" flex flex-col" slot="front"> -->
-	<div class=" flex flex-col overflow-y-auto">
-		<img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
-		<TopicsPreview {topics} />
-		<p class="max-h-32 mb-3 overflow-y-auto ">
+	<div slot="front" class=" flex-grow flex flex-col overflow-y-auto">
+		<CardFront
+			{title}
 			{description}
-		</p>
-		{#if links}
-			<div class="mb-3">
-				{#each links as l}
-					<div><a target="_blank" class="text-blue-500" href={l?.ref}>{l?.name}</a></div>
-				{/each}
-			</div>
-		{/if}
+			{img}
+			{activity}
+			{topics}
+			{links}
+			{id}
+			{envId}
+			{open}
+			{onClose}
+			{onChange}
+			{selectedEnvId}
+		/>
 	</div>
-	<button
-		on:click={() => {
-			if (!!activity) activityOpen = true;
-			else {
-				const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-				const actSub = { ...activityInformation, succeeded: true, response: null };
-				console.log('submit', actSub);
-				setDoc(docRef, actSub);
-				curActSub = actSub;
-			}
-		}}
-		class="mt-auto w-full bg-black text-white text-xl p-2"
-	>
-		{#if !!curActSub}
-			Collected
-		{:else if !!activity}
-			Challenge
-		{:else}
-			Collect
-		{/if}
-	</button>
-	<!-- </div> -->
-	<!-- <div slot="back">Not yet implemented</div> -->
-	<!-- </FlipCard> -->
+	<div slot="back" class="w-full h-full">Comments</div>
 </LightBox>
 
 <Activity

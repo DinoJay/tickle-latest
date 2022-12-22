@@ -1,14 +1,19 @@
 <script>
 	export let cls = '';
 	export let style;
+
+	export let flipped = false;
 </script>
 
 <div class="flip-card {cls}" {style}>
-	<div class="flip-card-inner flex-grow flex flex-col">
-		<div class="flip-card-front flex flex-col flex-grow">
+	<div
+		class="flip-card-inner h-full w-full"
+		style="transform:rotateY({flipped ? '180deg' : '0deg'}); "
+	>
+		<div class="flip-card-front h-full w-full" style={flipped ? 'pointer-events:none' : ''}>
 			<slot name="front" />
 		</div>
-		<div class="flip-card-back flex-grow flex flex-col">
+		<div class="flip-card-back h-full w-full">
 			<slot name="back" />
 		</div>
 	</div>
@@ -20,22 +25,21 @@
 		background-color: transparent;
 		/* width: 300px;
 		height: 200px; */
-		border: 1px solid #f1f1f1;
+		/* border: 1px solid #f1f1f1; */
 		perspective: 1000px; /* Remove this if you don't want the 3D effect */
 	}
 
 	/* This container is needed to position the front and back side */
 	.flip-card-inner {
 		position: relative;
-		text-align: center;
 		transition: transform 0.8s;
 		transform-style: preserve-3d;
 	}
 
 	/* Do an horizontal flip when you move the mouse over the flip box container */
-	.flip-card:hover .flip-card-inner {
+	/* .flip-card:hover .flip-card-inner {
 		transform: rotateY(180deg);
-	}
+	} */
 
 	/* Position the front and back side */
 	.flip-card-front,
