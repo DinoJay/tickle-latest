@@ -57,15 +57,16 @@
 	let activityOpen = false;
 
 	let flipped = false;
-
-	$: console.log('user', $store.user);
 </script>
 
 <LightBox
 	{title}
 	{flipped}
 	isOpen={open}
-	close={onClose}
+	close={() => {
+		onClose();
+		flipped = false;
+	}}
 	onFlip={() => (flipped = !flipped)}
 	cls="flex-grow overflow-y-auto"
 >

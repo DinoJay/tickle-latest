@@ -40,7 +40,10 @@
 <LightBox
 	isOpen={!!selectedCardId}
 	title={selectedCard?.title}
-	close={() => (selectedCardId = null)}
+	close={() => {
+		selectedCardId = null;
+		flipped = false;
+	}}
 	cls="overflow-y-auto flex-grow"
 	{flipped}
 	onFlip={() => (flipped = !flipped)}

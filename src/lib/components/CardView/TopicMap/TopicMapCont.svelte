@@ -1,5 +1,6 @@
 <script>
 	import { calcLayout, getRadius } from './venn/index';
+	import memoize from 'lodash.memoize';
 
 	export let cards = [{}];
 	export let selectedCardId = null;
@@ -17,7 +18,13 @@
 	let colors = [];
 
 	const NODERAD = 12;
-	$: layout = calcLayout({ cards, topics, width, height, NODERAD });
+
+	//TODO:hack
+	const memCalcLayout = memoize(calcLayout, (args) => {
+		// console.log('args', args);
+		return false;
+	});
+	$: layout = memCalcLayout({ cards, topics, width, height, NODERAD });
 
 	$: console.log('color', layout);
 	$: getTopic = (title) => topics.find((d) => d.title === title);

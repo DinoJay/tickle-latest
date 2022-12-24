@@ -41,7 +41,7 @@
 	{#if user}
 		<div class="ml-1">
 			<div class=" my-auto">{text}</div>
-			<div class="italic text-sm texr-gray-500">{user.email}</div>
+			<div class="italic text-sm text-gray-500">{user.email}</div>
 		</div>
 	{/if}
 
