@@ -2,6 +2,7 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
+	// @ts-ignore
 	import { store } from '/src/stores/index';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
@@ -9,6 +10,9 @@
 	import GeoCatching from './Challenge/geoCaching/geoCaching.svelte';
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
+	import CardBack from './CardBack.svelte';
+
+	$: uid = $store.currentUser.uid;
 
 	export let title = '';
 	/**
@@ -53,6 +57,8 @@
 	let activityOpen = false;
 
 	let flipped = false;
+
+	$: console.log('user', $store.user);
 </script>
 
 <LightBox
@@ -73,14 +79,15 @@
 			{topics}
 			{links}
 			{id}
-			{envId}
 			{open}
 			{onClose}
 			{onChange}
 			{selectedEnvId}
 		/>
 	</div>
-	<div slot="back" class="w-full h-full">Comments</div>
+	<div slot="back" class="w-full h-full">
+		<CardBack {selectedEnvId} cardId={id} {uid} />
+	</div>
 </LightBox>
 
 <Activity

@@ -30,7 +30,7 @@
 	let clbOpen = false;
 </script>
 
-<div class="flex flex-wrap gap-3">
+<div class="flex flex-wrap gap-3 p-1">
 	{#each topics as t}
 		<PreviewTopic
 			{...t}

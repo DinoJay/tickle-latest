@@ -55,6 +55,10 @@
 	@apply bg-green-500 text-white p-2 drop-shadow-sm
 }
 
+.placeholder-text {
+	@apply text-gray-500 text-xl
+}
+
 
 .form-text {
 	@apply text-gray-500 text-lg;

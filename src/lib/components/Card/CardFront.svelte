@@ -12,7 +12,6 @@
 	export let topics;
 	export let links = [];
 	export let id = '';
-	export let envId = '';
 	export let open = false;
 	export let onClose;
 	export let onChange;
@@ -24,7 +23,7 @@
 		completed: false,
 		date: new Date().getTime(),
 		cardId: id,
-		envId: envId,
+		envId: selectedEnvId,
 		type: activity?.type || null,
 		succeeded: false,
 		uid,

@@ -2,25 +2,31 @@
 	import EditCard from '$lib/components/Admin/cards/EditCard.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
-	import { OAuthCredential } from 'firebase/auth';
+	import { store } from '/src/stores/index';
 	import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuidv4 } from 'uuid';
 	import NewCard from './NewCard.svelte';
 	import StaticLoader from './StaticLoader.svelte';
+	import EditCardBack from './EditCardBack.svelte';
+
 	export let cards = [];
 	export let selectedEnvId;
 	export let onChange;
 
+	/**
+	 * @type {string | null}
+	 */
 	let selectedCardId = null;
 	let lbNcOpen = false;
 	let slOpen = false;
+	let flipped = false;
 
 	$: selectedCard = cards.find((c) => c.id === selectedCardId) || {};
 	$: console.log('selectedCard', selectedCard);
 </script>
 
-<div class="flex flex-wrap gap-2  flex-shrink-1 flex-grow overflow-y-auto">
+<div class="flex flex-wrap gap-2  p-1 flex-shrink-1 flex-grow overflow-y-auto">
 	{#each cards as c}
 		<PreviewCard {...c} onClick={() => (selectedCardId = c.id)} />
 	{/each}
@@ -36,8 +42,11 @@
 	title={selectedCard?.title}
 	close={() => (selectedCardId = null)}
 	cls="overflow-y-auto flex-grow"
+	{flipped}
+	onFlip={() => (flipped = !flipped)}
 >
 	<EditCard
+		slot="front"
 		currentCard={selectedCard}
 		{selectedEnvId}
 		onRemove={(d) => {
@@ -59,6 +68,7 @@
 			onChange(newCards);
 		}}
 	/>
+	<EditCardBack slot="back" cardId={selectedCardId} {selectedEnvId} uid={$store.currentUser.uid} />
 </LightBox>
 <LightBox isOpen={!!lbNcOpen} title={'New Card'} close={() => (lbNcOpen = false)}>
 	<NewCard
@@ -72,7 +82,7 @@
 	/>
 </LightBox>
 
-<LightBox title="Load Cards" isOpen={slOpen} close={() => (slOpen = false)}
+<LightBox cls="overflow-y-auto" title="Load Cards" isOpen={slOpen} close={() => (slOpen = false)}
 	><StaticLoader
 		{selectedEnvId}
 		onCreate={(c) => {

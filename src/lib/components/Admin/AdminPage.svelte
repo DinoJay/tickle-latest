@@ -20,6 +20,7 @@
 	export let selectedEnvId;
 	export let onEnvsChange;
 	export let onCardsChange;
+	export let onSelectEnv;
 
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
 	$: console.log('envs', envs);
@@ -42,12 +43,7 @@
 	<div class="grid grid-cols-1 gap-3 m-2 ">
 		<div>
 			<Panel title="Environments">
-				<Environments
-					{envs}
-					{selectedEnv}
-					onSelectEnv={(id) => (selectedEnvId = id)}
-					onChange={onEnvsChange}
-				/>
+				<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
 			</Panel>
 		</div>
 

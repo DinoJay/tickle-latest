@@ -4,28 +4,35 @@
 	import TickleWobble from '../utils/TickleWobble.svelte';
 	import AdminPage from './AdminPage.svelte';
 
-	export let selectedEnvId = 'bnW56f62WWEJ0bwJwQ0m';
+	let selectedEnvId = 'bnW56f62WWEJ0bwJwQ0m';
 
 	let envs;
 	let cards;
 
 	$: cardsPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
-		const prs = snapRef.docs.map((doc) => {
-			const d = doc.data();
-			return getDocs(
-				collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
-			).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
+		Promise.all(
+			snapRef.docs.map((doc) => {
+				const d = doc.data();
+				return getDocs(
+					collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
+				).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
+			})
+		).then((cs) => {
+			cards = cs;
+			return;
 		});
-		return Promise.all(prs).then((cs) => (cards = cs));
+		return;
 	});
 
 	$: envsPromise = getDocs(collection(db, 'card-envs')).then((snap) => {
 		envs = snap.docs.map((doc) => doc.data());
 		return;
 	});
+
+	// $: prs = Promise.all([cardsPromise, envsPromise]);
 </script>
 
-{#await Promise.all([cardsPromise, envsPromise])}
+{#await envsPromise}
 	<TickleWobble />
 {:then _}
 	<AdminPage
@@ -33,6 +40,7 @@
 		{cards}
 		{envs}
 		{selectedEnvId}
+		onSelectEnv={(id) => (selectedEnvId = id)}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}
 	/>

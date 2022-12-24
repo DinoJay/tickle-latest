@@ -12,6 +12,7 @@
 			on:click={() => {
 				onChange(av);
 			}}
+			on:keydown={() => onChange(av)}
 			src={'/avatars/' + av + '.svg'}
 			alt={av}
 		/>
