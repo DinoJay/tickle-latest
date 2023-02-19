@@ -49,7 +49,7 @@
 					avatar: userAvatar,
 					email: email,
 					admin: true
-				}).then(() => goto('/cardview/environment/undefined'));
+				}).then(() => goto('/cardview/environment'));
 			})
 			.catch((error) => {
 				addNotification({ text: errors[error.code] });

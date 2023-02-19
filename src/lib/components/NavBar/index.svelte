@@ -18,19 +18,16 @@
 	let sections = [
 		{
 			name: 'Select environments/User View',
-			foo: () => {
+			go: () => {
 				goto('/cardview/environment');
 			}
 		},
-		{ name: 'Home', foo: () => goto('/home') },
-		{ name: 'Sign out', foo: () => logOut() }
-	];
+		// { name: 'Home', go: () => goto('/home') },
+		//TODO: change this later
+		{ name: 'Admin', go: () => goto('/admin') },
 
-	// all the users are admin
-	$: if ($store?.currentUser?.admin) {
-		if (!sections.find((obj) => obj.name == 'Admin'))
-			sections = [...sections, { name: 'Admin', foo: () => goto('/admin') }];
-	}
+		{ name: 'Sign out', go: () => logOut() }
+	];
 
 	/**
 	 * Dynamic method to catch the size of the screen
@@ -91,7 +88,7 @@
 					<button
 						class="sm:h-10 sm:text-xl text-2xl h-14 
 							border-b hover:underline"
-						on:click={section.foo}
+						on:click={section.go}
 					>
 						{section.name}
 					</button>

@@ -57,6 +57,27 @@
 	let activityOpen = false;
 
 	let flipped = false;
+
+	$: activityInformation = {
+		id: uuid(),
+		date: new Date().getTime(),
+		cardId: id,
+		envId: selectedEnvId,
+		type: activity?.type || null,
+		succeeded: false,
+		uid
+	};
+
+	/**
+	 * @type {import("@firebase/firestore").DocumentData | null | undefined}
+	 */
+	let curActSub = null;
+	$: {
+		if (!!id && !curActSub) {
+			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
+			getDoc(docRef).then((snap) => (curActSub = snap.data()));
+		}
+	}
 </script>
 
 <LightBox
@@ -84,6 +105,30 @@
 			{onClose}
 			{onChange}
 			{selectedEnvId}
+			actSub={curActSub}
+			onSubmit={() => {
+				if (!!activity) activityOpen = true;
+				else {
+					const docRef = doc(
+						db,
+						'card-envs',
+						selectedEnvId,
+						'cards',
+						id,
+						'activitySubmissions',
+						uid
+					);
+					const succeeded = !curActSub?.succeeded;
+					const actSub = {
+						...activityInformation,
+						succeeded,
+						response: null
+					};
+					setDoc(docRef, actSub);
+					console.log('submit', actSub);
+					curActSub = actSub;
+				}
+			}}
 		/>
 	</div>
 	<div slot="back" class="w-full h-full">
@@ -97,9 +142,9 @@
 		activityOpen = false;
 	}}
 	{activity}
-	onSubmit={(response) => {
+	onSubmit={(respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-		const ac = { ...activityInformation, succeeded: true, response };
+		const ac = { ...activityInformation, ...respObj };
 		curActSub = ac;
 		setDoc(docRef, ac);
 	}}

@@ -11,6 +11,9 @@
 	import EditCardBack from './EditCardBack.svelte';
 
 	export let cards = [];
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
 	export let onChange;
 
@@ -44,7 +47,7 @@
 		selectedCardId = null;
 		flipped = false;
 	}}
-	cls="overflow-y-auto flex-grow"
+	cls="flex-grow overflow-y-auto"
 	{flipped}
 	onFlip={() => (flipped = !flipped)}
 >

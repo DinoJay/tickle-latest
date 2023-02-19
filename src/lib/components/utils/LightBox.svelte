@@ -15,6 +15,7 @@
 	export let cls = '';
 	export let backCls;
 	export let flipped = false;
+	export let flipCls = '';
 
 	$: flippable = $$slots.front && $$slots.back;
 </script>
@@ -34,7 +35,7 @@
 	>
 		<FlipCard
 			style="max-height:{height}px;max-width:{width}px"
-			cls="m-auto bg-white h-screen w-screen"
+			cls="m-auto bg-white h-screen w-screen {flipCls}"
 			{flipped}
 		>
 			<div
@@ -57,7 +58,7 @@
 					{/if}
 				</div>
 
-				<div class="flex-grow flex flex-col w-full {cls}">
+				<div class="flex-grow flex flex-col w-full overflow-y-auto {cls}">
 					{#if flippable}
 						<slot name="front" />
 					{:else}

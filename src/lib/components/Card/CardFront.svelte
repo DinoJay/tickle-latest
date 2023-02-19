@@ -16,30 +16,8 @@
 	export let onClose;
 	export let onChange;
 	export let selectedEnvId;
-
-	$: uid = $store.currentUser.uid;
-	$: activityInformation = {
-		id: uuid(),
-		completed: false,
-		date: new Date().getTime(),
-		cardId: id,
-		envId: selectedEnvId,
-		type: activity?.type || null,
-		succeeded: false,
-		uid,
-		score: 0,
-		maxScore: 0
-	};
-
-	$: console.log('activity', activity);
-	$: console.log('links', links);
-	let curActSub = null;
-	$: {
-		if (!!id && !curActSub) {
-			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-			getDoc(docRef).then((snap) => (curActSub = snap.data()));
-		}
-	}
+	export let onSubmit;
+	export let actSub;
 </script>
 
 <img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
@@ -55,20 +33,8 @@
 	</div>
 {/if}
 
-<button
-	on:click={() => {
-		if (!!activity) activityOpen = true;
-		else {
-			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-			const actSub = { ...activityInformation, succeeded: true, response: null };
-			console.log('submit', actSub);
-			setDoc(docRef, actSub);
-			curActSub = actSub;
-		}
-	}}
-	class="mt-auto w-full bg-black text-white text-xl p-2"
->
-	{#if !!curActSub}
+<button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
+	{#if actSub?.succeeded}
 		Collected
 	{:else if !!activity}
 		Challenge

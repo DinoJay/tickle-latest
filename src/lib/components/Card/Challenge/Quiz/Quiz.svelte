@@ -6,6 +6,7 @@
 	export let onAnswerSubmit;
 	export let responses;
 	export let onResult;
+	export let succeeded;
 
 	// console.log('activity', activity);
 
@@ -15,8 +16,6 @@
 	$: counter = 0;
 	$: curQ = questions[counter];
 	$: img = curQ?.img;
-
-	$: console.log('cur img', img);
 
 	$: disabledNextQ = !curQ || !responses[curQ.id];
 
@@ -56,7 +55,7 @@
 			</button>
 		{/key}
 	{:else}
-		<Result {questions} {responses} {title} />
+		<Result {questions} {responses} {title} {succeeded} />
 	{/if}
 </div>
 

@@ -1,11 +1,9 @@
 <script>
-	import { db } from '$lib/firebaseConfig/firebase';
-	import { collection, addDoc, updateDoc } from 'firebase/firestore';
-
 	export let questions = [];
 	export let title = '';
 
 	export let responses;
+	export let succeeded;
 </script>
 
 <div class=" p-3  overflow-y-auto bg-white">
@@ -24,4 +22,11 @@
 			</div>
 		</div>
 	{/each}
+	<div class="text-lg">
+		{#if succeeded}
+			You succeeded the quiz and collected the card!
+		{:else}
+			You failed the quiz and did not collect the card!
+		{/if}
+	</div>
 </div>
