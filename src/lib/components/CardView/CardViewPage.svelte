@@ -56,7 +56,11 @@
 		<Card
 			open={!!selectedCardId}
 			{selectedEnvId}
-			onClose={() => (selectedCardId = null)}
+			onClose={() => {
+				//TODO: wrong fix that
+
+				selectedCardId = null;
+			}}
 			onActivitySubmit={(sub) => {}}
 			{...curCard}
 		/>

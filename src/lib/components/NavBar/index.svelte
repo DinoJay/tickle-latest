@@ -10,11 +10,10 @@
 	import Logo from './Logo.svelte';
 	import Burger from './Burger.svelte';
 
-	$: selectedEnvId = $page.params.slug;
+	$: selectedEnvId = $page.params.envId || '';
 
 	let collapsed = false;
-	let selectEnvOpen = false;
-	let mobileNavWidth = 0;
+
 	let sections = [
 		{
 			name: 'Select environments/User View',
@@ -24,6 +23,7 @@
 		},
 		// { name: 'Home', go: () => goto('/home') },
 		//TODO: change this later
+		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId}`) },
 		{ name: 'Admin', go: () => goto('/admin') },
 
 		{ name: 'Sign out', go: () => logOut() }
