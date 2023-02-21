@@ -24,7 +24,10 @@
 				return;
 			}
 			if (!$store?.currentUser) {
-				loadUser(currentUser);
+				getDoc(doc(db, 'users', currentUser.uid)).then((doc) => {
+					const u = doc.data();
+					store.update((obj) => ({ ...obj, currentUser: { ...currentUser, ...u } }));
+				});
 			}
 		});
 

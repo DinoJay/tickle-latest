@@ -71,6 +71,13 @@
 	text-overflow: ellipsis;
 }
 
+@responsive {
+	.w-diary {
+		width: 32rem;
+	}
+
+}
+
 .label {
 	@apply text-gray-500 mb-1
 }
