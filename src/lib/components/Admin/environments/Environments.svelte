@@ -8,7 +8,7 @@
 
 	import { v4 as uuidv4 } from 'uuid';
 
-	export let defEnvId = 'bnW56f62WWEJ0bwJwQ0m';
+	export let toxinId = 'bnW56f62WWEJ0bwJwQ0m';
 
 	/**
 	 * @type {any[]}
@@ -89,7 +89,7 @@
 			});
 			onChange(newEnvs);
 		}}
-		onRemove={selectedEnv.id !== defEnvId
+		onRemove={selectedEnv.id !== toxinId
 			? () => {
 					onChange(envs.filter((e) => e.id !== selectedEnv.id));
 					deleteDoc(doc(db, 'card-envs', selectedEnv.id));

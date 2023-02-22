@@ -23,13 +23,14 @@
 			<option value="volvo">Loading...</option>
 		</select>
 	{:then envs}
-		<label class="mb-2" for="envs">Choose an Environment:</label>
+		<label class="mb-2" for="envs">Select an environment to see your collected cards:</label>
 		<select
 			name="envs"
 			id="envs"
 			class={slClass}
 			on:change={(e) => goto(`/diary/${e.target.value}`)}
 		>
+			<option value="" selected disabled hidden>Choose an here</option>
 			{#each envs as e}
 				<option value={e.id} selected={e.id === selectedEnvId}>{e.title}</option>
 			{/each}

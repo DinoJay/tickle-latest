@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { updateCurrentUser } from 'firebase/auth';
 
 const storedItems = JSON.parse(browser && localStorage.getItem('store')) || {
 	envs: [],
@@ -8,6 +9,10 @@ const storedItems = JSON.parse(browser && localStorage.getItem('store')) || {
 export const store = writable(browser && storedItems);
 store.subscribe((val) => browser && (localStorage.store = JSON.stringify(val)));
 
+export const updateStoreUser = (u) => {
+	store.update(obj => ({ ...obj, currentUser: { ...(obj.currentUser || {}), ...u } }))
+
+}
 // async function loadCards(envId) {
 // 	const snapRef2 = await getDocs(collection(db, 'card-envs', envId, 'cards'));
 // 	const cards = snapRef2.docs.map((doc) => {

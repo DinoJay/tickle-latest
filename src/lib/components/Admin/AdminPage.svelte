@@ -21,6 +21,7 @@
 	export let onEnvsChange;
 	export let onCardsChange;
 	export let onSelectEnv;
+	export let user;
 
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
 	$: console.log('envs', envs);
@@ -42,8 +43,8 @@
 {#if $store?.currentUser?.admin}
 	<div class="grid grid-cols-1 gap-3 m-2 ">
 		<div>
-			<Panel title="Environments">
-				<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
+			<Panel title={selectedEnv?.title || 'Select an Environment'}>
+				<Environments {envs} {user} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
 			</Panel>
 		</div>
 

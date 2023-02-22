@@ -15,7 +15,7 @@
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
 </script>
 
-<div class="mt-3 flex flex-wrap gap-2">
+<div class="mt-3 flex flex-wrap gap-2 mx-auto">
 	{#each cards as c}
 		<PreviewCard {...c} onClick={() => goto(`/diary/${selectedEnvId}/${c.id}`)} />
 	{/each}

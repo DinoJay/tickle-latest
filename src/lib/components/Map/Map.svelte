@@ -6,9 +6,10 @@
 	import MapMarker from '$lib/components/map/markers/MapMarker.svelte';
 	import Recenter from '$lib/components/map/utils/Recenter.svelte';
 
-	export let cards = [{}];
+	export let cards = [];
 	export let onClick = () => {};
 	export let centerLocation = { longitude: 0, latitude: 0 };
+	export let recenter = true;
 
 	let userAvatar = $store.currentUser?.avatar;
 
@@ -26,6 +27,8 @@
 			/>
 		{/each}
 		<ImgMarker {...userLocation} {userAvatar} />
-		<Recenter {...userLocation} {userAvatar} onClick={() => onClick(null)} />
+		{#if recenter}
+			<Recenter {...userLocation} {userAvatar} onClick={() => onClick(null)} />
+		{/if}
 	</Mapbox>
 </Located>

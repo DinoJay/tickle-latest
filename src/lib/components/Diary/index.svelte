@@ -5,6 +5,8 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import TickleWobble from '$lib/components/utils/TickleWobble.svelte';
 	import TinyEnvSelect from './TinyEnvSelect.svelte';
+	// import Map from '$lib/components/map/Map.svelte';
+	import Map from '$lib/components/map/Map.svelte';
 
 	export let selectedEnvId;
 	export let selectedCardId;
@@ -57,9 +59,9 @@
 </script>
 
 <div class="flex-grow flex flex-col m-2  mx-auto p-3 w-full sm:w-diary">
-	<div class="flex flex-col items-center mb-3">
-		<p class="text-xl">{user.email}</p>
-		<img height="200" width="200" src="/avatars/{user.avatar}.svg" alt="avatar" />
+	<h1 class="text-2xl mb-2">{user.email}</h1>
+	<div class="relative mb-3" style="height:300px">
+		<Map recenter={false} />
 	</div>
 	<TinyEnvSelect {selectedEnvId} />
 	<div class="flex-grow flex flex-col">

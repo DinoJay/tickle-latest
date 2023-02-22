@@ -1,13 +1,20 @@
 <script>
 	import { db } from '$lib/firebaseConfig/firebase';
-	import { collection, getDocs } from 'firebase/firestore';
+	import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+	import { store } from '/src/stores/index';
 	import TickleWobble from '../utils/TickleWobble.svelte';
 	import AdminPage from './AdminPage.svelte';
-
-	let selectedEnvId = 'bnW56f62WWEJ0bwJwQ0m';
+	import { updateStoreUser } from '/src/stores/index';
 
 	let envs;
 	let cards;
+
+	$: user = $store.currentUser;
+	let selectedEnvId = 'bnW56f62WWEJ0bwJwQ0m';
+
+	$: selectedEnvId = user?.selectedAdminEnvId || 'bnW56f62WWEJ0bwJwQ0m';
+
+	$: console.log('user', user);
 
 	$: cardsPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
 		Promise.all(
@@ -40,7 +47,13 @@
 		{cards}
 		{envs}
 		{selectedEnvId}
-		onSelectEnv={(id) => (selectedEnvId = id)}
+		onSelectEnv={(id) => {
+			const userRef = doc(db, 'users', user.uid);
+			setDoc(userRef, { selectedAdminEnvId: id }, { merge: true });
+			updateStoreUser({ selectedAdminEnvId: id });
+			console.log('user', user);
+			selectedEnvId = id;
+		}}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}
 	/>
