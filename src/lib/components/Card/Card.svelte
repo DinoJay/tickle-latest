@@ -54,6 +54,8 @@
 	 */
 	export let onChange;
 
+	export let onActivitySubmit = (d) => d;
+
 	let activityOpen = false;
 
 	let flipped = false;
@@ -127,6 +129,7 @@
 					setDoc(docRef, actSub);
 					console.log('submit', actSub);
 					curActSub = actSub;
+					onActivitySubmit(actSub);
 				}
 			}}
 		/>

@@ -71,7 +71,7 @@
 	<FieldThumb
 		type="array"
 		name="Activity"
-		value={currentCard.activity?.type || 'None'}
+		value={currentCard.activity?.type}
 		onClick={() => (selectedField = ACTIVITY)}
 	/>
 </div>

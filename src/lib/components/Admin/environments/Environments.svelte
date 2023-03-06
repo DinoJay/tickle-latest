@@ -7,6 +7,7 @@
 	import CreateEnv from './CreateEnv.svelte';
 
 	import { v4 as uuidv4 } from 'uuid';
+	import Panel from '../Panel.svelte';
 
 	export let toxinId = 'bnW56f62WWEJ0bwJwQ0m';
 
@@ -18,7 +19,7 @@
 	 * @type {import("@firebase/firestore").Firestore}
 	 */
 	/**
-	 * @type {{ id: any; } | null}
+	 * @type {{ id: any; title: string} | null}
 	 */
 	export let selectedEnv = null;
 	/**
@@ -42,20 +43,21 @@
 	};
 </script>
 
-<div class="overflow-auto flex flex-col">
-	{#each envs as env}
-		<div class="flex mb-2">
-			<button
-				on:click={() => onEnvClick(env)}
-				class="p-1 flex-grow border-2 {selectedEnv?.id === env.id && 'bg-gray-300'}"
-			>
-				<!-- <span> 🕯</span> -->
-				<span class={env.title === '' ? 'italic text-gray-500' : ''}>
-					{env.title || 'no-title'}
-				</span>
-			</button>
+<Panel title={selectedEnv?.title || 'Select an Environment'}>
+	<div class="overflow-auto flex flex-col">
+		{#each envs as env}
+			<div class="flex mb-2">
+				<button
+					on:click={() => onEnvClick(env)}
+					class="p-1 flex-grow border-2 {selectedEnv?.id === env.id && 'bg-gray-300'}"
+				>
+					<!-- <span> 🕯</span> -->
+					<span class={env.title === '' ? 'italic text-gray-500' : ''}>
+						{env.title || 'no-title'}
+					</span>
+				</button>
 
-			<!-- {#if selectedEnv?.id === env.id}
+				<!-- {#if selectedEnv?.id === env.id}
 				<div class="my-auto">
 					{#if env.title !== 'TOXIN'}
 						<button
@@ -68,10 +70,11 @@
 					{/if}
 				</div>
 			{/if} -->
-		</div>
-	{/each}
-	<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
-</div>
+			</div>
+		{/each}
+		<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
+	</div>
+</Panel>
 
 <LightBox isOpen={lbOpen} close={() => (lbOpen = false)}>
 	<EditEnvironment
@@ -81,6 +84,7 @@
 			setDoc(docRef, newEnv).catch((error) => {
 				console.log(error);
 			});
+
 			const newEnvs = envs.map((e) => {
 				if (e.id === selectedEnv?.id) {
 					return newEnv;

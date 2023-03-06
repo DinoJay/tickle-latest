@@ -1,9 +1,12 @@
 <script>
 	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
 	import { v4 as uuid } from 'uuid';
-	import { db } from '$lib/firebaseConfig/firebase';
+	import Img from '$lib/components/utils/Img.svelte';
 	import { store } from '/src/stores/index';
 	import TopicsPreview from './TopicsField.svelte';
+
+	import ImageArea from 'svelte-material-icons/imageArea.svelte';
+	import LinksField from './LinksField.svelte';
 
 	export let title = '';
 	export let description = '';
@@ -18,19 +21,21 @@
 	export let selectedEnvId;
 	export let onSubmit;
 	export let actSub;
+
+	$: console.log('props', $$props);
 </script>
 
-<img src={img?.url} alt={title} class="w-full mb-3 object-contain " style="height:300px" />
-<TopicsPreview {topics} />
-<p class="  overflow-y-auto ">
-	{description}
-</p>
-{#if links}
-	<div class="mb-3 mt-3">
-		{#each links as l}
-			<div><a target="_blank" class="text-blue-500" href={l?.ref}>{l?.name}</a></div>
-		{/each}
-	</div>
+<Img url={img?.url} style="height:300px" />
+{#if !!topics}
+	<TopicsPreview {topics} />
+{/if}
+{#if !!links}
+	<LinksField {links} />
+{/if}
+{#if !!description}
+	<p class="  overflow-y-auto ">
+		{description}
+	</p>
 {/if}
 
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">

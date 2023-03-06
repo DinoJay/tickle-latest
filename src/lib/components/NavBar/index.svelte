@@ -11,6 +11,11 @@
 	import Burger from './Burger.svelte';
 
 	$: selectedEnvId = $page.params.envId || '';
+	$: console.log('page', $page);
+	// $: adminEnvId = $store.currentUser?.adminEnvId;
+
+	$: currentRoute = $page?.route?.id;
+	const adminRoute = '/admin/[[envId]]';
 
 	let collapsed = false;
 
@@ -18,13 +23,13 @@
 		{
 			name: 'Select environments/User View',
 			go: () => {
-				goto('/cardview/environment');
+				goto(`/cardview/environment/${currentRoute === adminRoute ? selectedEnvId : ''}`);
 			}
 		},
 		// { name: 'Home', go: () => goto('/home') },
 		//TODO: change this later
 		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId}`) },
-		{ name: 'Admin', go: () => goto('/admin') },
+		{ name: 'Admin', go: () => goto(`/admin/${selectedEnvId}`) },
 
 		{ name: 'Sign out', go: () => logOut() }
 	];

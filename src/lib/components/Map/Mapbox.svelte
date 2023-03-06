@@ -7,25 +7,23 @@
 		getMap: () => map
 	});
 
-	export let lat = 0;
-	export let lon = 0;
+	/**
+	 * @type {number|null}
+	 */
+	export let lat = null;
+	/**
+	 * @type {number | null}
+	 */
+	export let lon = null;
 	export let zoom = 13;
-	export let geoLocationMandatory = true;
+	export let interactive = true;
 
 	let container;
 	let map;
 
+	const defaultLng = 4.39;
+	const defaultLat = 50.82;
 	function load() {
-		var lng, lat;
-
-		if (geoLocationMandatory) {
-			lng = $store.currentUser.location.lon;
-			lat = $store.currentUser.location.lat;
-		} else {
-			lng = 4.39;
-			lat = 50.82;
-		}
-
 		map = new mapbox.Map({
 			container,
 			style: 'mapbox://styles/mapbox/streets-v9',
@@ -33,9 +31,15 @@
 		});
 
 		map.setCenter({
-			lng,
-			lat
+			lng: lon || defaultLng,
+			lat: lat || defaultLat
 		});
+		//TODO
+		// if (!interactive) {
+		// 	map.dragPan.disable();
+		// 	map.doubleClickZoom.disable();
+		// 	map.boxZoom.disable();
+		// }
 	}
 
 	afterUpdate(() => {

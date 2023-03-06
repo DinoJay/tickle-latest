@@ -1,6 +1,8 @@
 <script>
 	import { goto } from '$app/navigation';
 
+	import Img from '$lib/components/utils/Img.svelte';
+
 	export let id;
 	export let title;
 	export let description;
@@ -25,12 +27,7 @@
 	</h2>
 	{#if visible}
 		<div class="my-2">
-			<img
-				style="max-height:20rem"
-				class="w-full object-contain"
-				src={img?.url || '/tickle.svg'}
-				alt={img?.name}
-			/>
+			<Img url={img?.url} style="height:20rem" cls="w-full object-contain" />
 			<div>
 				<p class="my-3 overflow-y-auto" style="max-height:12rem">
 					{description}

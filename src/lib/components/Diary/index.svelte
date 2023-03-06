@@ -1,6 +1,6 @@
 <script>
 	// import { page } from '$app/stores';
-	import DiaryPage from './DiaryPage.svelte';
+	import CollectedCards from './CollectedCards.svelte';
 	import { collection, getDoc, getDocs, doc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import TickleWobble from '$lib/components/utils/TickleWobble.svelte';
@@ -8,8 +8,19 @@
 	// import Map from '$lib/components/map/Map.svelte';
 	import Map from '$lib/components/map/Map.svelte';
 
+	import ListenUserLocation from '$lib/components/geoLocation/ListenUserLocation.svelte';
+
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
+	/**
+	 * @type {any}
+	 */
 	export let selectedCardId;
+	/**
+	 * @type {any}
+	 */
 	export let extended;
 	/**
 	 * @type {{ uid: string; avatar: any; }}
@@ -37,22 +48,33 @@
 						user.uid
 					);
 					const docSub = await getDoc(ref);
-					console.log('docSub', docSub.exists());
+					const activitySub = docSub.data();
+					console.log('docSub', activitySub);
 
-					return docSub.exists() ? d : null;
+					return docSub.exists() ? { ...d, activitySub } : null;
 				})
 		);
 		const tmpCards = tmp.filter((d) => d);
+		console.log('tmpCards', tmpCards);
 
 		const topixSnap = await getDocs(collection(db, 'card-envs', selectedEnvId, 'topics'));
 		const topix = topixSnap.docs.map((doc) => doc.data());
-		console.log('user', user);
-		const cards = tmpCards.map((c) => ({
-			...c,
-			topics: topix.filter((t) => c.topics.includes(t.id))
-		}));
+		const allCards = sn.docs
+			.map((d) => d.data())
+			.map((c) => ({
+				...c,
+				topics: topix.filter((t) => c.topics?.includes(t.id))
+			}));
 
-		return [cards, topix];
+		console.log('user', user);
+		const collectedCards = tmpCards
+			.map((c) => ({
+				...c,
+				topics: topix.filter((t) => c.topics?.includes(t.id))
+			}))
+			.filter((d) => d.activitySub.succeeded);
+
+		return [collectedCards, topix, allCards];
 		// return [cs, []];
 	};
 	$: promise = selectedEnvId ? loadData() : null;
@@ -60,16 +82,25 @@
 
 <div class="flex-grow flex flex-col m-2  mx-auto p-3 w-full sm:w-diary">
 	<h1 class="text-2xl mb-2">{user.email}</h1>
-	<div class="relative mb-3" style="height:300px">
-		<Map recenter={false} />
+	<div class="relative mb-3 pointer-events-none" style="height:300px">
+		<ListenUserLocation>
+			<Map recenter={false} />
+		</ListenUserLocation>
 	</div>
 	<TinyEnvSelect {selectedEnvId} />
 	<div class="flex-grow flex flex-col">
 		{#if promise !== null}
 			{#await promise}
 				<TickleWobble />
-			{:then [cards, topics]}
-				<DiaryPage {cards} {topics} {selectedEnvId} {selectedCardId} {extended} />
+			{:then [collectedCards, topics, allCards]}
+				<CollectedCards
+					{allCards}
+					{collectedCards}
+					{topics}
+					{selectedEnvId}
+					{selectedCardId}
+					{extended}
+				/>
 			{/await}
 		{:else}
 			<div class="text-2xl m-auto">Please select an Environment</div>

@@ -1,63 +1,39 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { store } from '/src/stores/index';
-	import produce from 'immer';
 
-	var watchId = null;
+	/**
+	 * @type {number }
+	 */
+	let watchId = 0;
 
 	onMount(() => {
-		if (!watchId) {
-			/**
-			 * Check if the user's browser geolocation is allowed
-			 */
-			const geoLocPermission = () => {
-				navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-					geoLocPosition(result.state);
-					result.onchange = (event) => {
-						geoLocPosition(event?.target?.state);
-					};
-				});
-			};
-
-			/**
-			 * Add a watch position geolocation if the geolocation is allowed on user's browser
-			 * @param state - granted or not
-			 */
-			const geoLocPosition = (state) => {
-				if (state == 'granted' || state == 'prompt') {
-					watchId = navigator.geolocation.watchPosition(success);
-				} else {
-					updateUserLocation(undefined);
-					navigator.geolocation.clearWatch(watchId);
+		function success(pos) {
+			console.log('Congratulations, you reached the target', pos.coords);
+			store.update((/** @type {{ currentUser: any; }} */ obj) => ({
+				...obj,
+				currentUser: {
+					...obj.currentUser,
+					location: { longitude: pos.coords.longitude, latitude: pos.coords.latitude }
 				}
-			};
-
-			/**
-			 * Success function of the watch position geolocation
-			 * @param position
-			 */
-			const success = (position) => {
-				updateUserLocation({
-					lon: position.coords.longitude,
-					lat: position.coords.latitude
-				});
-			};
-
-			/**
-			 * Update the store object with the user's location
-			 * @param location - null or {lon, lat}
-			 */
-			const updateUserLocation = (location) => {
-				store.update((obj) => {
-					const nextState = produce(obj, (draft) => {
-						if (draft?.currentUser) draft.currentUser['location'] = location;
-					});
-					return nextState;
-				});
-			};
-
-			geoLocPermission();
+			}));
+			console.log('store', $store);
 		}
+
+		function error(err) {
+			console.error(`ERROR(${err.code}): ${err.message}`);
+		}
+
+		const options = {
+			enableHighAccuracy: false,
+			timeout: 5000,
+			maximumAge: 0
+		};
+
+		watchId = navigator.geolocation.watchPosition(success, error, options);
+	});
+	onDestroy(() => {
+		navigator.geolocation.clearWatch(watchId);
 	});
 </script>
 

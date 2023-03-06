@@ -5,14 +5,19 @@
 	import TickleWobble from '../utils/TickleWobble.svelte';
 	import AdminPage from './AdminPage.svelte';
 	import { updateStoreUser } from '/src/stores/index';
+	import { goto } from '$app/navigation';
 
+	/**
+	 * @type {string}
+	 */
+	export let envId;
 	let envs;
 	let cards;
 
 	$: user = $store.currentUser;
 	let selectedEnvId = 'bnW56f62WWEJ0bwJwQ0m';
 
-	$: selectedEnvId = user?.selectedAdminEnvId || 'bnW56f62WWEJ0bwJwQ0m';
+	$: selectedEnvId = envId || user?.selectedAdminEnvId || 'bnW56f62WWEJ0bwJwQ0m';
 
 	$: console.log('user', user);
 
@@ -52,7 +57,7 @@
 			setDoc(userRef, { selectedAdminEnvId: id }, { merge: true });
 			updateStoreUser({ selectedAdminEnvId: id });
 			console.log('user', user);
-			selectedEnvId = id;
+			goto(`/admin/${id}`);
 		}}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}

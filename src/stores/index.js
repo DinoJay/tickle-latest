@@ -6,7 +6,12 @@ const storedItems = JSON.parse(browser && localStorage.getItem('store')) || {
 	envs: [],
 	currentUser: undefined
 };
-export const store = writable(browser && storedItems);
+const defaultStore = {
+	envs: [],
+	currentUser: undefined
+}
+export const store = writable(defaultStore /*browser && storedItems*/);
+
 store.subscribe((val) => browser && (localStorage.store = JSON.stringify(val)));
 
 export const updateStoreUser = (u) => {

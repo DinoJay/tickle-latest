@@ -36,6 +36,7 @@
 		"fmin": "^0.0.2",
 		"immer": "^9.0.16",
 		"lodash.memoize": "^4.1.2",
+		"lodash.uniqby": "^4.7.0",
 		"mapbox-gl": "^2.11.1",
 		"svelte-material-icons": "^2.0.4",
 		"uuid": "^9.0.0"

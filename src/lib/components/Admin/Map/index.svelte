@@ -55,7 +55,11 @@
 			/>
 		{/each}
 	</Mapbox>
-	<LightBox isOpen={!!selectedCardId} close={() => (selectedCardId = null)}>
+	<LightBox
+		title={selectedCard?.title}
+		isOpen={!!selectedCardId}
+		close={() => (selectedCardId = null)}
+	>
 		<EditCard
 			{selectedEnvId}
 			currentCard={selectedCard}

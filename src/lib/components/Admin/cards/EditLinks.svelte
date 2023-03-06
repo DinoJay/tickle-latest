@@ -7,7 +7,7 @@
 
 	const addLink = () => {
 		if (!ref) return;
-		const nl = { name, ref };
+		const nl = { name, ref: `https://${ref}` };
 		const newLinks = [...links, nl];
 		onChange(newLinks);
 		// updateDoc(docRef, {
@@ -30,12 +30,15 @@
 
 <div class=" mb-2">
 	<div class="mr-2 label">Link:</div>
-	<input
-		bind:value={ref}
-		placeholder="Type new link content"
-		class="border-2 p-1 form-text w-full"
-		type="text"
-	/>
+	<div class="flex items-center border-2 p-1 ">
+		<div class="text-gray-500">https://</div>
+		<input
+			bind:value={ref}
+			placeholder="Type new link content"
+			class=" form-text w-full"
+			type="text"
+		/>
+	</div>
 </div>
 <div class=" mb-2">
 	<div class="mr-2 label">Name:</div>

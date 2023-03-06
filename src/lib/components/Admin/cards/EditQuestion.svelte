@@ -74,7 +74,7 @@
 							{#if a.correct}
 								<div class="text-green-500 font-bold border-2 border-green-500">T</div>
 							{:else}
-								<div class="text-red-500 border-2 border-red-500 font-bold">W</div>
+								<div class="text-red-500 border-2 border-red-500 font-bold">F</div>
 							{/if}
 						</button>
 						<button

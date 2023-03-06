@@ -1,5 +1,4 @@
 <script>
-	import SelectEnv from '$lib/components/SelectEnv/index.svelte';
 	import { page } from '$app/stores';
 	import WithAuth from '$lib/components/auth/WithAuth.svelte';
 	import Diary from '$lib/components/Diary/index.svelte';

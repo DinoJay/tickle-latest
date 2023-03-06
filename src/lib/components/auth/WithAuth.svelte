@@ -7,8 +7,6 @@
 	import { goto } from '$app/navigation';
 	import TickleWobble from '../utils/TickleWobble.svelte';
 
-	let allowedNavigation = ['/', '/register-user'];
-
 	/**
 	 * Listener on the user auth state
 	 * If the user is not in the store, we update the store
@@ -23,33 +21,21 @@
 				goto('/');
 				return;
 			}
-			if (!$store?.currentUser) {
-				getDoc(doc(db, 'users', currentUser.uid)).then((doc) => {
-					const u = doc.data();
-					store.update((obj) => ({ ...obj, currentUser: { ...currentUser, ...u } }));
-				});
-			}
-		});
-
-		/**
-		 * Load the user from Firestore to the local svelte store
-		 * @param user
-		 */
-		const loadUser = (user) => {
-			getDoc(doc(db, 'users', user.uid)).then((doc) => {
-				let userObj = {};
-				userObj.avatar = doc.data()?.avatar;
-				userObj.uid = user.uid;
-				if (doc.data()?.admin) userObj.admin = true;
-				store.update((obj) => ({ ...obj, currentUser: userObj }));
+			// if (!$store?.currentUser) {
+			getDoc(doc(db, 'users', currentUser.uid)).then((doc) => {
+				const u = doc.data();
+				store.update((obj) => ({
+					...obj,
+					currentUser: { ...currentUser, ...u }
+				}));
 			});
-		};
+			// }
+		});
 	});
 </script>
 
-{#if $store.currentUser}
+{#if !!$store.currentUser}
 	<slot />
-	<!-- <TickleWobble /> -->
 {:else}
 	<TickleWobble />
 {/if}

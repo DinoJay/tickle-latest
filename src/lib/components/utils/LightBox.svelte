@@ -18,6 +18,7 @@
 	export let flipCls = '';
 
 	$: flippable = $$slots.front && $$slots.back;
+	let titleExpanded = false;
 </script>
 
 {#if isOpen}
@@ -44,8 +45,14 @@
 				on:keydown={() => null}
 				on:click={(e) => e.stopPropagation()}
 			>
-				<div class=" flex mb-3">
-					<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
+				<div class=" flex mb-3 items-start ">
+					<div
+						class="text-xl {!titleExpanded ? 'crop' : ''} transition uppercase cursor-pointer"
+						on:click={() => (titleExpanded = !titleExpanded)}
+						style="max-width:90%"
+					>
+						{title}
+					</div>
 					{#if !isMandatory}
 						{#if flippable}
 							<button on:click={onFlip} class=" ml-auto">
