@@ -29,6 +29,11 @@
 
 	// $: console.log('id environment', $page);
 
+	/**
+	 * @type {any[] }
+	 */
+	let collectedCards = [];
+
 	$: console.log('user', user);
 	$: loadData = async () => {
 		const sn = await getDocs(collection(db, 'card-envs', selectedEnvId, 'cards'));
@@ -67,14 +72,14 @@
 			}));
 
 		console.log('user', user);
-		const collectedCards = tmpCards
+		collectedCards = tmpCards
 			.map((c) => ({
 				...c,
 				topics: topix.filter((t) => c.topics?.includes(t.id))
 			}))
 			.filter((d) => d.activitySub.succeeded);
 
-		return [collectedCards, topix, allCards];
+		return [topix, allCards];
 		// return [cs, []];
 	};
 	$: promise = selectedEnvId ? loadData() : null;
@@ -92,7 +97,7 @@
 		{#if promise !== null}
 			{#await promise}
 				<TickleWobble />
-			{:then [collectedCards, topics, allCards]}
+			{:then [topics, allCards]}
 				<CollectedCards
 					{allCards}
 					{collectedCards}
@@ -100,6 +105,13 @@
 					{selectedEnvId}
 					{selectedCardId}
 					{extended}
+					onCardSubmit={(c) => {
+						if (c.activitySub.succeeded) {
+							collectedCards = [...collectedCards, c];
+						} else {
+							collectedCards = collectedCards.filter((d) => d.id !== c.id);
+						}
+					}}
 				/>
 			{/await}
 		{:else}

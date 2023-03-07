@@ -4,7 +4,7 @@
 
 	export let collectedCards;
 	export let selectedEnvId;
-	export let collectedTags;
+	export let allTags;
 </script>
 
 <h2 class="text-lg mb-1">All Collected Cards</h2>
@@ -16,7 +16,7 @@
 		<div class="text-lg m-auto">No cards collected!</div>
 	{/if}
 </div>
-{#each collectedTags as t}
+{#each allTags as t}
 	<div class="mb-4">
 		<h2 class="mb-2 text-lg">
 			{t.openCards.length} Open Cards in

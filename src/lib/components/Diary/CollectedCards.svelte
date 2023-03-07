@@ -6,6 +6,7 @@
 	import group from '$lib/group';
 
 	import CardsByTopic from './CardsByTopic.svelte';
+	import { goto } from '$app/navigation';
 
 	/**
 	 * @type {any[]}
@@ -17,11 +18,19 @@
 	 */
 	export let selectedEnvId;
 	/**
-	 * @type {null |number}
+	 * @type {null |string}
 	 */
 	export let selectedCardId;
 	export let extended;
+	/**
+	 * @type {any[]}
+	 */
 	export let allCards;
+
+	/**
+	 * @type {(arg0: any) => any}
+	 */
+	export let onCardSubmit;
 
 	$: groupedAllCards = group(
 		allCards.flatMap((c) => c.topics.map((t) => ({ ...c, topic: t }))),
@@ -40,17 +49,22 @@
 	).map((d) => ({
 		...d,
 		collectedNum: groupedCollectedCards.get(d.title).length,
-		allNum: groupedAllCards.get(d.title).length,
-		openCards: groupedAllCards.get(d.title).filter(
-			(c) =>
-				!groupedCollectedCards
-					.get(d.title)
-					.map((d) => d.id)
-					.includes(c.id)
-		)
+		allNum: groupedAllCards.get(d.title).length
+	}));
+	$: allTags = uniqBy(
+		allCards.flatMap((c) => c.topics),
+		(d) => d.title
+	).map((t) => ({
+		...t,
+		// collectedNum: groupedCollectedCards.get(d.title).length,
+		// allNum: groupedAllCards.get(d.title).length,
+		openCards: groupedAllCards
+			.get(t.title)
+			.filter((/** @type {{ id: any; }} */ c1) => !collectedCards.find((c2) => c1.id === c2.id))
 	}));
 	$: console.log('collectedCards', collectedCards);
-	$: console.log('collectedTags', collectedTags);
+	// $: console.log('collectedTags', collectedTags);
+	$: console.log('tags', collectedCards);
 </script>
 
 <div class="flex flex-wrap gap-1 mt-2">
@@ -62,15 +76,15 @@
 	{/each}
 </div>
 <div class="mt-2">
-	<CardsByTopic {selectedEnvId} {collectedCards} {collectedTags} />
+	<CardsByTopic {selectedEnvId} {collectedCards} {allTags} />
 </div>
 {#if !!selectedCardId}
 	{#key selectedCardId}
 		<Card
 			open={!!selectedCardId}
 			{selectedEnvId}
-			onClose={() => (selectedCardId = null)}
-			onActivitySubmit={(sub) => {}}
+			onClose={() => goto(`/diary/${selectedEnvId}`)}
+			onActivitySubmit={(activitySub) => onCardSubmit({ ...curCard, activitySub })}
 			{...curCard}
 		/>
 	{/key}
