@@ -5,13 +5,14 @@
 	/**
 	 * @type {string}
 	 */
-	export let selectedEnvId;
 	export let topicIds;
 	export let onClick;
 
 	export let allTopics;
 
-	$: topics = allTopics ? topicIds.map((id) => allTopics.find((at) => id === at.id)) : [];
+	console.log('alltopics', allTopics);
+	$: topics =
+		!!allTopics && !!topicIds ? topicIds.map((id) => allTopics.find((at) => id === at.id)) : [];
 </script>
 
 {#if allTopics && topics}

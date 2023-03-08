@@ -17,9 +17,6 @@
 	// 	topics: [],
 	// 	loc: { longitude: 4.39, latitude: 50.82 }
 	// };
-
-	$: console.log('loading', loading);
-	let lbStaticLoader = false;
 </script>
 
 {#if cards === undefined}

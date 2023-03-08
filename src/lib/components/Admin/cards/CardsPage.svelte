@@ -10,11 +10,17 @@
 	import StaticLoader from './StaticLoader.svelte';
 	import EditCardBack from './EditCardBack.svelte';
 
+	/**
+	 * @type {any[]}
+	 */
 	export let cards = [];
 	/**
 	 * @type {string}
 	 */
 	export let selectedEnvId;
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
 	export let onChange;
 
 	/**
@@ -42,7 +48,7 @@
 
 <LightBox
 	isOpen={!!selectedCardId}
-	title={selectedCard?.title}
+	title={selectedCard?.title || 'No Title'}
 	close={() => {
 		selectedCardId = null;
 		flipped = false;

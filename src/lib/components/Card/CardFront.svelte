@@ -25,7 +25,7 @@
 	$: console.log('props', $$props);
 </script>
 
-<Img url={img?.url} style="height:300px" />
+<Img url={img?.url} style="height:300px" cls="mb-3" />
 {#if !!topics}
 	<TopicsPreview {topics} />
 {/if}

@@ -93,12 +93,15 @@
 			});
 			onChange(newEnvs);
 		}}
-		onRemove={selectedEnv.id !== toxinId
+		onRemove={selectedEnv?.id !== toxinId
 			? () => {
-					onChange(envs.filter((e) => e.id !== selectedEnv.id));
-					deleteDoc(doc(db, 'card-envs', selectedEnv.id));
-					onSelectEnv(defEnvId);
 					lbOpen = false;
+					const newEnvs = envs.filter((e) => e.id !== selectedEnv.id);
+					const oldEnvIndex = envs.findIndex((e) => e.id === selectedEnv.id);
+					const newIndex = oldEnvIndex % newEnvs.length;
+					onChange(newEnvs);
+					deleteDoc(doc(db, 'card-envs', selectedEnv.id));
+					onSelectEnv(newEnvs[newIndex].id);
 			  }
 			: null}
 	/>
@@ -111,7 +114,7 @@
 			setDoc(doc(db, 'card-envs', id), { ...env, id }).catch((error) => {
 				console.log(error);
 			});
-			onChange([...envs, env]);
+			onChange([...envs, { ...env, id }]);
 			nlbOpen = false;
 		}}
 	/>

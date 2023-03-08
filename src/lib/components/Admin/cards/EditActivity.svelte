@@ -3,9 +3,19 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import EditQuiz from './EditQuiz.svelte';
 	import { QUIZ, GEOCACHING, HANGMAN } from './activityConsts';
+	import EditGeoCaching from './EditGeoCaching/index.svelte';
 
+	/**
+	 * @type {{ type: string; value: any; }}
+	 */
 	export let activity;
+	/**
+	 * @type {(arg0: { type: string; value: any; }) => any}
+	 */
 	export let onChange;
+	/**
+	 * @type {any}
+	 */
 	export let onRemove;
 
 	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN];
@@ -41,16 +51,15 @@
 </LightBox>
 
 <LightBox
-	height={null}
+	title={activity?.value?.title || GEOCACHING}
 	isOpen={selectedActivity === GEOCACHING}
 	close={() => (selectedActivity = null)}
 >
-	<div>Not yet implemented</div>
+	<EditGeoCaching
+		value={activity?.value}
+		onChange={(/** @type {any} */ value) => onChange({ type: GEOCACHING, value })}
+	/>
 </LightBox>
-<LightBox
-	height={null}
-	isOpen={selectedActivity === HANGMAN}
-	close={() => (selectedActivity = null)}
->
+<LightBox isOpen={selectedActivity === HANGMAN} close={() => (selectedActivity = null)}>
 	<div>Not yet implemented</div>
 </LightBox>

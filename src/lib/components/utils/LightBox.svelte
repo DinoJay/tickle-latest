@@ -6,6 +6,9 @@
 	import FlipCard from '../Card/FlipCard.svelte';
 
 	export let isOpen = false;
+	/**
+	 * @type {(arg0: any) => void}
+	 */
 	export let close;
 	export let onFlip = () => false;
 	export let isMandatory = false;
@@ -13,7 +16,7 @@
 	export let width = 400;
 	export let title = '';
 	export let cls = '';
-	export let backCls;
+	export let backCls = '';
 	export let flipped = false;
 	export let flipCls = '';
 
@@ -26,7 +29,7 @@
 		transition:blur
 		on:keydown={() => null}
 		use:portal={'modals'}
-		class="fixed modal cont w-full h-full flex drop-shadow-2xl"
+		class="fixed modal cont w-full h-full flex "
 		on:click={(e) => {
 			if (!isMandatory) {
 				e.stopPropagation();
@@ -36,7 +39,7 @@
 	>
 		<FlipCard
 			style="max-height:{height}px;max-width:{width}px"
-			cls="m-auto bg-white h-screen w-screen {flipCls}"
+			cls="m-auto drop-shadow-xl bg-white h-screen w-screen {flipCls}"
 			{flipped}
 		>
 			<div
@@ -49,6 +52,7 @@
 					<div
 						class="text-xl {!titleExpanded ? 'crop' : ''} transition uppercase cursor-pointer"
 						on:click={() => (titleExpanded = !titleExpanded)}
+						on:keydown={() => (titleExpanded = !titleExpanded)}
 						style="max-width:90%"
 					>
 						{title}

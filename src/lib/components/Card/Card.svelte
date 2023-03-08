@@ -7,7 +7,6 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
 	// import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
-	import GeoCatching from './Challenge/geoCaching/geoCaching.svelte';
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
 	import CardBack from './CardBack.svelte';
@@ -127,7 +126,7 @@
 						response: null
 					};
 					setDoc(docRef, actSub);
-					console.log('submit', actSub);
+					// console.log('submit', actSub);
 					curActSub = actSub;
 					onActivitySubmit(actSub);
 				}
@@ -145,10 +144,11 @@
 		activityOpen = false;
 	}}
 	{activity}
-	onSubmit={(respObj) => {
+	onSubmit={(/** @type {any} */ respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-		const ac = { ...activityInformation, ...respObj };
-		curActSub = ac;
-		setDoc(docRef, ac);
+		console.log('respObj', respObj);
+		const actSub = { ...activityInformation, ...respObj };
+		curActSub = actSub;
+		setDoc(docRef, actSub);
 	}}
 />

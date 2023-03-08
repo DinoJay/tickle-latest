@@ -13,6 +13,9 @@
 
 	import TopicsThumb from './TopicsThumb.svelte';
 
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
 	export let currentCard = {
 		id: 'null',
@@ -24,17 +27,32 @@
 		loc: { longitude: 4.39, latitude: 50.82 },
 		links: []
 	};
+	/**
+	 * @type {(arg0: { img: { name: string; url: string; } | { url: string; name: string; }; id: string; title: any; description: any; activity: any; topics: any; loc: { longitude: number; latitude: number; }; links: any; }) => void}
+	 */
 	export let onChange;
+	/**
+	 * @type {(arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any}
+	 */
 	export let onRemove;
+	/**
+	 * @type {(arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any}
+	 */
 	export let onCreate;
 
 	const TITLE = 'title';
 	const TOPICS = 'topics';
 	const LINKS = 'links';
-	const DESCR = 'descr';
+	const DESCR = 'description';
 	const ACTIVITY = 'activity';
+	/**
+	 * @type {import("@firebase/firestore").DocumentData[]}
+	 */
 	let allTopics;
 
+	/**
+	 * @type {string | null}
+	 */
 	let selectedField;
 
 	console.log('currentCard', currentCard);
@@ -53,7 +71,12 @@
 	/>
 </div>
 <div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto mb-auto">
-	<FieldThumb name="Title" value={currentCard.title} onClick={() => (selectedField = TITLE)} />
+	<FieldThumb
+		type="string"
+		name="Title"
+		value={currentCard.title}
+		onClick={() => (selectedField = TITLE)}
+	/>
 	<FieldThumb
 		type="string"
 		name="Description"
@@ -85,6 +108,7 @@
 <LightBox
 	isOpen={selectedField === TITLE}
 	title={selectedField}
+	height={120}
 	close={() => (selectedField = null)}
 	cls="overflow-y-auto"
 >

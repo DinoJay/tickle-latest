@@ -6,9 +6,9 @@
 	export let name;
 	export let onClick;
 	export let type;
-	export let accessor;
+	export let accessor = (d) => d;
 
-	console.log('name', name, 'value', value);
+	$: console.log('name', name, value);
 	const reducer = (value) => {
 		return value.reduce(
 			(acc, cur, i) => acc.concat(i < value.length - 1 ? `${accessor(cur)}, ` : accessor(cur)),
@@ -25,7 +25,7 @@
 >
 	<div class="crop">{name}:</div>
 	<div class="italic flex-grow text-gray-500 crop overflow-hidden">
-		{#if type === 'array'}
+		{#if type === 'array' && Array.isArray(value)}
 			<div>
 				{#if value?.length > 0}
 					{#if accessor}

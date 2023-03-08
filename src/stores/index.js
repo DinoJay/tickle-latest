@@ -12,7 +12,7 @@ const defaultStore = {
 }
 export const store = writable(defaultStore /*browser && storedItems*/);
 
-store.subscribe((val) => browser && (localStorage.store = JSON.stringify(val)));
+// store.subscribe((val) => browser && (localStorage.store = JSON.stringify(val)));
 
 export const updateStoreUser = (u) => {
 	store.update(obj => ({ ...obj, currentUser: { ...(obj.currentUser || {}), ...u } }))
