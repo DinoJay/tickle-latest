@@ -18,8 +18,6 @@
 		'fill-opacity': 0.3
 	};
 
-	$: console.log('props', $$props);
-
 	const createGeoJSONCircle = (
 		/** @type {any[]} */ center,
 		/** @type {number} */ radiusInM,

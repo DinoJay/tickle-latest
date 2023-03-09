@@ -85,3 +85,12 @@
 .disabled {
 	@apply opacity-50
 }
+
+.input-text {
+	@apply border-2 p-1
+}
+
+.text-area {
+	@apply border-2 p-1;
+	max-height: 10rem;
+}

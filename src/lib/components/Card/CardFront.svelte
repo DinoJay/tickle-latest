@@ -22,7 +22,7 @@
 	export let onSubmit;
 	export let actSub;
 
-	$: console.log('props', $$props);
+	// $: console.log('props', $$props);
 </script>
 
 <Img url={img?.url} style="height:300px" cls="mb-3" />

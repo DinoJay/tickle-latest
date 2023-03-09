@@ -8,10 +8,13 @@
 
 	export let lon;
 	export let lat;
-	export let label;
+	// export let label;
 	export let onClick;
 
-	const marker = new ClickableMarker().setLngLat([lon, lat]).onClick(onClick).addTo(map);
+	const marker = new ClickableMarker()
+		.setLngLat([lon, lat])
+		.onClick(onClick || ((/** @type {any} */ d) => d))
+		.addTo(map);
 
 	onDestroy(() => {
 		marker.remove();

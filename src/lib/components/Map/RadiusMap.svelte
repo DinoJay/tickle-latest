@@ -5,6 +5,7 @@
 	import DraggableMarker from '$lib/components/map/markers/DraggableMarker.svelte';
 	import Circle from '$lib/components/map/Circle.svelte';
 	import Recenter from '$lib/components/map/utils/Recenter.svelte';
+	import MapMarker from './markers/MapMarker.svelte';
 
 	// export let onClick = () => {};
 	// export let recenter = true;
@@ -13,7 +14,7 @@
 	 */
 	export let location;
 	/**
-	 * @type {(arg0: { lon: any; lat: any; }) => any}
+	 * @type {(arg0: { lon: any; lat: any; }) => any }
 	 */
 	export let onChange;
 
@@ -28,7 +29,8 @@
 <Mapbox lon={location.lon} lat={location.lat} zoom={13}>
 	<DraggableMarker
 		onClick={() => {}}
-		onChange={(/** @type {any} */ lon, /** @type {any} */ lat) => onChange(lon, lat)}
+		draggable={!!onChange}
+		onChange={(/** @type {any} */ lon, /** @type {any} */ lat) => onChange && onChange(lon, lat)}
 		{...location}
 	/>
 	<!-- {#if !!radiusInM} -->

@@ -144,11 +144,12 @@
 		activityOpen = false;
 	}}
 	{activity}
+	currentActSub={curActSub}
 	onSubmit={(/** @type {any} */ respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
-		console.log('respObj', respObj);
 		const actSub = { ...activityInformation, ...respObj };
 		curActSub = actSub;
 		setDoc(docRef, actSub);
+		console.log('ACTIVITY SUBMISSION DONE!!!', actSub);
 	}}
 />

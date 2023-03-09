@@ -10,8 +10,9 @@
 	export let lat;
 	export let onChange;
 	export let onClick;
+	export let draggable = true;
 
-	const marker = new ClickableMarker({ draggable: true }).setLngLat([lon, lat]).addTo(map);
+	const marker = new ClickableMarker({ draggable }).setLngLat([lon, lat]).addTo(map);
 
 	// Update coords when we select a new card
 	$: if (lon || lat) {
