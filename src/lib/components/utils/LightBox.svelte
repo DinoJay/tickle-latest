@@ -12,8 +12,8 @@
 	export let close;
 	export let onFlip = () => false;
 	export let isMandatory = false;
-	export let height = 600;
-	export let width = 400;
+	export let height = 700;
+	export let width = 450;
 	export let title = '';
 	export let cls = '';
 	export let backCls = '';

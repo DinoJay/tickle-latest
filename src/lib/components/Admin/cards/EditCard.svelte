@@ -1,5 +1,4 @@
 <script>
-	import Activity from './../../Card/Challenge/Activity.svelte';
 	import EditLinks from './EditLinks.svelte';
 	import EditDescr from './../../Admin/cards/EditDescr.svelte';
 	import FieldThumb from './../../Admin/cards/FieldThumb.svelte';
@@ -35,10 +34,11 @@
 	 * @type {(arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any}
 	 */
 	export let onRemove;
+
 	/**
-	 * @type {(arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any}
+	 * @type {((arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any) | null}
 	 */
-	export let onCreate;
+	export let onCreate = null;
 
 	const TITLE = 'title';
 	const TOPICS = 'topics';
@@ -102,7 +102,11 @@
 	<button class=" del-btn mt-3" on:click={() => onRemove(currentCard)}>Remove Card</button>
 {/if}
 {#if !!onCreate}
-	<button class=" create-btn mt-3" on:click={() => onCreate(currentCard)}>Create Card</button>
+	<button
+		disabled={currentCard.topics.length === 0}
+		class=" create-btn mt-3 {currentCard.topics.length === 0 ? 'opacity-50' : ''}"
+		on:click={() => onCreate(currentCard)}>Create Card</button
+	>
 {/if}
 
 <LightBox

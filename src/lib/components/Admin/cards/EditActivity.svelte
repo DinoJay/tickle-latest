@@ -4,6 +4,7 @@
 	import EditQuiz from './EditQuiz.svelte';
 	import { QUIZ, GEOCACHING, HANGMAN } from './activityConsts';
 	import EditGeoCaching from './EditGeoCaching/index.svelte';
+	import EditHangman from './EditHangman.svelte';
 
 	/**
 	 * @type {{ type: string; value: any; }}
@@ -24,6 +25,7 @@
 	 * @type {string | null}
 	 */
 	let selectedActivity = null;
+	$: console.log('ACT props', $$props);
 </script>
 
 <div class="flex flex-col gap-2 flex-grow">
@@ -44,9 +46,11 @@
 	close={() => (selectedActivity = null)}
 >
 	<EditQuiz
-		{activity}
-		questions={activity?.value}
-		onChange={(questions) => onChange({ type: QUIZ, value: questions })}
+		value={activity?.value}
+		onChange={(questions) => {
+			console.log('QUIZ value', questions);
+			onChange({ type: QUIZ, value: questions });
+		}}
 	/>
 </LightBox>
 
@@ -61,5 +65,11 @@
 	/>
 </LightBox>
 <LightBox isOpen={selectedActivity === HANGMAN} close={() => (selectedActivity = null)}>
-	<div>Not yet implemented</div>
+	<EditHangman
+		value={activity?.value}
+		onChange={(/** @type {any} */ value) => {
+			console.log('val', value);
+			onChange({ type: HANGMAN, value });
+		}}
+	/>
 </LightBox>

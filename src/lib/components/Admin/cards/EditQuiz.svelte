@@ -3,12 +3,17 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import EditNewQuestion from './EditNewQuestion.svelte';
 
-	export let questions = [];
+	export let value = { questions: [] };
 	export let onChange;
 
 	let sq = false;
 
 	let selQIndex = null;
+
+	/**
+	 * @type {any[]}
+	 */
+	$: questions = value || [];
 
 	$: selQ = questions[selQIndex];
 
@@ -29,7 +34,7 @@
 		console.log('nqs', nqs);
 		onChange(nqs);
 	};
-	console.log('questions', questions);
+	console.log('quiz props', $$props);
 </script>
 
 <div class="flex mb-auto flex-col w-full  flex-grow overflow-y-auto  ">

@@ -5,6 +5,6 @@
 	export let uid;
 </script>
 
-<div>
+<div class="flex-grow flex flex-col">
 	<Comments {selectedEnvId} {cardId} {uid} />
 </div>

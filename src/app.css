@@ -1,6 +1,8 @@
+@import "../node_modules/placeholder-loading/dist/css/placeholder-loading.min.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @font-face {
 	font-family: sourceCodePro;

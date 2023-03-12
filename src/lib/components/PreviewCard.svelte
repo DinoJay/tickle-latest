@@ -8,11 +8,23 @@
 <div
 	on:click={onClick}
 	on:keydown={onClick}
-	class="flex flex-col h-36 w-28 p-2 relative overflow-hidden
+	class="flex flex-col  h-36 w-28 p-2 relative overflow-hidden
 		bg-white border-2 border-black drop-shadow-md cursor-pointer hover:scale-105 transition-all overflow-visible {className}"
 >
-	<h1 class="shrink-0 title">{title}</h1>
-	<div class="flex-1 bg-cover" style="background-image: url({img?.url})" />
+	{#if !!title}
+		<h1 class="shrink-0 title">{title}</h1>
+	{:else}
+		<div class="ph-row">
+			<div class="ph-col-12 big" />
+		</div>
+	{/if}
+	{#if !!img?.url}
+		<div class="mt-1 flex-grow bg-cover" style="background-image: url({img?.url})" />
+	{:else}
+		<div class="flex-grow flex flex-col mt-1 ">
+			<div class="flex-grow bg-gray-300 " />
+		</div>
+	{/if}
 </div>
 
 <style>

@@ -7,6 +7,7 @@
 
 	import ImageArea from 'svelte-material-icons/imageArea.svelte';
 	import LinksField from './LinksField.svelte';
+	import Description from './Description.svelte';
 
 	export let title = '';
 	export let description = '';
@@ -32,12 +33,7 @@
 {#if !!links}
 	<LinksField {links} />
 {/if}
-{#if !!description}
-	<p class="  overflow-y-auto ">
-		{description}
-	</p>
-{/if}
-
+<Description value={description} />
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
 	{#if actSub?.succeeded}
 		Collected

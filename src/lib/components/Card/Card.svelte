@@ -133,7 +133,7 @@
 			}}
 		/>
 	</div>
-	<div slot="back" class="w-full h-full">
+	<div slot="back" class="w-full h-full flex flex-col">
 		<CardBack {selectedEnvId} cardId={id} {uid} />
 	</div>
 </LightBox>
