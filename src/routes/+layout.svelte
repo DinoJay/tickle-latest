@@ -7,7 +7,7 @@
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	export const ssr = false;
-	$: route = $page.route.id;
+	$: route = $page.route?.id;
 	$: console.log('route id ', route);
 </script>
 

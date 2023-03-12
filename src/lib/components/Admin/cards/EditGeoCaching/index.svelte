@@ -1,4 +1,5 @@
 <script>
+	import Description from './../../../Card/Description.svelte';
 	import { store } from '/src/stores/index';
 	import RadiusMap from '../../../Map/RadiusMap.svelte';
 
@@ -17,12 +18,17 @@
 	$: userLocation = $store.currentUser?.location
 		? { lon: $store.currentUser.location.longitude, lat: $store.currentUser.location.latitude }
 		: { lon: defaultLoc[0], lat: defaultLoc[1] };
+
+	$: location = value?.location || userLocation;
+	$: radius = value?.radius || radians[0];
+	$: title = value?.title || null;
+	$: description = value?.description || null;
 </script>
 
 <div>
 	<RadiusMap
-		location={value?.location || userLocation}
-		radiusInM={value?.radius}
+		{location}
+		radiusInM={radius}
 		onChange={(lon, lat) => {
 			onChange({ ...value, location: { lon, lat } });
 		}}
@@ -39,7 +45,7 @@
 			}}
 		>
 			{#each radians as r}
-				<option selected={r === value.radius} value={r}>{r}m</option>
+				<option selected={r === radius} value={r}>{r}m</option>
 			{/each}
 		</select>
 	</div>
@@ -47,7 +53,7 @@
 		<div class="label">Title:</div>
 		<input
 			placeholder="Enter title"
-			value={value.title}
+			value={title}
 			class="border-2 p-2 w-full"
 			on:input={(e) => onChange({ ...value, title: e.target.value })}
 		/>
@@ -57,7 +63,7 @@
 		<textarea
 			placeholder="Enter description"
 			style="height:10rem"
-			value={value.description}
+			value={description}
 			class="border-2 p-2 w-full"
 			on:input={(e) => onChange({ ...value, description: e.target.value })}
 		/>

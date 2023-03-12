@@ -13,9 +13,9 @@
 	/**
 	 * @type {any[]}
 	 */
-	$: questions = value || [];
+	$: questions = Array.isArray(value) ? value : [];
 
-	$: selQ = questions[selQIndex];
+	$: selQ = questions ? questions[selQIndex] : null;
 
 	const onQuestionAdd = (q) => onChange([...questions, q]);
 	const onQuestionChange = (q) => {
