@@ -55,7 +55,7 @@
 
 <div class="relative  flex  items-center  mb-3">
 	<canvas bind:this={canvas} class="absolute left-0 top-0 pointer-events-none" />
-	<div class="flex flex flex-col ">
+	<div class="flex flex flex-col w-full">
 		{#if !noSupportCam}
 			{#if !!imgUrl}
 				<img class="flex-grow object-cover" src={imgUrl} alt="current Img" />

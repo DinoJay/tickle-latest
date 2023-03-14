@@ -8,7 +8,6 @@
 	const w = 800;
 	export const ssr = false;
 	$: route = $page.route?.id;
-	$: console.log('route id ', route);
 </script>
 
 <!-- <ListenAuth> -->

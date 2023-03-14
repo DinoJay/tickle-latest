@@ -7,7 +7,6 @@
 	$: selectedEnvId = $page.params.envId;
 	$: selectedCardId = $page.params.cardId || null;
 	$: extended = $page.params.extended || null;
-	$: console.log('#page params', $page.params);
 </script>
 
 <WithAuth>

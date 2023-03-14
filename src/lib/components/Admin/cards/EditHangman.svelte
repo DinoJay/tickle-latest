@@ -37,11 +37,12 @@
 			}
 		};
 	}
+	$: disabledRemoveBtn = selIndex === null || word.length <= 1;
 </script>
 
 <div class="mb-3 ">
 	<div class="label text-2xl">Hint:</div>
-	<textarea value={hint} placeholder="Please enter your hint" class="input-text w-full" />
+	<textarea value={hint} placeholder="Please enter your hint" class="input-text w-full h-24" />
 </div>
 <div class="mb-3 text-2xl">
 	<div class="label mb-2">Word:</div>
@@ -53,25 +54,19 @@
 				<input
 					use:useInit
 					name="guess"
-					on:focus={(e) => {
-						console.log('focus', e.target);
-						if (word.length <= 1) return;
-						e.target.select();
-						selIndex = i;
-					}}
 					on:click={(e) => {
 						e.target.select();
 					}}
-					on:input={(e) => {}}
-					on:change={(e) => {
+					on:input={(e) => {
 						if (word.length < 1 || e.target.value === '' || e.target.value === ' ') return;
 						e.target.select();
 						onChange({
 							hint: hint || HINT,
-							word: (word.slice(0, i) + e.target?.value + word.slice(i + 1)).trim()
+							word: word.slice(0, i) + e.target?.value + word.slice(i + 1).trim()
 						});
 					}}
 					on:keydown={(e) => {
+						// return;
 						if (word.length <= 1) return;
 
 						const elems = [...document.querySelectorAll('.letter')];
@@ -83,18 +78,61 @@
 							});
 
 							elems[word.length - 2].focus();
-							selIndex = selIndex - 1;
+							selIndex = selIndex || 0 - 1;
+							return;
 							// ?.focus();
-						} else {
-							// const elems = [...document.querySelectorAll('.letter')];
-							const index = (i + 1) % word.length;
-							// console.log('elems', elems);
-							// elems[index]?.focus();
-							// setTimeout(() => {
-							// 	elems[index]?.select();
-							// }, 200);
 						}
+						if (e.key === 'ArrowLeft') {
+							e.preventDefault();
+							elems[i - 1 < 0 ? elems.length - 1 : i - 1]?.focus();
+							selIndex = selIndex || 0 - 1;
+							return;
+						}
+						if (e.key === 'ArrowRight') {
+							e.preventDefault();
+							elems[(i + 1) % elems.length]?.focus();
+							selIndex = selIndex || 0 + 1;
+							return;
+						}
+						if (e.key === 'ArrowUp') {
+							e.preventDefault();
+							elems[i - 5 < 0 ? elems.length - 1 : i - 5]?.focus();
+							selIndex = selIndex || 0 - 5;
+							return;
+						}
+
+						if (e.key === 'ArrowDown') {
+							e.preventDefault();
+							elems[(i + 5) % elems.length]?.focus();
+							selIndex = selIndex || 0 + 5;
+							return;
+						}
+
+						if (e.key === 'Enter') {
+							e.preventDefault();
+							elems[(i + 1) % elems.length]?.focus();
+							selIndex = selIndex || 0 + 1;
+							return;
+						}
+
+						// const elems = [...document.querySelectorAll('.letter')];
+						const index = (i + 1) % word.length;
+						// // console.log('elems', elems);
+						// elems[index]?.focus();
+						// elems[index]?.select();
+						selIndex = index;
+						setTimeout(() => {
+							elems[index]?.select();
+							elems[index]?.focus();
+						}, 50);
+						// onChange({
+						// 	hint: hint || HINT,
+						// 	word: word.slice(0, i) + 'a' + word.slice(i + 1)
+						// });
 						// e.target.select();
+					}}
+					on:blur={(e) => {
+						selIndex = null;
 					}}
 					maxlength="1"
 					type="text"
@@ -107,11 +145,10 @@
 </div>
 <div class="mt-auto flex">
 	<button
-		disabled={selIndex === null}
-		class="del-btn flex-grow {selIndex === null ? 'disabled' : ''}"
+		disabled={disabledRemoveBtn}
+		class="del-btn flex-grow {disabledRemoveBtn ? 'disabled' : ''}"
 		style="max-width:50%"
 		on:click={() => {
-			if (!selIndex || word.length <= 1) return;
 			console.log('selIndex', selIndex);
 			onChange({
 				hint: hint || HINT,

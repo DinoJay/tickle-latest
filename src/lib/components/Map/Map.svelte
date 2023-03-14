@@ -12,7 +12,6 @@
 	export let interactive = true;
 
 	let userAvatar = $store.currentUser?.avatar || 'selfMotivation';
-	$: console.log('store cur user', userAvatar);
 
 	const defaultLoc = [4.30566702865358, 50.8862008375488];
 	$: userLocation = $store.currentUser?.location

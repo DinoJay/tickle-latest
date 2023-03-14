@@ -1,8 +1,9 @@
 <script>
-	import { QUIZ, GEOCACHING } from '$lib/components/Admin/cards/activityConsts';
+	import { QUIZ, GEOCACHING, HANGMAN } from '$lib/components/Admin/cards/activityConsts';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
 	import GeoCaching from '$lib/components/Card/Challenge/GeoCaching/index.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
+	import Hangman from './Hangman/index.svelte';
 	/**
 	 * @type {{ type: string | undefined; value: any;}}
 	 */
@@ -18,7 +19,7 @@
 
 	let isResult = false;
 
-	$: console.log('activity', activity);
+	$: console.log('activity ACT', $$props);
 
 	$: setTitle = () => {
 		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title;
@@ -31,7 +32,7 @@
 		<Quiz {...$$props} onResult={(res) => (isResult = res)} />
 	{:else if activity?.type === GEOCACHING}
 		<GeoCaching {...$$props} />
-	{:else}
-		<div>No challenge added</div>
+	{:else if activity?.type === HANGMAN}
+		<Hangman {...$$props} />
 	{/if}
 </LightBox>

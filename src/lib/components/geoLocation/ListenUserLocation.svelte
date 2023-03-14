@@ -9,15 +9,15 @@
 
 	onMount(() => {
 		function success(pos) {
-			console.log('Congratulations, you reached the target', pos.coords);
-			store.update((/** @type {{ currentUser: any; }} */ obj) => ({
-				...obj,
-				currentUser: {
-					...obj.currentUser,
-					location: { longitude: pos.coords.longitude, latitude: pos.coords.latitude }
-				}
-			}));
-			console.log('store', $store);
+			// console.log('Congratulations, you reached the target', pos.coords);
+			// store.update((/** @type {{ currentUser: any; }} */ obj) => ({
+			// 	...obj,
+			// 	currentUser: {
+			// 		...obj.currentUser,
+			// 		location: { longitude: pos.coords.longitude, latitude: pos.coords.latitude }
+			// 	}
+			// }));
+			// console.log('store', $store);
 		}
 
 		function error(err) {

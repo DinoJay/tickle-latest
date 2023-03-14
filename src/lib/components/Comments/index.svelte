@@ -25,7 +25,6 @@
 	$: commentsPromise = getDocs(
 		collection(db, 'card-envs', selectedEnvId, 'cards', cardId, 'comments')
 	).then((snap) => {
-		console.log('snap docs', snap);
 		comments = snap.docs.map((doc) => doc.data());
 	});
 </script>

@@ -79,6 +79,7 @@
 			getDoc(docRef).then((snap) => (curActSub = snap.data()));
 		}
 	}
+	// $: console.log('card props', $$props);
 </script>
 
 <LightBox
@@ -122,6 +123,7 @@
 					const succeeded = !curActSub?.succeeded;
 					const actSub = {
 						...activityInformation,
+						...(curActSub || {}),
 						succeeded,
 						response: null
 					};
