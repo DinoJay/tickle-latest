@@ -64,6 +64,17 @@
 							hint: hint || HINT,
 							word: word.slice(0, i) + e.target?.value + word.slice(i + 1).trim()
 						});
+
+						const elems = [...document.querySelectorAll('.letter')];
+						const index = (i + 1) % word.length;
+						// // console.log('elems', elems);
+						// elems[index]?.focus();
+						// elems[index]?.select();
+						selIndex = index;
+						// setTimeout(() => {
+						elems[index]?.select();
+						elems[index]?.focus();
+						// });
 					}}
 					on:keydown={(e) => {
 						// return;
@@ -116,15 +127,6 @@
 						}
 
 						// const elems = [...document.querySelectorAll('.letter')];
-						const index = (i + 1) % word.length;
-						// // console.log('elems', elems);
-						// elems[index]?.focus();
-						// elems[index]?.select();
-						selIndex = index;
-						setTimeout(() => {
-							elems[index]?.select();
-							elems[index]?.focus();
-						}, 50);
 						// onChange({
 						// 	hint: hint || HINT,
 						// 	word: word.slice(0, i) + 'a' + word.slice(i + 1)

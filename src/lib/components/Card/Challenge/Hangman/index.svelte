@@ -14,6 +14,7 @@
 
 	const word = activity.value.word;
 	const hint = activity.value.hint;
+	let errors = 0;
 
 	let wordList = [...word].map((c) => {
 		return {
@@ -21,6 +22,7 @@
 			visible: false
 		};
 	});
+	let succeeded = false;
 
 	// $: console.log('word', word, wordList);
 	// $: console.log('value', $$props);
@@ -29,11 +31,15 @@
 <Hangman
 	{wordList}
 	{hint}
-	onChange={(wl) => {
-		wordList = wl;
+	{errors}
+	{succeeded}
+	onChange={(resp) => {
+		wordList = resp.wordList;
+		if (resp.error) errors = errors + 1;
 		const userResponse = { ...currentActSub.response, wordList };
 
-		const succeeded = wordList.every((w) => w.visible);
+		const won = wordList.every((w) => w.visible) && errors < 5;
+		succeeded = won;
 		onSubmit({ response: userResponse, succeeded });
 	}}
 />

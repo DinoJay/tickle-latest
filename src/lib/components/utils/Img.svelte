@@ -20,7 +20,7 @@
 	{:else}
 		<div class="w-full  h-full flex">
 			<div class="m-auto">
-				<ImageArea size="50" color="grey" />
+				<ImageArea size="200" color="grey" />
 			</div>
 		</div>
 	{/if}

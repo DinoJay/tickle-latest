@@ -39,6 +39,7 @@
 		"lodash.uniqby": "^4.7.0",
 		"mapbox-gl": "^2.11.1",
 		"placeholder-loading": "^0.6.0",
+		"svelte-confetti": "^1.2.2",
 		"svelte-material-icons": "^2.0.4",
 		"uuid": "^9.0.0"
 	}
