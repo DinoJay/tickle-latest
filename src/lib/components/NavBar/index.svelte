@@ -90,11 +90,7 @@
 					bg-gray-500 "
 			>
 				{#each sections as section}
-					<button
-						class="sm:h-10 sm:text-xl text-2xl h-14 
-							border-b hover:underline"
-						on:click={section.go}
-					>
+					<button class="sm:text-xl text-2xl border-b hover:underline p-2" on:click={section.go}>
 						{section.name}
 					</button>
 				{/each}

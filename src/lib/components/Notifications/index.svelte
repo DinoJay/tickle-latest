@@ -11,5 +11,3 @@
 		{$notificationStore.text}
 	</Notification>
 {/if}
-
-<slot />
