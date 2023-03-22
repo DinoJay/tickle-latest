@@ -2,7 +2,11 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, getDocs } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
+	import SlideIn from '../utils/SlideIn.svelte';
 
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
 
 	$: promise = getDocs(collection(db, 'card-envs')).then((sn) => {
@@ -18,23 +22,26 @@
 
 <div class="flex flex-col">
 	{#await promise}
-		<label class="mb-2" for="envs">Choose an Environment:</label>
-		<select name="envs" id="envs" class={slClass}>
-			<option value="volvo">Loading...</option>
-		</select>
+		<div class="text-lg">Loading...</div>
 	{:then envs}
-		<label class="mb-2" for="envs">Select an environment to see your collected cards:</label>
-		<select
-			name="envs"
-			id="envs"
-			class={slClass}
-			on:change={(e) => goto(`/diary/${e.target.value}`)}
-		>
-			<option value="" selected disabled hidden>Choose an here</option>
+		{@const selEnvTitle = envs.find((e) => e.id === selectedEnvId)?.title}
+		<SlideIn cls="mb-3">
+			<div class="text-lg" slot="title">
+				{#if !!selEnvTitle}
+					{selEnvTitle}
+				{:else}
+					Select an environment to see your collected cards:
+				{/if}
+			</div>
 			{#each envs as e}
-				<option value={e.id} selected={e.id === selectedEnvId}>{e.title}</option>
+				<li class="text-lg">
+					<button
+						on:click={() => goto(`/diary/${e.id}`)}
+						class="border-b-2 mb-1 cursor-pointer w-full text-left">{e.title}</button
+					>
+				</li>
 			{/each}
-		</select>
+		</SlideIn>
 	{/await}
 </div>
 

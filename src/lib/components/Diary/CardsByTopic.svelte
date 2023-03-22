@@ -13,7 +13,9 @@
 		<PreviewCard {...c} onClick={() => goto(`/diary/${selectedEnvId}/${c.id}`)} />
 	{/each}
 	{#if collectedCards.length === 0}
-		<div class="text-lg m-auto">No cards collected!</div>
+		<div class="text-lg m-auto h-36 flex border-2 border-gray-400 w-full">
+			<div class="m-auto">No cards collected!</div>
+		</div>
 	{/if}
 </div>
 {#each allTags as t}

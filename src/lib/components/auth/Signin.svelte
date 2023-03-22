@@ -36,38 +36,44 @@
 	};
 </script>
 
-<div class="flex flex-col h-[calc(100vh-4rem)]">
-	<span class="translate-anim-container my-auto">
-		<img src="/tickle.svg" alt="tickle-logo" class="translate-anim w-1/4 m-auto" />
-	</span>
+<div class="flex flex-col flex-grow">
+	<div class="flex-grow flex flex-col p-3">
+		<img src="/tickle.svg" alt="tickle-logo" class="flex-grow m-auto" />
+	</div>
 
 	<form class="flex flex-col my-auto" action="" method="post" on:submit={(e) => submit(e)}>
-		<input
-			class="w-[90%] w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray
+		<div class="w-full px-3 flex">
+			<input
+				class="flex-grow py-2 px-3 mb-3 outline-c-dark-gray
 				border-black border-2 custom-shadow"
-			bind:value={email}
-			type="text"
-			id="email"
-			placeholder="Email Address"
-		/>
-		<input
-			class="w-[90%] m-auto py-2 px-3 mb-3
+				bind:value={email}
+				type="text"
+				id="email"
+				placeholder="Email Address"
+			/>
+		</div>
+		<div class="w-full px-3 flex">
+			<input
+				class=" flex-grow m-auto py-2 px-3 mb-3
 				outline-c-dark-gray 
 				border-black border-2 custom-shadow"
-			bind:value={pwd}
-			type="password"
-			id="password"
-			placeholder="Password"
-		/>
+				bind:value={pwd}
+				type="password"
+				id="password"
+				placeholder="Password"
+			/>
+		</div>
 
-		<button
-			class="w-[90%] m-auto mb-1 px-3 py-3 
+		<div class="w-full px-3 flex">
+			<button
+				class="flex-grow m-auto mb-1 px-3 py-3 
 				font-bold uppercase btn 
 			 	border-2 border-black custom-shadow 
 				bg-white hover:bg-c-light-gray"
-			type="submit">Sign in</button
-		>
-		<p class="mx-auto">
+				type="submit">Sign in</button
+			>
+		</div>
+		<p class="mt-3 mx-auto mb-3">
 			Do not have an account ?
 			<a href="/register-user" class="underline">Sign Up</a>
 		</p>

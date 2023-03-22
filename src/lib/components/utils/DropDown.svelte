@@ -1,5 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
+
+	import { slide } from 'svelte/transition';
 	export let open;
 
 	let el;
@@ -11,7 +13,7 @@
 <slot name="header" />
 
 {#if open}
-	<div class="p-2" bind:this={el}>
+	<div transition:slide class="p-2" bind:this={el}>
 		<slot name="content" />
 	</div>
 {/if}

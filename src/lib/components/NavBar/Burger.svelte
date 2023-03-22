@@ -9,7 +9,7 @@
 </script>
 
 <button on:click={() => (collapsed = !collapsed)}>
-	{#if !collapsed}
+	{#if collapsed}
 		<div in:scale>
 			<Menu {size} />
 		</div>

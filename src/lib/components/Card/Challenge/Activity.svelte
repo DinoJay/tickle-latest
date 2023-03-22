@@ -1,9 +1,11 @@
 <script>
-	import { QUIZ, GEOCACHING, HANGMAN } from '$lib/components/Admin/cards/activityConsts';
+	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP } from '$lib/components/Admin/cards/activityConsts';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
 	import GeoCaching from '$lib/components/Card/Challenge/GeoCaching/index.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import Hangman from './Hangman/index.svelte';
+	import DragDrop from './DragDrop/index.svelte';
+
 	/**
 	 * @type {{ type: string | undefined; value: any;}}
 	 */
@@ -34,5 +36,7 @@
 		<GeoCaching {...$$props} />
 	{:else if activity?.type === HANGMAN}
 		<Hangman {...$$props} />
+	{:else if activity?.type === DRAGDROP}
+		<DragDrop {...$$props} />
 	{/if}
 </LightBox>

@@ -1,8 +1,11 @@
 <script>
+	import { transition } from 'd3-transition';
 	import ArrowRightDropCircleOutline from 'svelte-material-icons/ArrowRightDropCircleOutline.svelte';
+	import { slide } from 'svelte/transition';
 
 	export let title = '';
 	export let height = null;
+	export let anim = true;
 
 	let expanded = false;
 </script>
@@ -30,7 +33,13 @@
 	</div>
 
 	{#if expanded}
-		<slot />
+		{#if anim}
+			<div transition:slide>
+				<slot />
+			</div>
+		{:else}
+			<slot />
+		{/if}
 	{/if}
 </div>
 

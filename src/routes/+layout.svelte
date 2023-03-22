@@ -2,12 +2,10 @@
 	import '../app.css';
 	import Notifications from '$lib/components/Notifications/index.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
-	import { onMount } from 'svelte';
 
 	import { page } from '$app/stores';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
-	export const ssr = false;
 	$: route = $page.route?.id;
 
 	// let width = null;

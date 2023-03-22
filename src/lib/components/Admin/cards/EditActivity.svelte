@@ -2,9 +2,10 @@
 	import Check from 'svelte-material-icons/Check.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import EditQuiz from './EditQuiz.svelte';
-	import { QUIZ, GEOCACHING, HANGMAN } from './activityConsts';
+	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP } from './activityConsts';
 	import EditGeoCaching from './EditGeoCaching/index.svelte';
 	import EditHangman from './EditHangman.svelte';
+	import EditDragDrop from './EditDragDrop.svelte';
 
 	/**
 	 * @type {{ type: string; value: any; }}
@@ -19,7 +20,7 @@
 	 */
 	export let onRemove;
 
-	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN];
+	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP];
 
 	/**
 	 * @type {string | null}
@@ -70,6 +71,16 @@
 		onChange={(/** @type {any} */ value) => {
 			console.log('val', value);
 			onChange({ type: HANGMAN, value });
+		}}
+	/>
+</LightBox>
+
+<LightBox isOpen={selectedActivity === DRAGDROP} close={() => (selectedActivity = null)}>
+	<EditDragDrop
+		value={activity?.value}
+		onChange={(/** @type {any} */ value) => {
+			console.log('val', value);
+			onChange({ type: DRAGDROP, value });
 		}}
 	/>
 </LightBox>

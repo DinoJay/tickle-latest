@@ -17,7 +17,7 @@
 	$: currentRoute = $page?.route?.id;
 	const adminRoute = '/admin/[[envId]]';
 
-	let collapsed = false;
+	let collapsed = true;
 
 	let sections = [
 		{
@@ -73,7 +73,7 @@
 	class="flex items-center h-16 w-full  
 		bg-gray-700 text-white relative"
 	use:clickOutside
-	on:click_outside={() => (collapsed = false)}
+	on:click_outside={() => (collapsed = true)}
 >
 	<Logo onClick={() => logOut()} />
 
@@ -82,14 +82,20 @@
 			<Burger bind:collapsed />
 		</div>
 
-		{#if collapsed}
+		{#if !collapsed}
 			<div
 				transition:fly={{ x: 400, duration: 500, opacity: 1 }}
 				class="flex flex-col h-auto sm:w-[40%] w-full  
 				 	absolute top-[4rem] right-0 z-20 bg-gray-700"
 			>
 				{#each sections as section}
-					<button class="sm:text-xl text-2xl border-b hover:underline p-2" on:click={section.go}>
+					<button
+						class="sm:text-xl text-2xl border-b hover:underline p-2"
+						on:click={() => {
+							collapsed = true;
+							section.go();
+						}}
+					>
 						{section.name}
 					</button>
 				{/each}
