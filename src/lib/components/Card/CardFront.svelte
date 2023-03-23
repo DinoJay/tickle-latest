@@ -33,7 +33,7 @@
 {#if !!links}
 	<LinksField {links} />
 {/if}
-<Description value={description} />
+<Description cls="mb-3" value={description} />
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
 	{#if actSub?.succeeded}
 		Collected

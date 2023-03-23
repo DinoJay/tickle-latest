@@ -28,37 +28,33 @@
 	export let onClick = () => {};
 </script>
 
-<div class="overflow-y-auto">
-	<h2>
-		<button
-			on:click={() => {
-				onClick(visible ? null : id);
-			}}
-		>
-			<p class="flex items-center text-xl">
-				<span class="mr-1 ">{visible ? '🤯' : '🙂'}</span>
-				<span>{title}</span>
+<h2>
+	<button
+		on:click={() => {
+			onClick(visible ? null : id);
+		}}
+	>
+		<p class="flex items-center text-2xl">
+			<span class="mr-1 ">{visible ? '🤯' : '🙂'}</span>
+			<span>{title}</span>
+		</p>
+	</button>
+</h2>
+{#if visible}
+	{#key id}
+		<div class="my-2">
+			<Img url={img?.url} style="height:20rem" cls="w-full object-contain" />
+			<p class="my-3 overflow-y-hidden" style="max-height:8rem">
+				{description}
 			</p>
-		</button>
-	</h2>
-	{#if visible}
-		{#key id}
-			<div class="my-2" transition:fade>
-				<Img url={img?.url} style="height:20rem" cls="w-full object-contain" />
-				<div>
-					<p class="my-3 overflow-y-auto" style="max-height:12rem">
-						{description}
-					</p>
-					<button
-						class="w-full p-2 text-xl
+			<button
+				class="w-full p-2 text-xl
 						hover:bg-c-light-gray
 						border border-black border-3"
-						on:click={() => {
-							goto(`/cardview/environment/${id}`);
-						}}>Go!</button
-					>
-				</div>
-			</div>
-		{/key}
-	{/if}
-</div>
+				on:click={() => {
+					goto(`/cardview/environment/${id}`);
+				}}>Go!</button
+			>
+		</div>
+	{/key}
+{/if}

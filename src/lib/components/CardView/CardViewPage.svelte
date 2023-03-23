@@ -49,6 +49,8 @@
 		</div>
 
 		<MapButton {map} onClick={() => (map = !map)} />
+	{:else}
+		<div class="m-auto text-2xl">No content in this Environment!</div>
 	{/if}
 </div>
 {#if !!selectedCardId && !!extended}

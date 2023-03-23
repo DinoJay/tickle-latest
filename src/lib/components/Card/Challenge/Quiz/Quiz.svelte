@@ -1,6 +1,7 @@
 <script>
 	import Question from './Question.svelte';
 	import Result from './Result.svelte';
+	import { fade } from 'svelte/transition';
 
 	export let activity;
 	export let onAnswerSubmit;
@@ -26,33 +27,35 @@
 	}
 </script>
 
-<div class="flex flex-col cont bg-white">
+<div class="flex-grow flex flex-col bg-white w-full">
 	{#if counter < questions.length}
 		{#key curQ.id}
-			<Question
-				{title}
-				{img}
-				{...curQ}
-				onChange={(answer) => {
-					onAnswerSubmit({ qid: curQ.id, answer });
-				}}
-				{counter}
-			/>
+			<div class="flex-grow flex flex-col">
+				<Question
+					{title}
+					{img}
+					{...curQ}
+					onChange={(answer) => {
+						onAnswerSubmit({ qid: curQ.id, answer });
+					}}
+					{counter}
+				/>
 
-			<button
-				class="w-full mt-auto bg-black
+				<button
+					class="w-full mt-auto bg-black
 			 	text-xl p-3 text-white {disabledNextQ ? 'disabled' : ''}"
-				disabled={disabledNextQ}
-				on:click={() => {
-					counter++;
-				}}
-			>
-				{#if counter < questions.length - 1}
-					Next Question
-				{:else}
-					See Result
-				{/if}
-			</button>
+					disabled={disabledNextQ}
+					on:click={() => {
+						counter++;
+					}}
+				>
+					{#if counter < questions.length - 1}
+						Next Question
+					{:else}
+						See Result
+					{/if}
+				</button>
+			</div>
 		{/key}
 	{:else}
 		<Result {questions} {responses} {title} {succeeded} />

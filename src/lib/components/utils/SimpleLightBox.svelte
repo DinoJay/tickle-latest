@@ -37,18 +37,12 @@
 			}
 		}}
 	>
-		<FlipCard
+		<div
+			class="m-auto bg-white w-full h-full overflow-y-scroll p-3 flex flex-col"
 			style="max-height:{height}px;max-width:{width}px"
-			cls="m-auto drop-shadow-xl bg-white h-full w-full {flipCls}"
-			{flipped}
 		>
-			<div
-				class="bg-white overflow-scroll h-full w-full flex flex-col p-3"
-				slot="front"
-				on:keydown={() => null}
-				on:click={(e) => e.stopPropagation()}
-			>
-				<div class=" flex mb-3 items-start ">
+			<div class=" flex mb-3 items-start ">
+				{#if !!title}
 					<div
 						class="text-xl {!titleExpanded ? 'crop' : ''} transition uppercase cursor-pointer"
 						on:click={() => (titleExpanded = !titleExpanded)}
@@ -57,43 +51,15 @@
 					>
 						{title}
 					</div>
-					{#if !isMandatory}
-						{#if flippable}
-							<button on:click={onFlip} class=" ml-auto">
-								<TurnIcon size="1.5em" />
-							</button>
-						{/if}
-						<button on:click={close} class={flippable ? 'ml-3' : 'ml-auto'}>
-							<WindowClose size="1.5em" />
-						</button>
-					{/if}
-				</div>
-
-				{#if flippable}
-					<slot name="front" />
-				{:else}
-					<slot />
+				{/if}
+				{#if !isMandatory}
+					<button on:click={close} class={'ml-auto'}>
+						<WindowClose size="1.5em" />
+					</button>
 				{/if}
 			</div>
-			<div slot="back" class={`${backCls} bg-white flex flex-col h-full w-full p-3`}>
-				{#if $$slots.back && $$slots.front}
-					<div class=" flex mb-3">
-						<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
-						{#if !isMandatory}
-							<button on:click={onFlip} class=" ml-auto">
-								<TurnIcon size="1.5em" />
-							</button>
-							{#if flippable}
-								<button on:click={close} class="ml-3 ">
-									<WindowClose size="1.5em" />
-								</button>
-							{/if}
-						{/if}
-					</div>
-					<slot name="back" />
-				{/if}
-			</div>
-		</FlipCard>
+			<slot />
+		</div>
 	</div>
 {/if}
 

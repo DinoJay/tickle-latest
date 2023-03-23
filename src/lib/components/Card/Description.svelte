@@ -8,7 +8,7 @@
 		{value}
 	</p>
 {:else}
-	<div class="">
+	<div class="{cls} overflow-y-auto">
 		<div class="">
 			<div class="ph-row">
 				<div class="ph-col-4" />

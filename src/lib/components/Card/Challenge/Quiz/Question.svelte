@@ -1,4 +1,5 @@
 <script>
+	import Img from '$lib/components/utils/Img.svelte';
 	export let title = '';
 	export let img = '';
 	export let answers = [];
@@ -13,10 +14,11 @@
 	let response = answers.reduce((acc, cur) => ({ ...acc, [cur.text]: false }), {});
 </script>
 
-<div class="flex-grow flex flex-col p-2">
+<div class="flex-grow flex flex-col w-full p-2">
 	<h2 class="text-xl mb-2">{title}</h2>
 	{#if img}
-		<img class="object-cover w-full flex-grow shrink" style="max-height:200px" src={img.url} />
+		<!-- <img class="object-cover w-full flex-grow shrink" style="max-height:200px" src={img.url} /> -->
+		<Img url={img?.url} style="height:20rem" cls="w-full " />
 	{/if}
 	{#if !img}
 		<div style="height:200px" class="flex "><div class="m-auto">No Image</div></div>

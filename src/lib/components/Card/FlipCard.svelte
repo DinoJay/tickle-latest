@@ -1,4 +1,6 @@
 <script>
+	import { flip } from 'svelte/animate';
+
 	export let cls = '';
 	export let style;
 
@@ -10,7 +12,7 @@
 		class="flip-card-inner h-full w-full"
 		style="transform:rotateY({flipped ? '180deg' : '0deg'}); "
 	>
-		<div class="flip-card-front h-full w-full" style={flipped ? 'pointer-events:none' : ''}>
+		<div class="flip-card-front h-full w-full z-0" style={flipped ? 'pointer-events:none' : ''}>
 			<slot name="front" />
 		</div>
 		<div class="flip-card-back h-full w-full">

@@ -3,7 +3,7 @@
 // Portal action
 export function portal(node, name) {
     // find an element with this ID somewhere in the document
-    let slot = document.getElementById(name);
+    let slot = document.querySelector('body');
     // move this node to that element
     slot?.appendChild(node);
 

@@ -3,20 +3,32 @@
 	import { send, receive } from './transition.js';
 	let RandomStack = [
 		{
-			name: 'Random',
-			items: ['React', 'Angular', 'Solid', 'Rails', 'Express', 'Flask', 'VPS']
-		},
-		{
 			name: 'Frontend Stack',
-			items: ['Svelte', 'SvelteKit']
+			items: []
 		},
 		{
 			name: 'Backend Stack',
-			items: ['Django']
+			items: []
 		},
 		{
 			name: 'Server Stack',
-			items: ['Vercel']
+			items: []
+		},
+		{
+			name: 'Pool',
+			items: [
+				'Django',
+				'Vercel',
+				'React',
+				'Svelte',
+				'SvelteKit',
+				'Angular',
+				'Solid',
+				'Rails',
+				'Express',
+				'Flask',
+				'VPS'
+			]
 		}
 	];
 
