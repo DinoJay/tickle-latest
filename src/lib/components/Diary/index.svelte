@@ -9,6 +9,7 @@
 	import Map from '$lib/components/map/Map.svelte';
 
 	import ListenUserLocation from '$lib/components/geoLocation/ListenUserLocation.svelte';
+	import Spinner from '../utils/Spinner.svelte';
 
 	/**
 	 * @type {string}
@@ -96,7 +97,7 @@
 	<div class="flex-grow flex flex-col">
 		{#if promise !== null}
 			{#await promise}
-				<TickleWobble />
+				<Spinner cls="m-auto" />
 			{:then [topics, allCards]}
 				<CollectedCards
 					{allCards}

@@ -1,8 +1,9 @@
 <script>
-	import { portal } from '$lib/portalAction';
+	import { modalPortal } from '$lib/portalAction';
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import { blur } from 'svelte/transition';
+	import { afterUpdate } from 'svelte';
 	import FlipCard from '../Card/FlipCard.svelte';
 
 	export let isOpen = false;
@@ -22,13 +23,33 @@
 
 	$: flippable = $$slots.front && $$slots.back;
 	let titleExpanded = false;
+
+	afterUpdate(() => {
+		const body = document.body.style;
+
+		console.log('isOpen', isOpen);
+		const modalDivs = document.querySelector('#modals');
+		console.log('modalDivs', modalDivs);
+
+		// if (!isOpen) {
+		// 	body.setProperty('touch-action', 'none');
+		// 	body.setProperty('overscroll-behavior', 'none');
+		// 	body.setProperty('overflow', 'hidden');
+
+		// 	return;
+		// } else {
+		// 	body.setProperty('touch-action', 'auto');
+		// 	body.setProperty('overscroll-behavior', 'auto');
+		// 	body.setProperty('overflow', 'auto');
+		// }
+	});
 </script>
 
 {#if isOpen}
 	<div
 		transition:blur
 		on:keydown={() => null}
-		use:portal={'modals'}
+		use:modalPortal
 		class="fixed overflow-auto modal cont w-full h-full flex z-50"
 		on:click={(e) => {
 			if (!isMandatory) {

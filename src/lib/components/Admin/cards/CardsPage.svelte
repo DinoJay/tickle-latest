@@ -35,7 +35,7 @@
 	$: console.log('selectedCard', selectedCard);
 </script>
 
-<div class="flex flex-wrap gap-2  p-1 flex-shrink-1 flex-grow overflow-y-auto">
+<div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto">
 	{#each cards as c}
 		<PreviewCard {...c} onClick={() => (selectedCardId = c.id)} />
 	{/each}

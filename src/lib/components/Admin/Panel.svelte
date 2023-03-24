@@ -34,7 +34,7 @@
 
 	{#if expanded}
 		{#if anim}
-			<div transition:slide>
+			<div class="flex flex-col flex-grow overflow-y-auto" transition:slide>
 				<slot />
 			</div>
 		{:else}

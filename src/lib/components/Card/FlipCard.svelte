@@ -1,10 +1,61 @@
 <script>
 	import { flip } from 'svelte/animate';
+	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 
 	export let cls = '';
 	export let style;
 
 	export let flipped = false;
+
+	const ios = () => {
+		if (typeof window === `undefined` || typeof navigator === `undefined`) return false;
+
+		return /iPhone|iPad|iPod/i.test(
+			navigator.userAgent ||
+				navigator.vendor ||
+				(window.opera && opera.toString() === `[object Opera]`)
+		);
+	};
+
+	beforeUpdate(() => {
+		if (ios()) {
+			document.querySelector('.flip-card-front')?.classList.remove('hidden');
+			document.querySelector('.flip-card-back')?.classList.remove('hidden');
+		}
+	});
+
+	// ios fix hack
+	afterUpdate(() => {
+		// console.log('flipcard', flipped);
+		// setTimeout(() => {
+		if (ios()) {
+			if (flipped) {
+				document.querySelector('.flip-card-back')?.classList.remove('z-0');
+				document.querySelector('.flip-card-back')?.classList.remove('absolute');
+				document.querySelector('.flip-card-front')?.classList.add('absolute');
+				document.querySelector('.flip-card-front')?.classList.add('z-0');
+				setTimeout(() => {
+					document.querySelector('.flip-card-front')?.classList.add('hidden');
+				}, 500);
+			} else {
+				setTimeout(() => {
+					document.querySelector('.flip-card-front')?.classList.remove('z-0');
+					document.querySelector('.flip-card-back')?.classList.add('z-0');
+					document.querySelector('.flip-card-front')?.classList.remove('absolute');
+					document.querySelector('.flip-card-back')?.classList.add('absolute');
+				}, 600);
+
+				setTimeout(() => {
+					// document.querySelector('.flip-card-front')?.classList.remove('hidden');
+					document.querySelector('.flip-card-back')?.classList.add('hidden');
+				}, 500);
+			}
+		} else {
+			document.querySelector('.flip-card-back')?.classList.add('left-0');
+			document.querySelector('.flip-card-back')?.classList.add('top-0');
+		}
+		// }, 600);
+	});
 </script>
 
 <div class="flip-card {cls}" {style}>
@@ -12,10 +63,10 @@
 		class="flip-card-inner h-full w-full"
 		style="transform:rotateY({flipped ? '180deg' : '0deg'}); "
 	>
-		<div class="flip-card-front h-full w-full z-0" style={flipped ? 'pointer-events:none' : ''}>
+		<div class="flip-card-front h-full w-full " style={flipped ? 'pointer-events:none' : ''}>
 			<slot name="front" />
 		</div>
-		<div class="flip-card-back h-full w-full">
+		<div class="flip-card-back h-full w-full z-0 absolute {ios() ? 'hidden' : ''}">
 			<slot name="back" />
 		</div>
 	</div>
@@ -46,7 +97,7 @@
 	/* Position the front and back side */
 	.flip-card-front,
 	.flip-card-back {
-		position: absolute;
+		/* position: absolute; */
 		-webkit-backface-visibility: hidden; /* Safari */
 		backface-visibility: hidden;
 	}

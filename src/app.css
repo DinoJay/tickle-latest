@@ -9,23 +9,12 @@
 	src: url('/fonts/SourceCodePro-Regular.ttf');
 } */
 
+
 html,
 body {
 	height: 100%;
 	height: 100svh;
-	/* overflow: scroll; */
-	/* -webkit-overflow-scrolling: touch; */
-	/* touch-action: none; */
-	/* -webkit-overflow-scrolling: none; */
-	/* overflow: hidden; */
-	/* Other browsers */
-	/* overscroll-behavior: none; */
-	/* overflow: auto;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0; */
-	/* position: fixed; */
+
 }
 
 .shadow {

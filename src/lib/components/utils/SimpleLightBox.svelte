@@ -1,5 +1,5 @@
 <script>
-	import { portal } from '$lib/portalAction';
+	import { modalPortal } from '$lib/portalAction';
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import { blur } from 'svelte/transition';
@@ -28,7 +28,7 @@
 	<div
 		transition:blur
 		on:keydown={() => null}
-		use:portal={'modals'}
+		use:modalPortal
 		class="fixed overflow-auto modal cont w-full h-full flex z-50"
 		on:click={(e) => {
 			if (!isMandatory) {

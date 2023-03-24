@@ -1,5 +1,5 @@
 <script>
-	export let img = '';
+	export let img = { url: '' };
 	export let title = '';
 	export let onClick = (d) => d;
 	export let className = '';
@@ -8,7 +8,7 @@
 <div
 	on:click={onClick}
 	on:keydown={onClick}
-	class="flex flex-col  h-36 w-28 p-2 relative overflow-hidden
+	class="flex flex-col  h-32 w-24 sm:h-36 sm:w-28 p-2 relative overflow-hidden
 		bg-white border-2 border-black drop-shadow-md cursor-pointer hover:scale-105 transition-all overflow-visible {className}"
 >
 	{#if !!title}
