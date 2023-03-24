@@ -1,26 +1,115 @@
 <script>
-	import { collection, doc, getDocs } from 'firebase/firestore';
+	import EditCard from '$lib/components/Admin/cards/EditCard.svelte';
+	import LightBox from '$lib/components/utils/LightBox.svelte';
+	import PreviewCard from '$lib/components/PreviewCard.svelte';
+	import { store } from '/src/stores/index';
+	import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import CardsPage from './CardsPage.svelte';
+	import { v4 as uuidv4 } from 'uuid';
+	import NewCard from './NewCard.svelte';
+	import StaticLoader from './StaticLoader.svelte';
+	import EditCardBack from './EditCardBack.svelte';
+	import Spinner from '$lib/components/utils/Spinner.svelte';
 
-	export let selectedEnvId;
-	export let onChange;
+	/**
+	 * @type {any[]}
+	 */
 	export let cards;
+	/**
+	 * @type {string}
+	 */
+	export let selectedEnvId;
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
+	export let onChange;
 
-	let loading = false;
-	// let currentCard = {
-	// 	id: 'null',
-	// 	title: '',
-	// 	description: '',
-	// 	img: { name: '', url: '' },
-	// 	activity: null,
-	// 	topics: [],
-	// 	loc: { longitude: 4.39, latitude: 50.82 }
-	// };
+	/**
+	 * @type {string | null}
+	 */
+	let selectedCardId = null;
+	let lbNcOpen = false;
+	let slOpen = false;
+	let flipped = false;
+
+	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
+	$: console.log('selectedCard', selectedCard);
 </script>
 
-{#if cards === undefined}
-	<div>Loading...</div>
-{:else}
-	<CardsPage {cards} {selectedEnvId} onChange={(cs) => onChange(cs)} />
-{/if}
+<div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto">
+	{#if !!cards}
+		{#if cards.length === 0}
+			<div class="text-center w-full m-12 text-xl">No Cards</div>
+		{/if}
+		{#each cards as c}
+			<PreviewCard {...c} onClick={() => (selectedCardId = c.id)} />
+		{/each}
+	{:else}
+		<Spinner cls="mx-auto my-12" />
+	{/if}
+</div>
+
+<div class=" w-full mt-3 flex-shrink-0 flex-grow flex">
+	<button class="flex-grow create-btn mr-2" on:click={() => (lbNcOpen = true)}>Create Card</button>
+	<button class="flex-grow create-btn " on:click={() => (slOpen = true)}>Load Cards</button>
+</div>
+
+<LightBox
+	isOpen={!!selectedCardId}
+	title={selectedCard?.title || 'No Title'}
+	close={() => {
+		selectedCardId = null;
+		flipped = false;
+	}}
+	cls="flex-grow overflow-y-auto"
+	{flipped}
+	onFlip={() => (flipped = !flipped)}
+>
+	<EditCard
+		slot="front"
+		currentCard={selectedCard}
+		{selectedEnvId}
+		onRemove={(d) => {
+			console.log('d', d);
+			const newCards = cards.filter((oc) => oc.id !== d.id);
+			onChange(newCards);
+			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', selectedCardId);
+			deleteDoc(docRef);
+			selectedCardId = null;
+		}}
+		onChange={(c) => {
+			const newCards = cards.map((oc) => {
+				if (c.id === oc.id) return c;
+				return oc;
+			});
+
+			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', selectedCardId);
+			setDoc(docRef, c);
+			onChange(newCards);
+		}}
+	/>
+	<EditCardBack slot="back" cardId={selectedCardId} {selectedEnvId} uid={$store.currentUser.uid} />
+</LightBox>
+<LightBox isOpen={!!lbNcOpen} title={'New Card'} close={() => (lbNcOpen = false)}>
+	<NewCard
+		{selectedEnvId}
+		onCreate={(c) => {
+			lbNcOpen = false;
+			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', c.id);
+			setDoc(docRef, c);
+			onChange([c, ...cards]);
+		}}
+	/>
+</LightBox>
+
+<LightBox cls="overflow-y-auto" title="Load Cards" isOpen={slOpen} close={() => (slOpen = false)}
+	><StaticLoader
+		{selectedEnvId}
+		onCreate={(c) => {
+			lbNcOpen = false;
+			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', c.id);
+			setDoc(docRef, c);
+			onChange([c, ...cards]);
+		}}
+	/></LightBox
+>

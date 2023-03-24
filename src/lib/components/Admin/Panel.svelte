@@ -1,13 +1,26 @@
 <script>
-	import { transition } from 'd3-transition';
 	import ArrowRightDropCircleOutline from 'svelte-material-icons/ArrowRightDropCircleOutline.svelte';
 	import { slide } from 'svelte/transition';
+	import { afterUpdate, onDestroy } from 'svelte';
 
 	export let title = '';
 	export let height = null;
 	export let anim = true;
 
 	let expanded = false;
+
+	let el;
+	let id;
+	afterUpdate(() => {
+		id = setTimeout(() => {
+			console.log('el', el, 'scroll');
+			el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'end' });
+		}, 600);
+	});
+
+	// onDestroy(() => {
+	// 	clearTimeout(id);
+	// });
 </script>
 
 <!-- Main block -->
@@ -16,6 +29,7 @@
 		? 'expanded '
 		: ''} p-2 flex flex-col border-2 border-black custom-shadow "
 	style={height !== null && expanded ? `height:${height}` : ''}
+	bind:this={el}
 >
 	<div
 		on:keydown={() => null}
@@ -32,15 +46,17 @@
 		</h1>
 	</div>
 
-	{#if expanded}
-		{#if anim}
-			<div class="flex flex-col flex-grow overflow-y-auto" transition:slide>
+	<div class="flex-grow flex flex-col overflow-y-auto">
+		{#if expanded}
+			{#if anim}
+				<div class="flex flex-col flex-grow overflow-y-auto" transition:slide>
+					<slot />
+				</div>
+			{:else}
 				<slot />
-			</div>
-		{:else}
-			<slot />
+			{/if}
 		{/if}
-	{/if}
+	</div>
 </div>
 
 <style>

@@ -6,6 +6,7 @@
 	import AdminPage from './AdminPage.svelte';
 	import { updateStoreUser } from '/src/stores/index';
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
 	/**
 	 * @type {string}
@@ -21,45 +22,60 @@
 
 	$: console.log('user', user);
 
-	$: cardsPromise = getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
-		Promise.all(
-			snapRef.docs.map((doc) => {
-				const d = doc.data();
-				return getDocs(
-					collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
-				).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
-			})
-		).then((cs) => {
-			cards = cs;
+	let topics;
+	$: {
+		// cards = undefined;
+		// getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
+		// 	Promise.all(
+		// 		snapRef.docs.map((doc) => {
+		// 			const d = doc.data();
+		// 			return getDocs(
+		// 				collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
+		// 			).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
+		// 		})
+		// 	).then((cs) => {
+		// 		cards = cs;
+		// 		return;
+		// 	});
+		// 	return;
+		// });
+		// topics = undefined;
+		// getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
+		// 	const ts = snap.docs.map((doc) => doc.data());
+		// 	topics = ts;
+		// 	return;
+		// });
+	}
+	onMount(() => {
+		getDocs(collection(db, 'card-envs')).then((snap) => {
+			envs = snap.docs.map((doc) => doc.data());
 			return;
 		});
-		return;
 	});
 
-	$: envsPromise = getDocs(collection(db, 'card-envs')).then((snap) => {
-		envs = snap.docs.map((doc) => doc.data());
-		return;
-	});
-
-	// $: prs = Promise.all([cardsPromise, envsPromise]);
+	// $: console.log('selectedEnvId', selectedEnvId);
+	// $: prs = Promise.all([envsPromise, cardsPromise, envsPromise]);
 </script>
 
-{#await envsPromise}
+{#if !envs}
 	<TickleWobble />
-{:then _}
+{:else}
 	<AdminPage
 		{...$$props}
 		{cards}
 		{envs}
 		{selectedEnvId}
+		{topics}
 		onSelectEnv={(id) => {
 			const userRef = doc(db, 'users', user.uid);
 			setDoc(userRef, { selectedAdminEnvId: id }, { merge: true });
 			updateStoreUser({ selectedAdminEnvId: id });
 			console.log('user', user);
+			// envId = id;
 			goto(`/admin/${id}`);
 		}}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}
+		onTopicsChange={(ts) => (envs = ts)}
 	/>
-{/await}
+{/if}

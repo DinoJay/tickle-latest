@@ -19,7 +19,7 @@
 
 	let collapsed = true;
 
-	let sections = [
+	$: sections = [
 		{
 			name: 'Select environments/User View',
 			go: () => {
@@ -70,28 +70,28 @@
 </script>
 
 <nav
-	class="flex items-center h-16 w-full  
-		bg-gray-700 text-white relative"
+	class="flex items-center h-16 w-full  bg-gray-700 text-white z-50"
 	use:clickOutside
 	on:click_outside={() => (collapsed = true)}
 >
-	<Logo onClick={() => logOut()} />
+	<div class="flex-grow flex relative">
+		<Logo onClick={() => logOut()} />
 
-	{#if $store?.currentUser}
-		<div class="absolute right-3 top-4 ">
-			<Burger bind:collapsed />
+		<div class="ml-auto relative mr-3 my-auto">
+			{#if $store?.currentUser}
+				<Burger bind:collapsed />
+			{/if}
 		</div>
-
 		{#if !collapsed}
 			<div
 				transition:fly={{ x: 400, duration: 500, opacity: 1 }}
-				class="flex flex-col h-auto sm:w-[40%] w-full  
-				 	absolute top-[4rem] right-0 z-20 bg-gray-700"
+				class="flex flex-col h-auto w-screen max-w-xs  absolute top-[4.1rem] right-0 z-20 bg-gray-700"
 			>
 				{#each sections as section}
 					<button
 						class="sm:text-xl text-2xl border-b hover:underline p-2"
-						on:click={() => {
+						on:click={(e) => {
+							// e.stopPropagation();
 							collapsed = true;
 							section.go();
 						}}
@@ -101,5 +101,5 @@
 				{/each}
 			</div>
 		{/if}
-	{/if}
+	</div>
 </nav>

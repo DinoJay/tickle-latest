@@ -5,6 +5,7 @@
 	import CreateTopic from './CreateTopic.svelte';
 	import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
+	import Spinner from '$lib/components/utils/Spinner.svelte';
 	/**
 	 * @type {any[]}
 	 */
@@ -30,16 +31,23 @@
 	let clbOpen = false;
 </script>
 
-<div class="flex flex-wrap gap-3 p-1">
-	{#each topics as t}
-		<PreviewTopic
-			{...t}
-			onClick={() => {
-				onClick(t.id);
-				lbOpen = true;
-			}}
-		/>
-	{/each}
+<div class="flex flex-wrap gap-3 p-1 mb-2">
+	{#if !!topics}
+		{#if topics.length === 0}
+			<div class="text-center w-full m-12 text-xl">No Topics</div>
+		{/if}
+		{#each topics as t}
+			<PreviewTopic
+				{...t}
+				onClick={() => {
+					onClick(t.id);
+					lbOpen = true;
+				}}
+			/>
+		{/each}
+	{:else}
+		<Spinner cls="mx-auto my-12" />
+	{/if}
 </div>
 <button class="create-btn mt-auto mt-3" on:click={() => (clbOpen = true)}>Create Topic</button>
 

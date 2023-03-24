@@ -27,9 +27,7 @@
 	afterUpdate(() => {
 		const body = document.body.style;
 
-		console.log('isOpen', isOpen);
 		const modalDivs = document.querySelector('#modals');
-		console.log('modalDivs', modalDivs);
 
 		// if (!isOpen) {
 		// 	body.setProperty('touch-action', 'none');

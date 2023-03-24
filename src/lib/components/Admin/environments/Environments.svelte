@@ -43,21 +43,20 @@
 	};
 </script>
 
-<Panel title={selectedEnv?.title || 'Select an Environment'}>
-	<div class="overflow-auto flex flex-col">
-		{#each envs as env}
-			<div class="flex mb-2">
-				<button
-					on:click={() => onEnvClick(env)}
-					class="p-1 flex-grow border-2 {selectedEnv?.id === env.id && 'bg-gray-300'}"
-				>
-					<!-- <span> 🕯</span> -->
-					<span class={env.title === '' ? 'italic text-gray-500' : ''}>
-						{env.title || 'no-title'}
-					</span>
-				</button>
+<div class="overflow-auto flex flex-col">
+	{#each envs as env}
+		<div class="flex mb-2">
+			<button
+				on:click={() => onEnvClick(env)}
+				class="p-1 flex-grow border-2 {selectedEnv?.id === env.id && 'bg-gray-300'}"
+			>
+				<!-- <span> 🕯</span> -->
+				<span class={env.title === '' ? 'italic text-gray-500' : ''}>
+					{env.title || 'no-title'}
+				</span>
+			</button>
 
-				<!-- {#if selectedEnv?.id === env.id}
+			<!-- {#if selectedEnv?.id === env.id}
 				<div class="my-auto">
 					{#if env.title !== 'TOXIN'}
 						<button
@@ -70,11 +69,10 @@
 					{/if}
 				</div>
 			{/if} -->
-			</div>
-		{/each}
-		<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
-	</div>
-</Panel>
+		</div>
+	{/each}
+	<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
+</div>
 
 <LightBox isOpen={lbOpen} close={() => (lbOpen = false)}>
 	<EditEnvironment

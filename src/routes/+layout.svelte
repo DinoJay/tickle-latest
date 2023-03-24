@@ -30,7 +30,7 @@
 <Notifications />
 <div class="flex flex-col w-full h-full sm:p-3">
 	<div
-		class="mx-auto sm:border-2 m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden"
+		class="mx-auto sm:border-2 m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden relative"
 		style="max-width:650px; max-height:1000px"
 	>
 		{#if route !== '/'}

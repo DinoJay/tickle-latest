@@ -17,20 +17,17 @@
 
 	export let envs;
 	export let cards;
+	export let topics;
 	export let selectedEnvId;
 	export let onEnvsChange;
 	export let onCardsChange;
 	export let onSelectEnv;
+	export let onTopicsChange;
 
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
-	$: console.log('envs', envs);
 
 	let selectedCardId = null;
 	let userLogs = null;
-
-	const setCards = (cs) => {
-		cards = cs;
-	};
 
 	$: userLogs = !!cards
 		? cards
@@ -39,44 +36,44 @@
 		: null;
 </script>
 
-{#if $store?.currentUser?.admin}
-	<div class="grid grid-cols-1 gap-3 m-2 ">
-		<div>
-			<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
-		</div>
+<!-- {#if $store?.currentUser?.admin} -->
+<div class="grid grid-cols-1 gap-3 m-2 ">
+	<Panel title={selectedEnv ? selectedEnv.title : 'Select an Environment'}>
+		<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
+	</Panel>
 
-		<div>
-			<Panel title={'Topics'}>
-				<Topics {selectedEnvId} />
-			</Panel>
-		</div>
-
-		<div>
-			<Panel title={'Cards'}>
-				<Cards {cards} {selectedEnvId} onChange={setCards} />
-			</Panel>
-		</div>
-
-		<div>
-			<Panel title={`Map`} height={'40rem'} anim={false}>
-				<Map {cards} {selectedEnvId} onChange={onCardsChange} />
-			</Panel>
-		</div>
-		<div>
-			<Panel title={`User Activities`}>
-				<UserActivities
-					{cards}
-					{userLogs}
-					{selectedEnvId}
-					onChange={onCardsChange}
-					onDelete={(logId) => {
-						userLogs = userLogs.filter((d) => d.id !== logId);
-					}}
-				/>
-			</Panel>
-		</div>
+	<div>
+		<Panel title={'Topics'}>
+			<Topics {selectedEnvId} {topics} onChange={onTopicsChange} />
+		</Panel>
 	</div>
-{/if}
+
+	<div>
+		<Panel title={'Cards'}>
+			<Cards {cards} {selectedEnvId} onChange={onCardsChange} />
+		</Panel>
+	</div>
+
+	<div>
+		<Panel title={`Map`} height={'40rem'} anim={false}>
+			<Map {cards} {selectedEnvId} onChange={onCardsChange} />
+		</Panel>
+	</div>
+	<div>
+		<Panel title={`User Activities`}>
+			<UserActivities
+				{cards}
+				{userLogs}
+				{selectedEnvId}
+				onChange={onCardsChange}
+				onDelete={(logId) => {
+					userLogs = userLogs.filter((d) => d.id !== logId);
+				}}
+			/>
+		</Panel>
+	</div>
+</div>
+<!-- {/if} -->
 {#if !$store?.currentUser?.admin === null}
 	<div class="absolute top-[50%] left-[calc(50%-8rem)] h-12 w-64 text-center">
 		You do not have the permission to acces this page.
