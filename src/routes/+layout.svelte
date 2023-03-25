@@ -4,6 +4,7 @@
 	import NavBar from '$lib/components/NavBar/index.svelte';
 
 	import { page } from '$app/stores';
+	import PageTrans from '$lib/components/Map/utils/PageTrans.svelte';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	$: route = $page.route?.id;
@@ -36,7 +37,9 @@
 		{#if route !== '/'}
 			<NavBar />
 		{/if}
+		<!-- <PageTrans cls="flex-grow flex flex-col"> -->
 		<slot />
+		<!-- </PageTrans> -->
 	</div>
 </div>
 <div class="" id="modals" />

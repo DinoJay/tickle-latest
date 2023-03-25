@@ -7,6 +7,7 @@
 	 * @type {null}
 	 */
 	export let url = null;
+	export let label = null;
 	export let onChange = (/** @type {string} */ e, /** @type {string} */ _fname) => undefined;
 	/**
 	 * @type {HTMLInputElement}
@@ -68,29 +69,38 @@
 			</div>
 		{/if}
 	</div>
-	<input
-		type="file"
-		class="file"
-		name="picture"
-		id="pictureFile"
-		bind:this={fileInput}
-		on:change={(e) => {
-			const fname = e.target?.value?.replace(/.*\\/, '');
-			const file = e.target?.files;
-			loading = true;
-			const storageRef = ref(storage, `${fname}|${uuidv4()}`);
-			console.log('storage ref fname', fname);
-			onCompressed(e, (/** @type {string} */ dataUrl) => {
-				uploadString(storageRef, dataUrl, 'data_url').then((snapshot) => {
-					getDownloadURL(snapshot.ref).then((downloadURL) => {
-						console.log('downloadUrl', downloadURL);
-						loading = false;
-						onChange(downloadURL, fname);
+
+	<div class="w-full">
+		{#if !!label}
+			<label
+				for="files"
+				class="cursor-pointer p-2 border-2 border-gray-300 w-full block text-center">{label}</label
+			>
+		{/if}
+		<input
+			type="file"
+			class="file {label ? 'hidden' : ''}"
+			name="picture"
+			id="files"
+			bind:this={fileInput}
+			on:change={(e) => {
+				const fname = e.target?.value?.replace(/.*\\/, '');
+				const file = e.target?.files;
+				loading = true;
+				const storageRef = ref(storage, `${fname}|${uuidv4()}`);
+				console.log('storage ref fname', fname);
+				onCompressed(e, (/** @type {string} */ dataUrl) => {
+					uploadString(storageRef, dataUrl, 'data_url').then((snapshot) => {
+						getDownloadURL(snapshot.ref).then((downloadURL) => {
+							console.log('downloadUrl', downloadURL);
+							loading = false;
+							onChange(downloadURL, fname);
+						});
 					});
 				});
-			});
-		}}
-	/>
+			}}
+		/>
+	</div>
 </div>
 
 <style>

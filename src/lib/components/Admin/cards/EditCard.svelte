@@ -65,6 +65,7 @@
 <div class="mb-3 flex-shrink-0">
 	<UploadFile
 		url={currentCard.img?.url}
+		label="Upload Image"
 		onChange={(url, name) => {
 			onChange({ ...currentCard, img: { url, name } });
 		}}
@@ -113,6 +114,7 @@
 	isOpen={selectedField === TITLE}
 	title={selectedField}
 	close={() => (selectedField = null)}
+	height={null}
 	cls="overflow-y-auto"
 >
 	<EditTitle
@@ -125,6 +127,7 @@
 <LightBox
 	isOpen={selectedField === DESCR}
 	title={selectedField}
+	height={null}
 	close={() => (selectedField = null)}
 >
 	<EditDescr

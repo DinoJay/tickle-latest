@@ -1,7 +1,11 @@
 <script>
 	import { flip } from 'svelte/animate';
 	import { send, receive } from './transition.js';
-	let RandomStack = [
+
+	export let activity = { value: { stack: [], description: '' } };
+	export let currentActSub = { response: { stack: [] } };
+
+	const exampleStack = [
 		{
 			name: 'Frontend Stack',
 			items: []
@@ -13,24 +17,33 @@
 		{
 			name: 'Server Stack',
 			items: []
-		},
-		{
-			name: 'Pool',
-			items: [
-				'Django',
-				'Vercel',
-				'React',
-				'Svelte',
-				'SvelteKit',
-				'Angular',
-				'Solid',
-				'Rails',
-				'Express',
-				'Flask',
-				'VPS'
-			]
 		}
 	];
+
+	const examplePool = {
+		name: 'Pool',
+		items: [
+			'Django',
+			'Vercel',
+			'React',
+			'Svelte',
+			'SvelteKit',
+			'Angular',
+			'Solid',
+			'Rails',
+			'Express',
+			'Flask',
+			'VPS'
+		]
+	};
+
+	$: stack =
+		currentActSub?.response?.stack ||
+		activity?.value?.stack?.map((d) => ({ ...d, items: [] })) ||
+		exampleStack;
+	$: pool = currentActSub?.response?.pool || activity.value.pool || examplePool;
+
+	$: poolStack = [...stack, pool];
 
 	let stackHover;
 
@@ -43,45 +56,53 @@
 		event.preventDefault();
 		const json = event.dataTransfer.getData('text/plain');
 		const data = JSON.parse(json);
-		const [item] = RandomStack[data.stackIndex].items.splice(data.itemIndex, 1);
-		RandomStack[stackIndex].items.push(item);
-		RandomStack = RandomStack;
+		console.log('data', data, 'stackIndex', stackIndex);
+		console.log('st', stack, data.stackIndex, poolStack[data.stackIndex]);
+		const [item] = poolStack[data.stackIndex].items.splice(data.itemIndex, 1);
+		//TODO
+		poolStack[stackIndex].items.push(item);
+		// RandomStack = RandomStack;
 
 		stackHover = null;
 	}
+
+	// $: console.log('poolStack', poolStack);
 </script>
 
 <p>Drag a framework/library from random to respected drop</p>
 
-{#each RandomStack as stack, stackIndex (stack)}
-	<div class="h-32" animate:flip in:receive={{ key: stackIndex }} out:send={{ key: stackIndex }}>
-		<b>{stack.name}</b>
-		<p
-			class:hovering={stackHover === stack.name}
-			on:dragenter={() => (stackHover = stack.name)}
-			on:dragleave={() => (stackHover = null)}
-			on:drop={(event) => drop(event, stackIndex)}
-			ondragover="return false"
-		>
-			{#each stack.items as item, itemIndex (item)}
-				<div
-					class="item"
-					in:receive={{ key: itemIndex }}
-					out:send={{ key: itemIndex }}
-					animate:flip={{ duration: 500 }}
-				>
-					<li draggable={true} on:dragstart={(event) => dragStart(event, stackIndex, itemIndex)}>
-						{item}
-					</li>
-				</div>
-			{/each}
-		</p>
-	</div>
-{/each}
+{#if !!stack}
+	{#each poolStack as s, i (s.name)}
+		<div class="h-32" animate:flip in:receive={{ key: i }} out:send={{ key: stackIndex }}>
+			<b>{s.name}</b>
+			<p
+				class:hovering={stackHover === s.name}
+				on:dragenter={() => (stackHover = s.name)}
+				on:dragleave={() => (stackHover = null)}
+				on:drop={(event) => drop(event, i)}
+				ondragover="return false"
+			>
+				{#each s.items as item, itemIndex (item)}
+					<div
+						class="item"
+						in:receive={{ key: itemIndex }}
+						out:send={{ key: itemIndex }}
+						animate:flip={{ duration: 500 }}
+					>
+						<li draggable={true} on:dragstart={(event) => dragStart(event, i, itemIndex)}>
+							{item}
+						</li>
+					</div>
+				{/each}
+			</p>
+		</div>
+	{/each}
+{/if}
 
 <style>
 	.hovering {
 		border-color: #454b1b;
+		@apply border-4 border-dashed;
 	}
 	.item {
 		display: inline; /* required for flip to work */

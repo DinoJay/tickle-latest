@@ -2,6 +2,7 @@
 	import ArrowRightDropCircleOutline from 'svelte-material-icons/ArrowRightDropCircleOutline.svelte';
 	import { slide } from 'svelte/transition';
 	import { afterUpdate, onDestroy } from 'svelte';
+	import { key } from '../Map/mapbox';
 
 	export let title = '';
 	export let height = null;
@@ -26,9 +27,7 @@
 
 <!-- Main block -->
 <div
-	class="transition-all {expanded
-		? 'expanded '
-		: ''} p-2 flex flex-col border-2 border-black custom-shadow "
+	class="{expanded ? 'expanded ' : ''} p-2 flex flex-col border-2 border-black custom-shadow "
 	style={height !== null && expanded ? `height:${height}` : ''}
 	bind:this={el}
 >
@@ -48,15 +47,17 @@
 	</div>
 
 	<div class="flex-grow flex flex-col overflow-y-auto">
-		{#if expanded}
-			{#if anim}
+		{#key expanded}
+			{#if expanded}
+				<!-- {#if anim} -->
 				<div class="flex flex-col flex-grow overflow-y-auto" transition:slide>
 					<slot />
 				</div>
-			{:else}
-				<slot />
+				<!-- {:else} -->
+				<!-- <slot /> -->
+				<!-- {/if} -->
 			{/if}
-		{/if}
+		{/key}
 	</div>
 </div>
 

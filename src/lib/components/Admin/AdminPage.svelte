@@ -55,7 +55,7 @@
 	</div>
 
 	<div>
-		<Panel title={`Map`} height={'40rem'} anim={false}>
+		<Panel title={`Map`} height={'40rem'}>
 			<Map {cards} {selectedEnvId} onChange={onCardsChange} />
 		</Panel>
 	</div>

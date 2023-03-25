@@ -11,4 +11,4 @@
 	class="border-2 p-2 w-full"
 	on:input={(e) => onChange(e.target.value)}
 />
-<button class="create-btn mt-auto" on:click={onClose}>Save & Close</button>
+<button class="create-btn mt-3" on:click={onClose}>Save & Close</button>
