@@ -24,34 +24,34 @@
 
 	let topics;
 	$: {
-		// cards = undefined;
-		// getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
-		// 	Promise.all(
-		// 		snapRef.docs.map((doc) => {
-		// 			const d = doc.data();
-		// 			return getDocs(
-		// 				collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
-		// 			).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
-		// 		})
-		// 	).then((cs) => {
-		// 		cards = cs;
-		// 		return;
-		// 	});
-		// 	return;
-		// });
-		// topics = undefined;
-		// getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
-		// 	const ts = snap.docs.map((doc) => doc.data());
-		// 	topics = ts;
-		// 	return;
-		// });
-	}
-	onMount(() => {
-		getDocs(collection(db, 'card-envs')).then((snap) => {
-			envs = snap.docs.map((doc) => doc.data());
+		cards = undefined;
+		getDocs(collection(db, 'card-envs', selectedEnvId, 'cards')).then((snapRef) => {
+			Promise.all(
+				snapRef.docs.map((doc) => {
+					const d = doc.data();
+					return getDocs(
+						collection(db, 'card-envs', selectedEnvId, 'cards', d.id, 'activitySubmissions')
+					).then((snapRef) => ({ ...d, activitySubmissions: snapRef.docs.map((d) => d.data()) }));
+				})
+			).then((cs) => {
+				cards = cs;
+				return;
+			});
 			return;
 		});
+		topics = undefined;
+		getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
+			const ts = snap.docs.map((doc) => doc.data());
+			topics = ts;
+			return;
+		});
+	}
+	// onMount(() => {
+	$: getDocs(collection(db, 'card-envs')).then((snap) => {
+		envs = snap.docs.map((doc) => doc.data());
+		return;
 	});
+	// });
 
 	// $: console.log('selectedEnvId', selectedEnvId);
 	// $: prs = Promise.all([envsPromise, cardsPromise, envsPromise]);

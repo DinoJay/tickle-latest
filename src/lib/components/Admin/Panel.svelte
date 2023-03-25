@@ -10,13 +10,14 @@
 	let expanded = false;
 
 	let el;
-	let id;
-	afterUpdate(() => {
-		id = setTimeout(() => {
-			console.log('el', el, 'scroll');
-			el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'end' });
-		}, 600);
-	});
+	$: {
+		if (expanded) {
+			setTimeout(() => {
+				console.log('el', el, 'scroll');
+				el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'end' });
+			}, 600);
+		}
+	}
 
 	// onDestroy(() => {
 	// 	clearTimeout(id);

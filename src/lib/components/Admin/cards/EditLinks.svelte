@@ -2,6 +2,7 @@
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	export let links = [];
 	export let onChange;
+	export let onClose;
 	let ref = null;
 	let name = null;
 
@@ -40,7 +41,7 @@
 		/>
 	</div>
 </div>
-<div class=" mb-2">
+<div class=" mb-3">
 	<div class="mr-2 label">Name:</div>
 	<input
 		placeholder="Enter link name"
@@ -57,8 +58,8 @@
 <p class="mr-auto label">Added Links:</p>
 <div class="flex-grow w-full overflow-y-auto border p-2">
 	{#each links as l}
-		<div class="h-auto  flex mb-1  text-ellipsis whitespace-nowrap ">
-			<div>
+		<div class="h-auto  flex mb-1 ">
+			<div class="crop">
 				{#if !!l.name && !!l.ref}
 					{l.name} ({l.ref})
 				{/if}
@@ -74,3 +75,4 @@
 		</div>
 	{/each}
 </div>
+<button class="create-btn mt-3" on:click={onClose}>Save & Close</button>

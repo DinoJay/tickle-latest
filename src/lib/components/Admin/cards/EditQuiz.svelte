@@ -5,6 +5,7 @@
 
 	export let value = { questions: [] };
 	export let onChange;
+	export let onClose;
 
 	let sq = false;
 
@@ -53,6 +54,7 @@
 	{/each}
 </div>
 <button class="w-full border-2  p-2" on:click={() => (sq = true)}> Add a question </button>
+<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
 
 <EditNewQuestion
 	onCreate={(q) => {

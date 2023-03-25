@@ -10,6 +10,7 @@
 	 * @type {(arg0: { location: { lon: any; lat: any; } | null; title: any; description: any; radius:number}) => void}
 	 */
 	export let onChange;
+	export let onClose;
 
 	$: console.log('value', value);
 
@@ -25,47 +26,47 @@
 	$: description = value?.description || null;
 </script>
 
-<div>
-	<RadiusMap
-		{location}
-		radiusInM={radius}
-		onChange={(lon, lat) => {
-			onChange({ ...value, location: { lon, lat } });
-		}}
-	/>
+<RadiusMap
+	{location}
+	radiusInM={radius}
+	onChange={(lon, lat) => {
+		onChange({ ...value, location: { lon, lat } });
+	}}
+/>
 
-	<div class="mt-3 mb-3">
-		<div class="label">Radius:</div>
-		<select
-			class=" p-1 border-2 w-full"
-			name="radius"
-			id="radius"
-			on:change={(e) => {
-				onChange({ ...value, radius: +e.target.value });
-			}}
-		>
-			{#each radians as r}
-				<option selected={r === radius} value={r}>{r}m</option>
-			{/each}
-		</select>
-	</div>
-	<div class="mt-3 mb-3">
-		<div class="label">Title:</div>
-		<input
-			placeholder="Enter title"
-			value={title}
-			class="border-2 p-2 w-full"
-			on:input={(e) => onChange({ ...value, title: e.target.value })}
-		/>
-	</div>
-	<div>
-		<div class="label">Description:</div>
-		<textarea
-			placeholder="Enter description"
-			style="height:10rem"
-			value={description}
-			class="border-2 p-2 w-full"
-			on:input={(e) => onChange({ ...value, description: e.target.value })}
-		/>
-	</div>
+<div class="mt-3 mb-3">
+	<div class="label">Radius:</div>
+	<select
+		class=" p-1 border-2 w-full"
+		name="radius"
+		id="radius"
+		on:change={(e) => {
+			onChange({ ...value, radius: +e.target.value });
+		}}
+	>
+		{#each radians as r}
+			<option selected={r === radius} value={r}>{r}m</option>
+		{/each}
+	</select>
 </div>
+<div class="mt-3 mb-3">
+	<div class="label">Title:</div>
+	<input
+		placeholder="Enter title"
+		value={title}
+		class="border-2 p-2 w-full"
+		on:input={(e) => onChange({ ...value, title: e.target.value })}
+	/>
+</div>
+<div>
+	<div class="label">Description:</div>
+	<textarea
+		placeholder="Enter description"
+		style="height:10rem"
+		value={description}
+		class="border-2 p-2 w-full"
+		on:input={(e) => onChange({ ...value, description: e.target.value })}
+	/>
+</div>
+
+<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>

@@ -4,6 +4,7 @@
 	 * @type {(arg0: { description: any; items: never[]; }) => any}
 	 */
 	export let onChange;
+	export let onClose;
 </script>
 
 <div class="mb-3 ">
@@ -15,6 +16,8 @@
 		class="input-text w-full h-24"
 	/>
 </div>
+
+<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
 
 <style>
 </style>

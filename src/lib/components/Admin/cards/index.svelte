@@ -36,7 +36,7 @@
 	$: console.log('selectedCard', selectedCard);
 </script>
 
-<div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto">
+<div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
 	{#if !!cards}
 		{#if cards.length === 0}
 			<div class="text-center w-full m-12 text-xl">No Cards</div>

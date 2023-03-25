@@ -20,6 +20,7 @@
 	 */
 	export let onRemove;
 
+	export let onClose;
 	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP];
 
 	/**
@@ -47,6 +48,7 @@
 	close={() => (selectedActivity = null)}
 >
 	<EditQuiz
+		onClose={() => (selectedActivity = null)}
 		value={activity?.value}
 		onChange={(questions) => {
 			console.log('QUIZ value', questions);
@@ -61,13 +63,19 @@
 	close={() => (selectedActivity = null)}
 >
 	<EditGeoCaching
+		onClose={() => (selectedActivity = null)}
 		value={activity?.value}
 		onChange={(/** @type {any} */ value) => onChange({ type: GEOCACHING, value })}
 	/>
 </LightBox>
-<LightBox isOpen={selectedActivity === HANGMAN} close={() => (selectedActivity = null)}>
+<LightBox
+	title={HANGMAN}
+	isOpen={selectedActivity === HANGMAN}
+	close={() => (selectedActivity = null)}
+>
 	<EditHangman
 		value={activity?.value}
+		onClose={() => (selectedActivity = null)}
 		onChange={(/** @type {any} */ value) => {
 			console.log('val', value);
 			onChange({ type: HANGMAN, value });
@@ -78,6 +86,7 @@
 <LightBox isOpen={selectedActivity === DRAGDROP} close={() => (selectedActivity = null)}>
 	<EditDragDrop
 		value={activity?.value}
+		onClose={() => (selectedActivity = null)}
 		onChange={(/** @type {any} */ value) => {
 			console.log('val', value);
 			onChange({ type: DRAGDROP, value });

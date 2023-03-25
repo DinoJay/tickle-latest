@@ -9,6 +9,7 @@
 	 * @type {(arg0: { word: string; hint: string; }) => void}
 	 */
 	export let onChange;
+	export let onClose;
 
 	/**
 	 * @type {number | null | undefined}
@@ -165,11 +166,11 @@
 		}}>Remove letter</button
 	>
 	<button
-		class="create-btn flex-grow"
+		class="btn flex-grow"
 		on:click={() => {
 			onChange({
-				hint: hint || HINT,
-				word: word + 'a'
+				hint,
+				word
 			});
 
 			// const elems = [...document.querySelectorAll('.letter')];
@@ -178,6 +179,19 @@
 		}}>Add letter</button
 	>
 </div>
+<button
+	class="w-full create-btn mt-3"
+	on:click={() => {
+		onClose();
+
+		onChange({
+			hint: hint || HINT,
+			word: word.slice(0, selIndex) + word.slice(selIndex + 1)
+		});
+	}}
+>
+	Save & Close
+</button>
 
 <style>
 	.letter-cont {

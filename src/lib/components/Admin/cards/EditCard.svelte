@@ -112,11 +112,14 @@
 <LightBox
 	isOpen={selectedField === TITLE}
 	title={selectedField}
-	height={120}
 	close={() => (selectedField = null)}
 	cls="overflow-y-auto"
 >
-	<EditTitle value={currentCard.title} onChange={(title) => onChange({ ...currentCard, title })} />
+	<EditTitle
+		onClose={() => (selectedField = null)}
+		value={currentCard.title}
+		onChange={(title) => onChange({ ...currentCard, title })}
+	/>
 </LightBox>
 
 <LightBox
@@ -126,6 +129,7 @@
 >
 	<EditDescr
 		value={currentCard.description}
+		onClose={() => (selectedField = null)}
 		onChange={(description) => onChange({ ...currentCard, description })}
 	/>
 </LightBox>
@@ -136,7 +140,11 @@
 	close={() => (selectedField = null)}
 	cls="flex-grow"
 >
-	<EditLinks links={currentCard.links} onChange={(links) => onChange({ ...currentCard, links })} />
+	<EditLinks
+		onClose={() => (selectedField = null)}
+		links={currentCard.links}
+		onChange={(links) => onChange({ ...currentCard, links })}
+	/>
 </LightBox>
 
 <LightBox
@@ -145,6 +153,7 @@
 	close={() => (selectedField = null)}
 >
 	<EditTopics
+		onClose={() => (selectedField = null)}
 		topicIds={currentCard.topics}
 		{allTopics}
 		onChange={(topics) => onChange({ ...currentCard, topics })}
@@ -158,6 +167,7 @@
 	cls="flex-grow"
 >
 	<EditActivity
+		onClose={() => (selectedField = null)}
 		activity={currentCard.activity}
 		onChange={(activity) => onChange({ ...currentCard, activity })}
 		onRemove={() => onChange({ ...currentCard, activity: null })}
