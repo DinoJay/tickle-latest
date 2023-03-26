@@ -83,7 +83,11 @@
 	/>
 </LightBox>
 
-<LightBox isOpen={selectedActivity === DRAGDROP} close={() => (selectedActivity = null)}>
+<LightBox
+	title={DRAGDROP}
+	isOpen={selectedActivity === DRAGDROP}
+	close={() => (selectedActivity = null)}
+>
 	<EditDragDrop
 		value={activity?.value}
 		onClose={() => (selectedActivity = null)}

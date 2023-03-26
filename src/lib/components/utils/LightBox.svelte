@@ -29,7 +29,7 @@
 
 		// const modalDivs = document.querySelector('#modals');
 
-		if (!isOpen) {
+		if (isOpen) {
 			body.setProperty('touch-action', 'none');
 			body.setProperty('overscroll-behavior', 'none');
 			body.setProperty('overflow', 'hidden');
@@ -62,7 +62,7 @@
 			{flipped}
 		>
 			<div
-				class="bg-white overflow-scroll h-full w-full flex flex-col p-3"
+				class="bg-white  h-full w-full flex flex-col p-3"
 				slot="front"
 				on:keydown={() => null}
 				on:click={(e) => e.stopPropagation()}

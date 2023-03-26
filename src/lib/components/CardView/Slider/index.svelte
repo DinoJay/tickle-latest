@@ -31,7 +31,6 @@
 		setTimeout(() => {
 			const i = cards.findIndex((card) => card.id === selectedCardId);
 
-			console.log('scroll', !!elems[i]);
 			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
 		}, 100);
 	});
@@ -45,7 +44,7 @@
 	// }
 </script>
 
-<div class="flex h-auto px-3 py-8 z-10 overflow-x-auto">
+<div class="flex h-auto px-3 py-8 z-10 overflow-x-auto justify-center">
 	{#each previewCardData as card, i}
 		<div
 			class="mx-1.5 cursor-pointer
@@ -53,6 +52,10 @@
 			style="transform:scale({card.id === selectedCardId ? '1.10' : '1'})"
 			bind:this={elems[i]}
 			on:click={() => {
+				if (selectedCardId === card.id) openModal = true;
+				onClick(card.id);
+			}}
+			on:keydown={() => {
 				if (selectedCardId === card.id) openModal = true;
 				onClick(card.id);
 			}}

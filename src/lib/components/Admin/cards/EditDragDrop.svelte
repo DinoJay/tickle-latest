@@ -1,23 +1,153 @@
 <script>
-	export let value = { items: [], description: '' };
+	import Description from './../../Card/Description.svelte';
+	import LightBox from '$lib/components/utils/LightBox.svelte';
+
+	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
+
+	export let value = { stack: [], description: '' };
+	import { v4 as uuidv4 } from 'uuid';
+
 	/**
-	 * @type {(arg0: { description: any; items: never[]; }) => any}
+	 * @type {(arg0: { description: any; stack: any[] | never[] | any[]; }) => void}
 	 */
 	export let onChange;
 	export let onClose;
+
+	const abc = [
+		'A',
+		'B',
+		'C',
+		'D',
+		'E',
+		'F',
+		'G',
+		'H',
+		'I',
+		'J',
+		'K',
+		'L',
+		'M',
+		'N',
+		'O',
+		'P',
+		'Q',
+		'R',
+		'S',
+		'T',
+		'U',
+		'V',
+		'W',
+		'X',
+		'Y',
+		'Z'
+	];
+
+	const exampleStack = [
+		{
+			name: 'Catergory A',
+			items: ['item1', 'item2']
+		},
+		{
+			name: 'Category B',
+			items: ['item3', 'item4']
+		},
+		{
+			name: 'Category C',
+			items: ['item4', 'item5']
+		}
+	];
+
+	/**
+	 * @type {string|null}
+	 */
+	let selectedStackId = null;
+	$: stack = value?.stack || exampleStack.map((d) => ({ ...d, id: uuidv4() }));
+
+	$: selectedStack = stack.find((s) => s.id === selectedStackId);
 </script>
 
-<div class="mb-3 ">
-	<div class="label text-2xl">Hint:</div>
-	<textarea
-		value={value?.description || ''}
-		on:change={(e) => onChange({ ...value, description: e.target?.value || '' })}
-		placeholder="Please enter your hint"
-		class="input-text w-full h-24"
-	/>
+<div class="label text-lg">Description:</div>
+<textarea
+	value={value?.description || ''}
+	on:change={(e) => onChange({ ...value, description: e.target?.value || '' })}
+	placeholder="Please enter your hint"
+	class="input-text w-full h-24"
+/>
+<div class="mt-3 flex-grow flex flex-col overflow-y-auto">
+	<h2 class="text-lg mb-3 label">Categories:</h2>
+	<div class="overflow-y-auto flex-grow">
+		{#each stack as s}
+			<div class="mb-3 border-2 p-3 relative">
+				<h2 class="text-lg mb-3">{s.name}</h2>
+				<div class="absolute right-0 top-0 p-2">
+					<button
+						class="ml-auto"
+						on:click={() => {
+							onChange({
+								...value,
+								stack: stack.filter((d) => d.id !== s.id)
+							});
+						}}><WindowClose color="red" /></button
+					>
+				</div>
+				<div class="flex flex-wrap gap-2">
+					{#each s.items as d}
+						<div class="border-2  py-1 px-2 flex items-center">
+							<div>{d}</div>
+							<button class="ml-1"><WindowClose color="red" /></button>
+						</div>
+					{/each}
+					<button
+						class="create-btn-2"
+						on:click={() => {
+							const ns = stack.map((d) => {
+								let items = d.items;
+								if (d.id === s.id) {
+									console.log('here');
+									items = [...d.items, 'New Item'];
+								}
+								return { ...d, items };
+							});
+							onChange({ ...value, stack: ns });
+						}}>Add Item</button
+					>
+				</div>
+			</div>
+		{/each}
+	</div>
+	<button
+		class="create-btn-2 w-full"
+		on:click={() => {
+			onChange({
+				...value,
+				stack: [
+					...stack,
+					{ name: `New Category ${abc[stack.length % (abc.length - 1)]}`, items: [], id: uuidv4() }
+				]
+			});
+		}}>Add Category</button
+	>
 </div>
 
 <button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
+
+<LightBox title={selectedStack?.name} isOpen={!!selectedStack}>
+	<input
+		placeholder="Enter name"
+		type="text"
+		on:change={(e) => {
+			const ns = stack.map((d) =>
+				d.id === selectedStackId ? { ...d, name: e.target.value.trim() } : d
+			);
+			onChange({ ...value, stack: ns });
+		}}
+	/>
+	<!-- <div class="flex flex-wrap">
+		{#each selectedStack.items as s}
+			<div class="p-2 border-2">{s}</div>
+		{/each}
+	</div> -->
+</LightBox>
 
 <style>
 </style>
