@@ -4,6 +4,10 @@
 
 	export let activity = { value: { stack: [], description: '' } };
 	export let currentActSub = { response: { stack: [] } };
+	/**
+	 * @type {(arg0: { succeeded: boolean; response: any[]; }) => void}
+	 */
+	export let onSubmit;
 
 	const POOLTYPE = 'pool';
 
@@ -26,23 +30,29 @@
 		name: 'Pool',
 		type: POOLTYPE,
 		items: [
-			'Django',
-			'Vercel',
-			'React',
-			'Svelte',
-			'SvelteKit',
-			'Angular',
-			'Solid',
-			'Rails',
-			'Express',
-			'Flask',
-			'VPS'
+			{ id: 'Django', name: 'Django' },
+			{ id: 'Vercel', name: 'Vercel' },
+			{ id: 'Netlify', name: 'Netlify' },
+			{ id: 'Heroku', name: 'Heroku' },
+			{ id: 'Firebase', name: 'Firebase' },
+			{ id: 'MongoDB', name: 'MongoDB' },
+			{ id: 'PostgreSQL', name: 'PostgreSQL' },
+			{ id: 'MySQL', name: 'MySQL' },
+			{ id: 'SQLite', name: 'SQLite' },
+			{ id: 'React', name: 'React' }
 		]
 	};
 
 	$: stack =
-		currentActSub?.response?.stack ||
-		activity?.value?.stack?.map((d) => ({ ...d, items: [] })) ||
+		//TODO
+		currentActSub?.response?.stack || [
+			...activity?.value?.map((d) => ({ ...d, items: [] })),
+			{
+				name: 'Pool',
+				type: POOLTYPE,
+				items: activity?.value?.flatMap((d) => d.items)
+			}
+		] ||
 		exampleStack;
 	$: pool = currentActSub?.response?.pool || examplePool;
 
@@ -83,6 +93,9 @@
 		// poolStack[stackIndex].items.push(item);
 		// RandomStack = RandomStack;
 
+		const succeeded = false;
+		const userResponse = { succeeded, response: newPoolStack.filter((d) => d.type !== POOL) };
+		onSubmit(userResponse);
 		stackHover = null;
 	}
 
@@ -96,7 +109,8 @@
 		<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
 			<h2 class="mb-2">{s.name}</h2>
 			<div
-				class="overflow-y-auto mb-3 flex  gap-2 p-2 {stackHover === s.name && s.type !== POOLTYPE
+				class="overflow-y-auto mb-3 flex  h-32 gap-2 p-2 {stackHover === s.name &&
+				s.type !== POOLTYPE
 					? 'border-4 border-dashed'
 					: 'border-2'}"
 				class:flex-wrap={s.type === POOLTYPE}
@@ -116,7 +130,7 @@
 						animate:flip={{ duration: 500 }}
 					>
 						<div>
-							{item}
+							{item.name}
 						</div>
 					</div>
 				{/each}

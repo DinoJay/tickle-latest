@@ -3,6 +3,7 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
+	import PencilBox from 'svelte-material-icons/Pencil.svelte';
 
 	export let value = { stack: [], description: '' };
 	import { v4 as uuidv4 } from 'uuid';
@@ -61,9 +62,13 @@
 	 * @type {string|null}
 	 */
 	let selectedStackId = null;
+	let selectedItemId = null;
 	$: stack = value?.stack || exampleStack.map((d) => ({ ...d, id: uuidv4() }));
 
 	$: selectedStack = stack.find((s) => s.id === selectedStackId);
+
+	$: allItems = stack.flatMap((s) => s.items);
+	$: selectedItem = allItems.find((d) => d.id === selectedItemId);
 </script>
 
 <div class="label text-lg">Description:</div>
@@ -77,8 +82,11 @@
 	<h2 class="text-lg mb-3 label">Categories:</h2>
 	<div class="overflow-y-auto flex-grow">
 		{#each stack as s}
-			<div class="mb-3 border-2 p-3 relative">
-				<h2 class="text-lg mb-3">{s.name}</h2>
+			<div class="mb-3 border-2 p-3 relative ">
+				<button class="flex items-center mb-3" on:click>
+					<h3 class="text-lg mr-1">{s.name}</h3>
+					<PencilBox size={20} />
+				</button>
 				<div class="absolute right-0 top-0 p-2">
 					<button
 						class="ml-auto"
@@ -91,11 +99,16 @@
 					>
 				</div>
 				<div class="flex flex-wrap gap-2">
-					{#each s.items as d}
-						<div class="border-2  py-1 px-2 flex items-center">
-							<div>{d}</div>
-							<button class="ml-1"><WindowClose color="red" /></button>
-						</div>
+					{#each s.items as it}
+						<button
+							on:click={() => {
+								selectedItemId = it.id;
+							}}
+							class="border-2  py-1 px-2 flex items-center"
+						>
+							<div>{it.name}</div>
+							<div class="ml-1"><PencilBox /></div>
+						</button>
 					{/each}
 					<button
 						class="create-btn-2"
@@ -103,8 +116,7 @@
 							const ns = stack.map((d) => {
 								let items = d.items;
 								if (d.id === s.id) {
-									console.log('here');
-									items = [...d.items, 'New Item'];
+									items = [...d.items, { id: uuidv4(), name: `New Item ${allItems.length + 1}` }];
 								}
 								return { ...d, items };
 							});
@@ -131,14 +143,14 @@
 
 <button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
 
-<LightBox title={selectedStack?.name} isOpen={!!selectedStack}>
+<LightBox title={selectedStack?.name} isOpen={!!selectedStack && !selectedItem}>
 	<input
 		placeholder="Enter name"
 		type="text"
 		on:change={(e) => {
-			const ns = stack.map((d) =>
-				d.id === selectedStackId ? { ...d, name: e.target.value.trim() } : d
-			);
+			const ns = stack.map((d) => {
+				return d.id === selectedStackId ? { ...d, name: e.target?.value?.trim() } : d;
+			});
 			onChange({ ...value, stack: ns });
 		}}
 	/>
@@ -147,6 +159,39 @@
 			<div class="p-2 border-2">{s}</div>
 		{/each}
 	</div> -->
+</LightBox>
+
+<LightBox
+	isOpen={!!selectedItemId}
+	title={selectedItem?.name}
+	close={() => {
+		selectedItemId = null;
+	}}
+>
+	<input
+		value={selectedItem?.name}
+		type="text"
+		on:change={(event) => {
+			const ns = stack.map((d) => {
+				const items = d.items.map((e) => {
+					return e.id === selectedItemId ? { ...e, name: event.target?.value?.trim() } : e;
+				});
+				return { ...d, items };
+			});
+			onChange({ ...value, stack: ns });
+		}}
+	/>
+	<button
+		class="del-btn"
+		on:click={() => {
+			const ns = stack.map((d) => {
+				const items = d.items.filter((e) => e.id !== selectedItemId);
+				return { ...d, items };
+			});
+			selectedItemId = null;
+			onChange({ ...value, stack: ns });
+		}}>Remove Item</button
+	>
 </LightBox>
 
 <style>
