@@ -3,6 +3,7 @@
 
 	export let currentActSub;
 	export let activity;
+	export let onSubmit;
 
 	const exampleStack = [
 		{
@@ -21,17 +22,20 @@
 
 	const POOLTYPE = 'pool';
 	let stack =
-		//TODO
-		currentActSub?.response?.stack || [
-			...activity?.value?.stack?.map((d) => ({ ...d, items: [] }))
-		] ||
+		currentActSub?.response || [...activity?.value?.stack?.map((d) => ({ ...d, items: [] }))] ||
 		exampleStack;
+
+	const allSetItems = currentActSub?.response?.flatMap((d) => d.items) || [];
+	console.log('allSetItems', allSetItems);
+	console.log('stack', stack);
 
 	let pool =
 		{
 			name: 'Pool',
 			type: POOLTYPE,
-			items: activity?.value?.stack.flatMap((d) => d.items)
+			items: activity?.value?.stack.flatMap((d) =>
+				d.items.filter((e) => !allSetItems.find((f) => f.id === e.id))
+			)
 		} || examplePool;
 </script>
 
@@ -44,6 +48,6 @@
 		stack = st;
 		console.log('st', st, 'po', po);
 		pool = po;
-		// onSubmit({ response: st });
+		onSubmit({ response: st });
 	}}
 />

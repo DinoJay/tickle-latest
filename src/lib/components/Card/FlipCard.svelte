@@ -1,6 +1,6 @@
 <script>
-	import { flip } from 'svelte/animate';
 	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+	import { fly, fade } from 'svelte/transition';
 
 	export let cls = '';
 	export let style;
@@ -28,47 +28,45 @@
 	afterUpdate(() => {
 		// console.log('flipcard', flipped);
 		// setTimeout(() => {
-		if (ios()) {
-			if (flipped) {
-				document.querySelector('.flip-card-back')?.classList.remove('z-0');
-				document.querySelector('.flip-card-back')?.classList.remove('absolute');
-				document.querySelector('.flip-card-front')?.classList.add('absolute');
-				document.querySelector('.flip-card-front')?.classList.add('z-0');
-				setTimeout(() => {
-					document.querySelector('.flip-card-front')?.classList.add('hidden');
-				}, 500);
-			} else {
-				setTimeout(() => {
-					document.querySelector('.flip-card-front')?.classList.remove('z-0');
-					document.querySelector('.flip-card-back')?.classList.add('z-0');
-					document.querySelector('.flip-card-front')?.classList.remove('absolute');
-					document.querySelector('.flip-card-back')?.classList.add('absolute');
-				}, 600);
-
-				setTimeout(() => {
-					// document.querySelector('.flip-card-front')?.classList.remove('hidden');
-					document.querySelector('.flip-card-back')?.classList.add('hidden');
-				}, 500);
-			}
-		} else {
-			document.querySelector('.flip-card-back')?.classList.add('left-0');
-			document.querySelector('.flip-card-back')?.classList.add('top-0');
-		}
-		// }, 600);
+		// if (ios()) {
+		// 	if (flipped) {
+		// 		// document.querySelector('.flip-card-back')?.classList.remove('z-0');
+		// 		// document.querySelector('.flip-card-back')?.classList.remove('absolute');
+		// 		// document.querySelector('.flip-card-front')?.classList.add('absolute');
+		// 		// document.querySelector('.flip-card-front')?.classList.add('z-0');
+		// 		setTimeout(() => {
+		// 			document.querySelector('.flip-card-front')?.classList.add('z-0');
+		// 		}, 1000);
+		// 	} else {
+		// 		setTimeout(() => {
+		// 			document.querySelector('.flip-card-front')?.classList.remove('z-0');
+		// 			document.querySelector('.flip-card-back')?.classList.add('z-0');
+		// 			document.querySelector('.flip-card-front')?.classList.remove('absolute');
+		// 			document.querySelector('.flip-card-back')?.classList.add('absolute');
+		// 		}, 600);
+		// 		setTimeout(() => {
+		// 			document.querySelector('.flip-card-front')?.classList.remove('hidden');
+		// 			document.querySelector('.flip-card-back')?.classList.add('hidden');
+		// 		}, 500);
+		// 	}
+		// } else {
+		// 	// document.querySelector('.flip-card-back')?.classList.add('left-0');
+		// 	// document.querySelector('.flip-card-back')?.classList.add('top-0');
+		// }
 	});
 </script>
 
 <div class="flip-card {cls}" {style}>
-	<div
-		class="flip-card-inner h-full w-full"
-		style="transform:rotateY({flipped ? '180deg' : '0deg'}); "
-	>
-		<div class="flip-card-front h-full w-full " style={flipped ? 'pointer-events:none' : ''}>
-			<slot name="front" />
-		</div>
-		<div class="flip-card-back h-full w-full z-0 absolute {ios() ? 'hidden' : ''}">
-			<slot name="back" />
-		</div>
+	<div class="flip-card-inner h-full w-full">
+		{#if flipped}
+			<div in:fade={{ duration: 1000 }} out:fade class=" h-full w-full ">
+				<slot name="back" />
+			</div>
+		{:else}
+			<div in:fade={{ duration: 1000 }} out:fade class=" h-full w-full ">
+				<slot name="front" />
+			</div>
+		{/if}
 	</div>
 </div>
 

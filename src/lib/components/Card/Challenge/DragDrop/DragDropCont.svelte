@@ -11,6 +11,7 @@
 	export let stack;
 	export let pool;
 
+	console.log('stack', stack, 'pool', pool);
 	const POOLTYPE = 'pool';
 
 	$: poolStack = [...stack, pool];
@@ -60,29 +61,38 @@
 	// $: console.log('poolStack', poolStack);
 </script>
 
-<p>Drag a framework/library from random to respected drop</p>
+<div class="mb-3">
+	<div class="label text-xl">Description:</div>
+	<p class="text-lg">
+		{activity?.description
+			? value.description
+			: 'Please drag and drop items to the corresponding categories'}
+	</p>
+</div>
 
 {#if !!stack}
 	{#each poolStack as s, i (s.name)}
 		<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
-			<h2 class="mb-2">{s.name}</h2>
+			<h2 class="mb-2 text-lg">{s.name}</h2>
 			<div
-				class="overflow-y-auto mb-3 flex  h-32 gap-2 p-2 {stackHover === s.name &&
+				class="overflow-auto mb-3 flex  items-center gap-2 p-2 {stackHover === s.name &&
 				s.type !== POOLTYPE
 					? 'border-4 border-dashed'
 					: 'border-2'}"
 				class:flex-wrap={s.type === POOLTYPE}
-				style="height: {s.type === POOLTYPE ? '200px' : '60px'};}"
+				style="height: {s.type !== POOLTYPE ? '70px' : ''};max-height: {s.type === POOLTYPE
+					? '200px'
+					: ''};"
 				on:dragenter={() => (stackHover = s.name)}
 				on:dragleave={() => (stackHover = null)}
 				on:drop={(event) => drop(event, i)}
 				ondragover="return false"
 			>
-				{#each s.items as item, j (item)}
+				{#each s.items as item, j (item.id)}
 					<div
 						draggable={true}
 						on:dragstart={(event) => dragStart(event, i, j)}
-						class="border-2 p-2 h-12 flex items-center justify-center"
+						class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
 						in:receive={{ key: j }}
 						out:send={{ key: j }}
 						animate:flip={{ duration: 500 }}

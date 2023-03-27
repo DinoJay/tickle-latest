@@ -26,6 +26,7 @@
 	$: setTitle = () => {
 		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title;
 		if (activity?.type === GEOCACHING) return activity?.value?.title;
+		if (activity?.type === DRAGDROP) return 'Drag and Drop';
 	};
 </script>
 
