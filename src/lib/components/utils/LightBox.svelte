@@ -1,10 +1,12 @@
 <script>
+	import { transition } from 'd3-transition';
 	import { modalPortal } from '$lib/portalAction';
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
-	import { blur } from 'svelte/transition';
+	import { blur, fly, fade } from 'svelte/transition';
 	import { afterUpdate } from 'svelte';
 	import FlipCard from '../Card/FlipCard.svelte';
+	import { v4 as uuidv4 } from 'uuid';
 
 	export let isOpen = false;
 	/**
@@ -23,6 +25,21 @@
 
 	$: flippable = $$slots.front && $$slots.back;
 	let titleExpanded = false;
+
+	// function slide(node, { delay, duration }) {
+	// 	const style = getComputedStyle(node);
+	// 	const transform = style.transform === 'none' ? '' : style.transform;
+	// 	const transition = `transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms`;
+
+	// 	return {
+	// 		delay,
+	// 		duration,
+	// 		css: (t, u) => `
+	//     transform: ${transform} translateY(${(1 - t) * 100}%);
+	//     transition: ${u === 'in' ? transition : ''};
+	//   `
+	// 	};
+	// }
 
 	afterUpdate(() => {
 		const body = document.body.style;
@@ -45,10 +62,10 @@
 
 {#if isOpen}
 	<div
-		transition:blur
 		on:keydown={() => null}
 		use:modalPortal
 		class="fixed overflow-auto modal cont w-full h-full flex z-50"
+		transition:blur
 		on:click={(e) => {
 			if (!isMandatory) {
 				e.stopPropagation();
@@ -125,5 +142,6 @@
 	}
 	.cont {
 		background: rgba(240, 248, 255, 0.86);
+		will-change: transform;
 	}
 </style>

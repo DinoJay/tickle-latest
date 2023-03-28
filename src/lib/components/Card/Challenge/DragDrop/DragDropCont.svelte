@@ -1,5 +1,7 @@
 <script>
+	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
+	import { stop_propagation } from 'svelte/internal';
 	import { send, receive } from './transition.js';
 
 	export let activity = { value: { stack: [], description: '' } };
@@ -20,6 +22,23 @@
 	let stackHover;
 
 	function dragStart(event, stackIndexSrc, itemIndexSrc) {
+		// Set the touch-action CSS property to 'none' on the draggable element
+		// event.target.style.touchAction = 'none';
+
+		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+		// Create a new Image element and set it as the drag image
+		if (isIOS) {
+			const dragImage = new Image();
+			dragImage.src = '/drag.png';
+
+			// dragImage.style.transform = 'scale(1.5)';
+			// dragImage.style.width = '60px';
+			// dragImage.style.height = '40px';
+			event.dataTransfer.setDragImage(dragImage, event.offsetX, event.offsetY);
+		}
+
+		// ...
 		const data = { stackIndexSrc, itemIndexSrc };
 		event.dataTransfer.setData('text/plain', JSON.stringify(data));
 	}
@@ -58,6 +77,25 @@
 		stackHover = null;
 	}
 
+	let dragImage = null;
+
+	// onMount(() => {
+	// 	function handleTouchStart(event) {
+	// 		const touch = event.touches[0];
+	// 		const offsetY = window.pageYOffset || window.scrollY;
+	// 		const clientY = touch.clientY - offsetY;
+
+	// 		// Create the drag image element and position it based on the adjusted touch coordinates
+	// 		const dragImage = document.createElement('div');
+	// 		dragImage.style.position = 'absolute';
+	// 		dragImage.style.top = `${clientY}px`;
+	// 		// ...
+
+	// 		// Start the drag operation with the custom drag image
+	// 		event.dataTransfer.setDragImage(dragImage, 0, 0);
+	// 	}
+	// 	document.addEventListener('dragstart', handleTouchStart);
+	// });
 	// $: console.log('poolStack', poolStack);
 </script>
 
@@ -70,42 +108,53 @@
 	</p>
 </div>
 
-{#if !!stack}
-	{#each poolStack as s, i (s.name)}
-		<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
-			<h2 class="mb-2 text-lg">{s.name}</h2>
-			<div
-				class="overflow-auto mb-3 flex  items-center gap-2 p-2 {stackHover === s.name &&
-				s.type !== POOLTYPE
-					? 'border-4 border-dashed'
-					: 'border-2'}"
-				class:flex-wrap={s.type === POOLTYPE}
-				style="height: {s.type !== POOLTYPE ? '70px' : ''};max-height: {s.type === POOLTYPE
-					? '200px'
-					: ''};"
-				on:dragenter={() => (stackHover = s.name)}
-				on:dragleave={() => (stackHover = null)}
-				on:drop={(event) => drop(event, i)}
-				ondragover="return false"
-			>
-				{#each s.items as item, j (item.id)}
-					<div
-						draggable={true}
-						on:dragstart={(event) => dragStart(event, i, j)}
-						class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
-						in:receive={{ key: j }}
-						out:send={{ key: j }}
-						animate:flip={{ duration: 500 }}
-					>
-						<div>
-							{item.name}
+<div class="flex-grow flex flex-col relative">
+	{#if !!stack}
+		{#each poolStack as s, i (s.name)}
+			<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
+				<h2 class="mb-2 text-lg">{s.name}</h2>
+				<div
+					class="overflow-auto mb-3 flex  mx-2 z-50 items-center gap-2 p-2 {stackHover === s.name &&
+					s.type !== POOLTYPE
+						? 'border-4 border-dashed'
+						: 'border-2'}"
+					class:flex-wrap={s.type === POOLTYPE}
+					style="height: {s.type !== POOLTYPE ? '70px' : ''};max-height: {s.type === POOLTYPE
+						? '200px'
+						: ''};"
+					on:dragenter={(event) => {
+						stackHover = s.name;
+						event?.preventDefault();
+					}}
+					on:dragleave={(event) => {
+						event?.preventDefault();
+						stackHover = null;
+					}}
+					on:dragover={(event) => {
+						event.preventDefault();
+					}}
+					on:drop={(event) => drop(event, i)}
+					ondragover="return false"
+				>
+					{#each s.items as item, j (item.id)}
+						<div
+							draggable={true}
+							on:dragstart={(event) => dragStart(event, i, j)}
+							class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
+							in:receive={{ key: j }}
+							out:send={{ key: j }}
+							animate:flip={{ duration: 500 }}
+						>
+							<div>
+								{item.name}
+							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</div>
-	{/each}
-{/if}
+		{/each}
+	{/if}
+</div>
 
 <style>
 	.hovering {

@@ -3,6 +3,7 @@
 	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import SimpleLightBox from '../utils/SimpleLightBox.svelte';
+	import { flip } from 'svelte/animate';
 
 	export let isOpen = false;
 	export let isMandatory = false;
@@ -27,7 +28,7 @@
 	<h2 class="text-3xl mb-1 text-c-black">Welcome to TICKLE!</h2>
 
 	<div class="flex-grow flex flex-col overflow-y-auto">
-		{#each envs as env, i}
+		{#each envs as env, i (env.id)}
 			<div bind:this={elems[i]}>
 				<EnvDetail
 					{...env}

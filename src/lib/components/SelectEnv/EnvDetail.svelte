@@ -1,5 +1,5 @@
 <script>
-	import { fade } from 'svelte/transition';
+	import { slide, fly } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 
 	import Img from '$lib/components/utils/Img.svelte';
@@ -42,7 +42,7 @@
 </h2>
 {#if visible}
 	{#key id}
-		<div class="my-2">
+		<div class="my-2" transition:slide>
 			<Img url={img?.url} style="height:20rem" cls="w-full object-contain" />
 			<p class="my-3 overflow-y-hidden" style="max-height:8rem">
 				{description}
