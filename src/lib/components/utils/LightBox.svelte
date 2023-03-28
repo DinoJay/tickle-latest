@@ -57,8 +57,8 @@
 		}}
 	>
 		<FlipCard
-			style="max-height:{!!height ? `${height}px` : null};max-width:{width}px"
-			cls="m-auto drop-shadow-xl bg-white {!!height ? 'h-full' : ''} w-full {flipCls}"
+			style="max-height:{!!height ? `${height}px` : ''};max-width:{width}px"
+			cls="m-auto drop-shadow-xl {!!height ? 'h-full' : ''} w-full {flipCls}"
 			{flipped}
 		>
 			<div
