@@ -8,7 +8,6 @@
 	export let type;
 	export let accessor = (d) => d;
 
-	$: console.log('name', name, value);
 	const reducer = (value) => {
 		return value.reduce(
 			(acc, cur, i) => acc.concat(i < value.length - 1 ? `${accessor(cur)}, ` : accessor(cur)),

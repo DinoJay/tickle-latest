@@ -2,10 +2,11 @@
 	import Check from 'svelte-material-icons/Check.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import EditQuiz from './EditQuiz.svelte';
-	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP } from './activityConsts';
+	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST } from './activityConsts';
 	import EditGeoCaching from './EditGeoCaching/index.svelte';
 	import EditHangman from './EditHangman.svelte';
 	import EditDragDrop from './EditDragDrop.svelte';
+	import EditOrderList from './EditOrderList.svelte';
 
 	/**
 	 * @type {{ type: string; value: any; }}
@@ -21,7 +22,7 @@
 	export let onRemove;
 
 	export let onClose;
-	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP];
+	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST];
 
 	/**
 	 * @type {string | null}
@@ -94,6 +95,21 @@
 		onChange={(/** @type {any} */ value) => {
 			console.log('val', value);
 			onChange({ type: DRAGDROP, value });
+		}}
+	/>
+</LightBox>
+
+<LightBox
+	title={ORDERLIST}
+	isOpen={selectedActivity === ORDERLIST}
+	close={() => (selectedActivity = null)}
+>
+	<EditOrderList
+		value={activity?.value}
+		onClose={() => (selectedActivity = null)}
+		onChange={(/** @type {any} */ value) => {
+			// console.log('val', value);
+			onChange({ type: ORDERLIST, value });
 		}}
 	/>
 </LightBox>

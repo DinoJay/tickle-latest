@@ -47,6 +47,7 @@
 		event.preventDefault();
 		const json = event.dataTransfer.getData('text/plain');
 		const data = JSON.parse(json);
+		if (data.stackIndexSrc === targetStackIndex) return;
 		// console.log('data', data, 'stackIndex', targetStackIndex);
 		// console.log('st', stack, data.stackIndex, poolStack[data.stackIndex]);
 		const subStackSrc = poolStack[data.stackIndexSrc];
@@ -77,7 +78,7 @@
 		stackHover = null;
 	}
 
-	let dragImage = null;
+	let draggingItem = null;
 
 	// onMount(() => {
 	// 	function handleTouchStart(event) {
@@ -114,14 +115,13 @@
 			<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
 				<h2 class="mb-2 text-lg">{s.name}</h2>
 				<div
-					class="overflow-auto mb-3 flex  mx-2 z-50 items-center gap-2 p-2 {stackHover === s.name &&
-					s.type !== POOLTYPE
-						? 'border-4 border-dashed'
-						: 'border-2'}"
+					class:pool={s.type === POOLTYPE}
+					class:stack={s.type !== POOLTYPE}
+					class="overflow-auto mb-3 flex  border-2 mx-2 z-50 items-center gap-2 p-2 "
 					class:flex-wrap={s.type === POOLTYPE}
-					style="height: {s.type !== POOLTYPE ? '70px' : ''};max-height: {s.type === POOLTYPE
-						? '200px'
-						: ''};"
+					class:stack-hover={stackHover === s.name &&
+						s.type !== POOLTYPE &&
+						!s.items.find((d) => d.id === draggingItem.id)}
 					on:dragenter={(event) => {
 						stackHover = s.name;
 						event?.preventDefault();
@@ -133,13 +133,20 @@
 					on:dragover={(event) => {
 						event.preventDefault();
 					}}
-					on:drop={(event) => drop(event, i)}
+					on:drop={(event) => {
+						console.log('drop', event);
+						drop(event, i);
+					}}
 					ondragover="return false"
 				>
 					{#each s.items as item, j (item.id)}
 						<div
 							draggable={true}
-							on:dragstart={(event) => dragStart(event, i, j)}
+							on:dragstart={(event) => {
+								draggingItem = item;
+								console.log('start', event);
+								dragStart(event, i, j);
+							}}
 							class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
 							in:receive={{ key: j }}
 							out:send={{ key: j }}
@@ -157,6 +164,22 @@
 </div>
 
 <style>
+	.stack {
+		height: 70px;
+		@apply overflow-y-hidden;
+	}
+	.pool {
+		height: 70px;
+		max-height: 200px;
+		min-height: 70px;
+		@apply flex-wrap;
+	}
+	.pool-hover {
+		@apply border-4 border-dashed;
+	}
+	.stack-hover {
+		@apply border-4 border-dashed;
+	}
 	.hovering {
 		border-color: #454b1b;
 		@apply border-4 border-dashed;

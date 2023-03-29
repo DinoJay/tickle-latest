@@ -31,7 +31,7 @@
 
 	let pool =
 		{
-			name: 'Pool',
+			name: 'All Items',
 			type: POOLTYPE,
 			items: activity?.value?.stack.flatMap((d) =>
 				d.items.filter((e) => !allSetItems.find((f) => f.id === e.id))
