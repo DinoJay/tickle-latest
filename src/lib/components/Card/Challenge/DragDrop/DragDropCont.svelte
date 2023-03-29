@@ -27,16 +27,16 @@
 
 		const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-		// Create a new Image element and set it as the drag image
-		if (isIOS) {
-			const dragImage = new Image();
-			dragImage.src = '/drag.png';
+		// // Create a new Image element and set it as the drag image
+		// if (isIOS) {
+		// 	const dragImage = new Image();
+		// 	dragImage.src = '/drag.png';
 
-			// dragImage.style.transform = 'scale(1.5)';
-			// dragImage.style.width = '60px';
-			// dragImage.style.height = '40px';
-			event.dataTransfer.setDragImage(dragImage, event.offsetX, event.offsetY);
-		}
+		// 	// dragImage.style.transform = 'scale(1.5)';
+		// 	// dragImage.style.width = '60px';
+		// 	// dragImage.style.height = '40px';
+		// 	event.dataTransfer.setDragImage(dragImage, event.offsetX, event.offsetY);
+		// }
 
 		// ...
 		const data = { stackIndexSrc, itemIndexSrc };
