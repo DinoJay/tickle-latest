@@ -40,6 +40,7 @@
 		"mapbox-gl": "^2.13.0",
 		"placeholder-loading": "^0.6.0",
 		"svelte-confetti": "^1.2.2",
+		"svelte-drag-drop-touch": "^0.1.9",
 		"svelte-material-icons": "^3.0.4",
 		"uuid": "^9.0.0"
 	}

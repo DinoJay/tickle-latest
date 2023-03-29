@@ -1,5 +1,7 @@
 <script>
 	import '../app.css';
+	// import Dnd from 'svelte-drag-drop-touch';
+	import Dnd from '$lib/DragDropTouch.js';
 	import Notifications from '$lib/components/Notifications/index.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
 

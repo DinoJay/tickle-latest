@@ -148,10 +148,10 @@ var DragDropTouch;
             });
             // listen to touch events
             if (navigator.maxTouchPoints) {
-                var d = document, 
-                    ts = this._touchstart.bind(this), 
-                    tm = this._touchmove.bind(this), 
-                    te = this._touchend.bind(this), 
+                var d = document,
+                    ts = this._touchstart.bind(this),
+                    tm = this._touchmove.bind(this),
+                    te = this._touchend.bind(this),
                     opt = supportsPassive ? { passive: false, capture: false } : false;
                 d.addEventListener('touchstart', ts, opt);
                 d.addEventListener('touchmove', tm, opt);
@@ -210,8 +210,8 @@ var DragDropTouch;
         };
         DragDropTouch.prototype._touchmove = function (e) {
             if (this._shouldCancelPressHoldMove(e)) {
-              this._reset();
-              return;
+                this._reset();
+                return;
             }
             if (this._shouldHandleMove(e) || this._shouldHandlePressHoldMove(e)) {
                 // see if target wants to handle move
@@ -280,19 +280,19 @@ var DragDropTouch;
 
         // use regular condition outside of press & hold mode
         DragDropTouch.prototype._shouldHandleMove = function (e) {
-          return !DragDropTouch._ISPRESSHOLDMODE && this._shouldHandle(e);
+            return !DragDropTouch._ISPRESSHOLDMODE && this._shouldHandle(e);
         };
 
         // allow to handle moves that involve many touches for press & hold
         DragDropTouch.prototype._shouldHandlePressHoldMove = function (e) {
-          return DragDropTouch._ISPRESSHOLDMODE &&
-              this._isDragEnabled && e && e.touches && e.touches.length;
+            return DragDropTouch._ISPRESSHOLDMODE &&
+                this._isDragEnabled && e && e.touches && e.touches.length;
         };
 
         // reset data if user drags without pressing & holding
         DragDropTouch.prototype._shouldCancelPressHoldMove = function (e) {
-          return DragDropTouch._ISPRESSHOLDMODE && !this._isDragEnabled &&
-              this._getDelta(e) > DragDropTouch._PRESSHOLDMARGIN;
+            return DragDropTouch._ISPRESSHOLDMODE && !this._isDragEnabled &&
+                this._getDelta(e) > DragDropTouch._PRESSHOLDMARGIN;
         };
 
         // start dragging when specified delta is detected
@@ -469,3 +469,4 @@ var DragDropTouch;
     DragDropTouch._ptProps = 'pageX,pageY,clientX,clientY,screenX,screenY,offsetX,offsetY'.split(',');
     DragDropTouch_1.DragDropTouch = DragDropTouch;
 })(DragDropTouch || (DragDropTouch = {}));
+export default DragDropTouch;
