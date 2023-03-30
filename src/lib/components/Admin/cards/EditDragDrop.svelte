@@ -5,7 +5,7 @@
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import PencilBox from 'svelte-material-icons/Pencil.svelte';
 
-	export let value = { stack: [], description: '' };
+	export let value = { stack: null, description: '' };
 	import { v4 as uuidv4 } from 'uuid';
 
 	/**
@@ -45,16 +45,46 @@
 
 	const exampleStack = [
 		{
+			id: uuidv4(),
 			name: 'Catergory A',
-			items: ['item1', 'item2']
+			items: [
+				{
+					id: uuidv4(),
+					name: 'item1'
+				},
+				{
+					id: uuidv4(),
+					name: 'item2'
+				}
+			]
 		},
 		{
+			id: uuidv4(),
 			name: 'Category B',
-			items: ['item3', 'item4']
+			items: [
+				{
+					id: uuidv4(),
+					name: 'item3'
+				},
+				{
+					id: uuidv4(),
+					name: 'item4'
+				}
+			]
 		},
 		{
+			id: uuidv4(),
 			name: 'Category C',
-			items: ['item4', 'item5']
+			items: [
+				{
+					id: uuidv4(),
+					name: 'item4'
+				},
+				{
+					id: uuidv4(),
+					name: 'item5'
+				}
+			]
 		}
 	];
 
@@ -63,7 +93,9 @@
 	 */
 	let selectedStackId = null;
 	let selectedItemId = null;
-	$: stack = value?.stack || exampleStack.map((d) => ({ ...d, id: uuidv4() }));
+	$: stack = value?.stack || exampleStack;
+	$: console.log('value', stack);
+	$: console.log('stack', stack);
 
 	$: selectedStack = stack.find((s) => s.id === selectedStackId);
 
@@ -102,6 +134,7 @@
 					{#each s.items as it}
 						<button
 							on:click={() => {
+								console.log('id id', it.id);
 								selectedItemId = it.id;
 							}}
 							class="border-2  py-1 px-2 flex items-center"

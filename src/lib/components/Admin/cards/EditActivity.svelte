@@ -34,7 +34,7 @@
 <div class="flex flex-col gap-2 flex-grow">
 	{#each ACTIVITIES as a}
 		<button
-			class="p-2 text-xl flex-grow border-2 {activity?.type === a ? 'bg-gray-400 text-white' : ''}"
+			class="p-2 text-xl flex-grow border-2 {activity?.type === a ? 'bg-gray-700 text-white' : ''}"
 			on:click={() => (selectedActivity = a)}>{a}</button
 		>
 	{/each}
