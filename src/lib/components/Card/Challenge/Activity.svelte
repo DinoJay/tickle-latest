@@ -1,10 +1,17 @@
 <script>
-	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP } from '$lib/components/Admin/cards/activityConsts';
+	import {
+		QUIZ,
+		GEOCACHING,
+		HANGMAN,
+		DRAGDROP,
+		ORDERLIST
+	} from '$lib/components/Admin/cards/activityConsts';
 	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
 	import GeoCaching from '$lib/components/Card/Challenge/GeoCaching/index.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import Hangman from './Hangman/index.svelte';
 	import DragDrop from './DragDrop/index.svelte';
+	import OrderList from './OrderList/index.svelte';
 
 	/**
 	 * @type {{ type: string | undefined; value: any;}}
@@ -27,6 +34,7 @@
 		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title;
 		if (activity?.type === GEOCACHING) return activity?.value?.title;
 		if (activity?.type === DRAGDROP) return 'Drag and Drop';
+		if (activity?.type === ORDERLIST) return 'Reorder List';
 	};
 </script>
 
@@ -39,5 +47,7 @@
 		<Hangman {...$$props} />
 	{:else if activity?.type === DRAGDROP}
 		<DragDrop {...$$props} />
+	{:else if activity?.type === ORDERLIST}
+		<OrderList {...$$props} />
 	{/if}
 </LightBox>
