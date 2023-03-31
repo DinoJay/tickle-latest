@@ -1,17 +1,13 @@
 <script>
-	import { onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
-	import { stop_propagation } from 'svelte/internal';
 	import { send, receive } from './transition.js';
 
 	export let activity = { value: { stack: [], description: '' } };
 	export let currentActSub = null; //{ response: { stack: [] } };
-	/**
-	 * @type {(arg0: { succeeded: boolean; response: any[]; }) => void}
-	 */
 	export let onSubmit;
 	export let stack;
 	export let pool;
+	export let succeeded;
 
 	console.log('stack', stack, 'pool', pool);
 	const POOLTYPE = 'pool';

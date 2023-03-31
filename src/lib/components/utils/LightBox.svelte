@@ -75,7 +75,7 @@
 	>
 		<FlipCard
 			style="{!!height ? `max-height:${height}px` : 'height:200px'}; max-width:{width}px"
-			cls="m-auto drop-shadow-xl {!!height ? 'h-full' : ''} w-full {flipCls}"
+			cls="m-auto drop-shadow-xl {!!height ? 'h-full' : ''} w-full {flipCls} overflow-hidden"
 			{flipped}
 		>
 			<div

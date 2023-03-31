@@ -78,11 +78,11 @@
 			items: [
 				{
 					id: uuidv4(),
-					name: 'item4'
+					name: 'item5'
 				},
 				{
 					id: uuidv4(),
-					name: 'item5'
+					name: 'item6'
 				}
 			]
 		}
@@ -112,10 +112,11 @@
 />
 <div class="mt-3 flex-grow flex flex-col overflow-y-auto">
 	<h2 class="text-lg mb-3 label">Categories:</h2>
+
 	<div class="overflow-y-auto flex-grow">
 		{#each stack as s}
 			<div class="mb-3 border-2 p-3 relative ">
-				<button class="flex items-center mb-3" on:click>
+				<button class="flex items-center mb-3" on:click={() => (selectedStackId = s.id)}>
 					<h3 class="text-lg mr-1">{s.name}</h3>
 					<PencilBox size={20} />
 				</button>
@@ -174,10 +175,24 @@
 	>
 </div>
 
-<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
+<button
+	class="w-full create-btn mt-3"
+	on:click={() => {
+		onClose();
+		onChange({ ...value, stack });
+	}}
+>
+	Save & Close
+</button>
 
-<LightBox title={selectedStack?.name} isOpen={!!selectedStack && !selectedItem}>
+<LightBox
+	title={selectedStack?.name}
+	isOpen={selectedStackId !== null}
+	height={null}
+	close={() => (selectedStackId = null)}
+>
 	<input
+		class="input-text w-full"
 		placeholder="Enter name"
 		type="text"
 		on:change={(e) => {
@@ -187,21 +202,26 @@
 			onChange({ ...value, stack: ns });
 		}}
 	/>
-	<!-- <div class="flex flex-wrap">
-		{#each selectedStack.items as s}
-			<div class="p-2 border-2">{s}</div>
-		{/each}
-	</div> -->
+	<button
+		class="w-full create-btn mt-auto"
+		on:click={() => {
+			selectedStackId = null;
+		}}
+	>
+		Save & Close
+	</button>
 </LightBox>
 
 <LightBox
 	isOpen={!!selectedItemId}
 	title={selectedItem?.name}
+	height={null}
 	close={() => {
 		selectedItemId = null;
 	}}
 >
 	<input
+		class="input-text w-full"
 		value={selectedItem?.name}
 		type="text"
 		on:change={(event) => {
@@ -215,7 +235,7 @@
 		}}
 	/>
 	<button
-		class="del-btn"
+		class="del-btn mt-auto"
 		on:click={() => {
 			const ns = stack.map((d) => {
 				const items = d.items.filter((e) => e.id !== selectedItemId);

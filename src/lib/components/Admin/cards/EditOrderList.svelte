@@ -6,6 +6,7 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
 	export let value = { itemList: null, description: '' };
+	export let onClose;
 	/**
 	 * @type {(arg0: { itemList: ({ id: any; name: string; } | undefined)[]; description: string; }) => void}
 	 */
@@ -90,7 +91,13 @@
 	>
 </div>
 
-<button class="mt-auto create-btn w-full">Save and Close</button>
+<button
+	class="mt-auto create-btn w-full"
+	on:click={() => {
+		onChange({ ...value, itemList });
+		onClose();
+	}}>Save and Close</button
+>
 
 <LightBox title="Create new Item" isOpen={modalOpen} height={200} close={() => (modalOpen = false)}>
 	<div>
