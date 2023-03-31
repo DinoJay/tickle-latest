@@ -109,7 +109,7 @@
 	</p>
 </div>
 
-<div class="flex-grow flex flex-col relative">
+<div class="flex-grow flex flex-col relative overflow-y-auto">
 	{#if !!stack}
 		{#each poolStack as s, i (s.name)}
 			<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
@@ -139,6 +139,9 @@
 					}}
 					ondragover="return false"
 				>
+					{#if s.items.length === 0}
+						<div class="placeholder-text">Empty</div>
+					{/if}
 					{#each s.items as item, j (item.id)}
 						<div
 							draggable={true}
@@ -169,9 +172,9 @@
 		@apply overflow-y-hidden;
 	}
 	.pool {
-		height: 70px;
+		/* height: 70px; */
 		max-height: 200px;
-		min-height: 70px;
+		min-height: 100px;
 		@apply flex-wrap;
 	}
 	.pool-hover {
