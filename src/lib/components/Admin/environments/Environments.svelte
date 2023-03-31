@@ -3,7 +3,6 @@
 	import LightBox from '../../utils/LightBox.svelte';
 	import { doc, deleteDoc, setDoc } from 'firebase/firestore';
 	import EditEnvironment from './EditEnv.svelte';
-	import { map, select } from 'd3';
 	import CreateEnv from './CreateEnv.svelte';
 
 	import { v4 as uuidv4 } from 'uuid';

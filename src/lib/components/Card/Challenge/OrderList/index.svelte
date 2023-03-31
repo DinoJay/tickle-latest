@@ -1,6 +1,8 @@
 <script>
 	import OrderList from './OrderList.svelte';
 	import { v4 as uuid } from 'uuid';
+	import Confetti from 'svelte-confetti/src/Confetti.svelte';
+	import Notification from '$lib/components/Notifications/Notification.svelte';
 
 	export let currentActSub;
 	export let activity;
@@ -19,21 +21,42 @@
 
 	$: allItems = activity?.value?.itemList;
 
-	console.log('itemSlots', itemSlots);
-	console.log('pool', pool);
+	const isSuccess = (itemList, itemSlots) => {
+		const itemIds = itemList.map((d) => d.id);
+		const slotIds = itemSlots.map((d) => d.itemId);
+		return JSON.stringify(itemIds) === JSON.stringify(slotIds);
+	};
+	let succeeded = isSuccess(activity.value.itemList, itemSlots);
 </script>
 
+{#if succeeded}
+	<div
+		class="absolute overflow-hidden left-0 flex justify-center  w-full h-full pointer-events-none"
+		style:top="-50px"
+	>
+		<Confetti
+			x={[-5, 5]}
+			y={[0, 0.1]}
+			delay={[500, 2000]}
+			infinite
+			duration={5000}
+			amount={500}
+			fallDistance="100vh"
+		/>
+	</div>
+	<Notification type="success" close={() => (succeeded = false)}>Yay, you did it!</Notification>
+{/if}
 <OrderList
 	{...$$props}
 	{itemSlots}
 	{allItems}
 	{pool}
 	{description}
-	onSubmit={(st, po) => {
-		const succeedded = false;
-		itemSlots = st;
+	onSubmit={(newItemSlots, po) => {
+		succeeded = isSuccess(activity.value.itemList, newItemSlots);
+		itemSlots = newItemSlots;
 		// console.log('st', st, 'po', po);
 		pool = po;
-		onSubmit({ response: st });
+		onSubmit({ response: newItemSlots });
 	}}
 />

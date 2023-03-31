@@ -60,7 +60,7 @@
 		itemHover = null;
 	}
 
-	let draggingItem = null;
+	// let draggingItem = null;
 </script>
 
 <div class="mb-3">
@@ -122,13 +122,23 @@
 				on:dragstart={(event) => {
 					dragStart(event, p.id);
 				}}
+				ondragover="return false"
 			>
 				<div>{i + 1}:</div>
 				<div>{p.name}</div>
 			</div>
 		{/each}
 		{#if pool.length === 0}
-			<div class="text-gray-400 my-12 m-auto">Empty</div>
+			<button
+				class="p-2 border-2 my-12 mx-auto"
+				on:click={() => {
+					const newItemSlots = itemSlots.map((d) => ({ ...d, itemId: null }));
+
+					const newPool = [...allItems];
+
+					onSubmit(newItemSlots, newPool);
+				}}>Reset Items</button
+			>
 		{/if}
 	</div>
 </div>
