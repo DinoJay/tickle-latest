@@ -1,16 +1,24 @@
 <script>
 	import CompassOutline from 'svelte-material-icons/CompassOutline.svelte';
-	export let map;
+	export let selected;
+	export let all;
 	export let onClick;
 </script>
 
 <button
-	on:click={() => onClick()}
-	class="{map ? 'bg-c-light-green hover:bg-c-light-red' : 'bg-c-light-red hover:bg-c-light-green'} 
-		flex items-center p-2 absolute bottom-8 right-5 
+	on:click={onClick}
+	class=" flex items-center p-2 absolute bottom-8 right-5 
 		border-2 border-black rounded-full"
 >
-	<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+	{#if selected === all[0]}
+		<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+	{/if}
+	{#if selected === all[1]}
+		<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+	{/if}
+	{#if selected === all[2]}
+		<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+	{/if}
 </button>
 
 <style>

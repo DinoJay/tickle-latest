@@ -44,7 +44,7 @@
 	// }
 </script>
 
-<div class="flex h-auto px-3 py-8 z-10 overflow-x-auto justify-center">
+<div class="flex h-auto px-3 py-8 z-10 overflow-x-auto justify-center shrink-0">
 	{#each previewCardData as card, i}
 		<div
 			class="mx-1.5 cursor-pointer

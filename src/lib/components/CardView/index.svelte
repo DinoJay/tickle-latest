@@ -21,7 +21,8 @@
 			.then((topix) => {
 				const cards = cs.map((c) => ({
 					...c,
-					topics: topix.filter((t) => c.topics?.includes(t.id))
+					topics: topix.filter((t) => c.topics?.includes(t.id)),
+					topicIds: c.topics
 				}));
 				console.log('cards', cards, 'topix', topix);
 				return [cards, topix];

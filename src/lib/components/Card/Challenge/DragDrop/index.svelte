@@ -53,6 +53,7 @@
 		});
 
 	let succeeded = isSuccess(activity?.value?.stack, stack);
+	$: console.log('succeeded', succeeded);
 </script>
 
 {#if succeeded}
@@ -81,6 +82,7 @@
 		succeeded = isSuccess(activity?.value?.stack, st);
 		console.log('success', succeeded);
 		pool = po;
+		stack = st;
 		onSubmit({ response: st, succeeded });
 
 		// addNotification({ text: 'Yay, you dit it!', type: 'info' });
