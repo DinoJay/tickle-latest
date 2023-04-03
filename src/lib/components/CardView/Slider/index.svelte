@@ -15,21 +15,13 @@
 		alt: card.img?.name
 	}));
 
-	const getCardProps = (card) => ({
-		title: card.title,
-		img: card.img?.url,
-		description: card.description,
-		links: card.links || [],
-		activity: card?.activity,
-		id: card?.id,
-		envId: selectedEnvironment
-	});
 	const elems = cards.map(() => null);
 	let openModal = false;
 
 	afterUpdate(() => {
 		setTimeout(() => {
 			const i = cards.findIndex((card) => card.id === selectedCardId);
+			console.log('scroll', elems[i], selectedCardId);
 
 			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
 		}, 100);
@@ -45,7 +37,7 @@
 </script>
 
 <div class="flex h-auto px-3 py-8 z-10 overflow-x-auto justify-center shrink-0">
-	{#each previewCardData as card, i}
+	{#each previewCardData as card, i (card.id)}
 		<div
 			class="mx-1.5 cursor-pointer
 				shrink-0 grow-0 transition"

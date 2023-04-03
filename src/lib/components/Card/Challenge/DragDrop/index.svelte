@@ -48,7 +48,7 @@
 		stack.every((d) => {
 			const submissionStack = st.find((f) => f.id === d.id);
 			return d.items.every((e) => {
-				return submissionStack.items.find((g) => g.id === e.id);
+				return submissionStack?.items.find((g) => g.id === e.id);
 			});
 		});
 

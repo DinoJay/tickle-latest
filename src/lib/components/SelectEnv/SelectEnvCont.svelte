@@ -18,7 +18,7 @@
 		const i = envs.findIndex((c) => c.id === selectedEnvId);
 		console.log('elem', elems[i]);
 		setTimeout(() => {
-			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'end' });
+			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'start' });
 		}, 200);
 	}
 	// $: console.log('elems', elems);

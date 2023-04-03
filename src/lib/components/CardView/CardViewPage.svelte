@@ -14,8 +14,7 @@
 	export let extended;
 
 	export let selectedCardId = null;
-
-	const GEOMAP = 'map';
+	export const GEOMAP = 'map';
 	const TOPICMAP = 'topicmap';
 	const UPSET = 'upset';
 	const VISTYPES = [GEOMAP, TOPICMAP, UPSET];
@@ -32,27 +31,24 @@
 
 	let selVisTypeCounter = 0;
 	$: selVisType = VISTYPES[selVisTypeCounter];
+
+	const onCardClick = (id) => {
+		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
+		else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
+	};
 </script>
 
 <div class="flex-grow flex flex-col w-full relative overflow-y-auto">
 	{#if cards?.length > 0}
-		<Slider
-			{cards}
-			selectedEnvironment={selectedEnvId}
-			{selectedCardId}
-			onClick={(id) => {
-				if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
-				else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
-			}}
-		/>
-
+		{#if [TOPICMAP, GEOMAP].includes(selVisType)}
+			<Slider {cards} selectedEnvironment={selectedEnvId} {selectedCardId} onClick={onCardClick} />
+		{/if}
 		<div class="absolute h-full w-full  {selVisType === GEOMAP ? 'visible' : 'invisible'}">
-			<Map {cards} {centerLocation} onClick={(id) => (selectedCardId = id)} />
+			<Map {cards} {centerLocation} onClick={onCardClick} />
 		</div>
 
-		<!-- <ForceGraph {cards} {width} {height} /> -->
 		{#if selVisType === UPSET}
-			<Upset {cards} {topics} />
+			<Upset {cards} {topics} {selectedCardId} {onCardClick} onTopicClick={(id) => null} />
 		{/if}
 
 		{#if selVisType === TOPICMAP}
@@ -62,7 +58,7 @@
 				{topics}
 				selectedCardId={curCard?.id}
 				selectedEnvironment={selectedEnvId}
-				onClick={(id) => (selectedCardId = id)}
+				onClick={onCardClick}
 			/>
 		{/if}
 
