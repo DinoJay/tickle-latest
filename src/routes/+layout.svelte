@@ -33,8 +33,7 @@
 <Notifications />
 <div class="flex flex-col w-full h-full sm:p-3">
 	<div
-		class="mx-auto sm:border-2 m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden relative"
-		style="max-width:650px; max-height:1000px"
+		class="mx-auto sm:border-2 dim m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden relative"
 	>
 		{#if route !== '/'}
 			<NavBar />
@@ -48,4 +47,19 @@
 <div id="notifications" />
 
 <style>
+	.dim {
+		max-width: 650px;
+		max-height: 1000px;
+	}
+
+	@media screen and (min-width: 640px) {
+	}
+	@media screen and (min-width: 1024px) {
+	}
+	@media screen and (min-width: 1280px) {
+		.dim {
+			max-width: 950px;
+			max-height: 1200px;
+		}
+	}
 </style>

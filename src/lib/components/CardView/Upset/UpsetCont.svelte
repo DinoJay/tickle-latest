@@ -56,38 +56,6 @@
 	};
 
 	const legendBarWidth = 'w-8';
-
-	function gcd(a, b) {
-		if (b) {
-			return gcd(b, a % b);
-		} else {
-			return Math.abs(a);
-		}
-	}
-	function findGCD(arr, n) {
-		let result = arr[0];
-		for (let i = 1; i < n; i++) {
-			result = gcd(arr[i], result);
-
-			if (result == 1) {
-				return 1;
-			}
-		}
-		return result;
-	}
-
-	// const input = [6, 3, 1, 4, 12, 4];
-	// const input2 = [5, 6, 7, 4, 1];
-
-	// $: res = input2
-	// 	.map((d, i) => {
-	// 		const tmp = input.slice(i);
-	// 		const res = findGCD(tmp, tmp.length);
-	// 		console.log('res', res * tmp.length);
-	// 		return res * tmp.length;
-	// 	})
-	// 	.reduce((acc, d) => (acc > d ? acc : d), 0);
-	// // $: console.log('res', res);
 </script>
 
 <div class="flex-grow flex  flex-col m-auto overflow-auto {contPad}">
@@ -116,7 +84,7 @@
 						style:z-index="-1"
 						style:background={hexToRgba(
 							topic.color,
-							selectedTopicId === null ? 0.5 : topic.id === selectedTopicId ? 0.5 : 0.2
+							selectedTopicId === null ? 0.5 : topic.id === selectedTopicId ? 0.8 : 0.2
 						)}
 						style:height={(tagGroups.find((d) => d.id === topic.id).values.length / sumTopics) *
 							100 +
@@ -155,7 +123,7 @@
 						highlighted={c.id === selectedCardId}
 					/>
 				{/key}
-				{#each topics as t, i (t.id)}
+				{#each topics as t, i (t.id + '' + c.id)}
 					{@const topic = c.topics?.find((t2) => t2.id === t.id)}
 					{@const tagOn = topic != undefined && selectedCardId === c.id}
 					{@const barOn = selectedCardId === c.id && i >= firstIndex && i <= lastIndex}
@@ -169,7 +137,7 @@
 							style:background={topic !== undefined
 								? hexToRgba(topic.color, tagOn ? 1 : 0.5)
 								: 'white'}
-							style:transform={topic !== undefined ? 'scale(1.1)' : ''}
+							style:transform={topic !== undefined ? 'scale(1.2)' : ''}
 						/>
 						{#if topic === undefined && i > firstIndex && i <= lastIndex && i < topics.length - 1}
 							<div
