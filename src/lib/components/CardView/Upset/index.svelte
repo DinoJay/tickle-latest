@@ -44,7 +44,7 @@
 	);
 	console.log('sumtopics', sumTopics);
 
-	console.log('tagGroups', tagGroups);
+	console.log('selectedCardId', selectedCardId);
 </script>
 
 <div class="flex-grow flex  flex-col m-auto overflow-auto {contPad}">
@@ -54,10 +54,10 @@
 			<div
 				class=" relative {beforeLast ? itemWidth : ''} "
 				style:height={labelHeight}
-				style:margin-right={beforeLast ? margin : null}
+				class:marginRight={beforeLast}
 			>
 				<div
-					class="pt-2 relative"
+					class="pt-2 relative border-2"
 					style:height={labelHeight}
 					style:writing-mode="vertical-rl"
 					style:text-orientation="mixed"
@@ -83,7 +83,7 @@
 		{/each}
 	</div>
 	<div class="flex-grow flex flex-col overflow-y-auto {contPad} ">
-		{#each cards as c, j}
+		{#each cards as c, j (c.id)}
 			{@const lastIndex = topics?.findLastIndex((t) => c.topicIds.includes(t.id))}
 			{@const firstIndex = topics?.findIndex((t) => c.topicIds.includes(t.id))}
 			<div
@@ -98,39 +98,48 @@
 			>
 				<!-- <div class="w-32">{c.title}</div> -->
 
-				<MiniCard {...c} cls="w-16 h-20 sm:h-28 sm:w-24 mr-3" />
-				{#each topics as t, i}
+				{#key c.id}
+					<MiniCard
+						{...c}
+						cls="w-16 h-20 sm:h-28 sm:w-24 mr-3"
+						highlighted={c.id === selectedCardId}
+					/>
+				{/key}
+				{#each topics as t, i (t.id)}
 					{@const topic = c.topics?.find((t2) => t2.id === t.id)}
-					{@const off = false}
+					{@const tagOn = topic != undefined && selectedCardId === c.id}
+					{@const barOn = selectedCardId === c.id && i >= firstIndex && i <= lastIndex}
 					<div class="relative">
 						<!-- <div class="absolute left-0 top-0 h-20 w-6 bg-red-500" /> -->
 						<div
-							class:opacity-50={false}
-							class=" item-m-top item-m-bottom {itemHeight} {itemWidth} {topic !== undefined
-								? 'border-2 border-gray-700'
+							class=" rounded-full item-m-top item-m-bottom {itemHeight} {itemWidth} {topic !==
+							undefined
+								? 'border-2 border-gray-700 '
 								: 'bg-white'}"
-							style:background={topic !== undefined ? hexToRgba(topic.color, 0.5) : 'white'}
+							style:background={topic !== undefined
+								? hexToRgba(topic.color, tagOn ? 1 : 0.5)
+								: 'white'}
+							style:transform={topic !== undefined ? 'scale(1.1)' : ''}
 						/>
 						{#if topic === undefined && i > firstIndex && i <= lastIndex && i < topics.length - 1}
 							<div
-								class="{itemWidth} {barHeightCls} item-m-top bg-gray-700 absolute left-0 top-0"
-								class:opacity-50={off}
+								class="{itemWidth} {barHeightCls} {barOn
+									? 'opacity-100'
+									: 'opacity-50'} item-m-top bg-gray-700 absolute left-0 top-0"
 								style:transform="translateY(50%)"
 							/>
 						{/if}
 					</div>
 					{#if i < lastIndex && i >= firstIndex}
 						<div
-							class:opacity-50={off}
-							class="{barHeightCls} bg-gray-700 link-offset"
-							style:width={margin}
+							class="{barHeightCls} barWidth bg-gray-700 
+							link-offset {barOn ? 'opacity-100' : 'opacity-50'}"
 							style:transform="translateY(-50%)"
 						/>
 					{:else}
 						<div
-							class=""
-							class:opacity-50={off}
-							style:width={i < topics.length - 1 ? margin : null}
+							class={barOn ? 'opacity-100' : 'opacity-50'}
+							class:barWidth={i < topics.length - 1}
 							style:transform="translateY(-50%)"
 						/>
 					{/if}
@@ -151,5 +160,21 @@
 
 	.link-offset {
 		margin-top: 0.75rem;
+	}
+
+	.marginRight {
+		margin-right: 30px;
+	}
+	.barWidth {
+		width: 30px;
+	}
+	@media only screen and (min-width: 600px) {
+		.marginRight {
+			margin-right: 50px;
+		}
+		.barWidth {
+			width: 50px;
+		}
+		/* … */
 	}
 </style>

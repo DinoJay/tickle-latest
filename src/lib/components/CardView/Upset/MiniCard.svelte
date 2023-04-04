@@ -4,6 +4,9 @@
 	export let onClick = (d) => d;
 	export let className = '';
 	export let cls;
+	export let highlighted = false;
+
+	$: console.log('highlighted', highlighted);
 </script>
 
 <div
@@ -24,7 +27,8 @@
 	{#if !!img?.url}
 		<div
 			class="mt-1 flex-grow bg-cover"
-			style="background-image: url({img?.url}); filter: grayscale(100%); "
+			style="background-image: url({img?.url})"
+			style:filter={!highlighted ? 'grayscale(100%)' : ''}
 		/>
 	{:else}
 		<div class="flex-grow flex flex-col mt-1 ">
