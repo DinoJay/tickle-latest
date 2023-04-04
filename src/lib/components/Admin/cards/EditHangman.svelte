@@ -38,7 +38,9 @@
 			}
 		};
 	}
-	$: disabledRemoveBtn = selIndex === null || word.length <= 1;
+	$: disabledRemoveBtn = word.length < 2;
+
+	$: console.log('disabledRemoveBtn', disabledRemoveBtn);
 </script>
 
 <div class="mb-3 ">
@@ -57,6 +59,10 @@
 					name="guess"
 					on:click={(e) => {
 						e.target.select();
+						selIndex = i;
+					}}
+					on:focus={() => {
+						selIndex = i;
 					}}
 					on:input={(e) => {
 						if (word.length < 1 || e.target.value === '' || e.target.value === ' ') return;
@@ -134,8 +140,11 @@
 						// });
 						// e.target.select();
 					}}
-					on:blur={(e) => {
-						selIndex = null;
+					on:focusout={(e) => {
+						console.log('blur', e.target);
+						// setTimeout(() => {
+						// 	selIndex = null;
+						// }, 100);
 					}}
 					maxlength="1"
 					type="text"
@@ -148,14 +157,15 @@
 </div>
 <div class="mt-auto flex">
 	<button
-		disabled={disabledRemoveBtn}
-		class="del-btn flex-grow {disabledRemoveBtn ? 'disabled' : ''}"
+		class="del-btn flex-grow {disabledRemoveBtn ? 'disabled pointer-events-none' : ''}"
 		style="max-width:50%"
-		on:click={() => {
+		on:click={(e) => {
+			e.preventDefault();
+			e.stopPropagation();
 			console.log('selIndex', selIndex);
 			onChange({
 				hint: hint || HINT,
-				word: word.slice(0, selIndex) + word.slice(selIndex + 1)
+				word: word.slice(0, word.length - 1) + word.slice(word.length)
 			});
 			selIndex = null;
 
@@ -163,18 +173,28 @@
 			// selIndex = (i - 1) % word.length;
 
 			elems[word.length - 2].focus();
-		}}>Remove letter</button
+
+			const index = (i - 1) % word.length;
+			// // console.log('elems', elems);
+			// elems[index]?.focus();
+			// elems[index]?.select();
+			selIndex = index;
+			// setTimeout(() => {
+			elems[index]?.select();
+		}}>Remove last letter</button
 	>
 	<button
 		class="btn flex-grow"
 		on:click={() => {
 			onChange({
 				hint,
-				word
+				word: `${word}a`
 			});
 
-			// const elems = [...document.querySelectorAll('.letter')];
-			// elems[elems.length - 1]?.focus();
+			setTimeout(() => (selIndex = word.length), 400);
+			console.log('word', word);
+			const elems = [...document.querySelectorAll('.letter')];
+			elems[elems.length - 1]?.focus();
 			// console.log('elems', elems);
 		}}>Add letter</button
 	>

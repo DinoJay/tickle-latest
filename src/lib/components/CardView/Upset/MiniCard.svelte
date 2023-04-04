@@ -6,7 +6,7 @@
 	export let cls;
 	export let highlighted = false;
 
-	$: console.log('highlighted', highlighted);
+	// $: console.log('highlighted', highlighted);
 </script>
 
 <div
