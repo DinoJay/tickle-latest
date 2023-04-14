@@ -172,7 +172,10 @@
 	<EditActivity
 		onClose={() => (selectedField = null)}
 		activity={currentCard.activity}
-		onChange={(activity) => onChange({ ...currentCard, activity })}
+		onChange={(activity) => {
+			console.log('activity', activity);
+			onChange({ ...currentCard, activity });
+		}}
 		onRemove={() => onChange({ ...currentCard, activity: null })}
 	/>
 </LightBox>

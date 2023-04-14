@@ -37,7 +37,7 @@
 </script>
 
 <div class="flex flex-col flex-grow">
-	<div class="flex-grow flex flex-col p-12">
+	<div class="flex-grow flex flex-col p-12 2xl:p-52">
 		<img src="/tickle.svg" alt="tickle-logo" class="flex-grow m-auto" />
 	</div>
 

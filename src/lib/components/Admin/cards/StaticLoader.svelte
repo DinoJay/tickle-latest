@@ -2,7 +2,6 @@
 	// @ts-nocheck
 
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
-	import { xml } from 'd3';
 	import { v4 as uuidv4 } from 'uuid';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
@@ -11,12 +10,9 @@
 	// import xmlJs from 'xml-js';
 
 	import NewCard from '$lib/components/Admin/cards/NewCard.svelte';
-	import xml2json from './xml2json';
-	import Card from '$lib/components/Card/Card.svelte';
 	import PaginatedCardList from './PaginatedCardList.svelte';
 	import CardListByName from './CardListByName.svelte';
 
-	// console.log('d3 xml', xml);
 	let cardData = [];
 	/**
 	 * @type {{ id: string; title: any; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; } | null}
@@ -29,26 +25,42 @@
 	// onMount(() => {});
 
 	const loadFile = () =>
-		d3.xml('./opentoxipedia2018_modified.xml').then((xml) => {
-			const rawdata = xml2json(xml).mediawiki.page;
+		fetch('/opentoxipedia.json')
+			.then((res) => res.json())
+			.then((json) => {
+				console.log('json', json);
+				const rawdata = json.mediawiki.page;
 
-			cardData = rawdata
-				.filter((d) => d.title && d.definition && d.reference)
-				.map((d) => {
-					const e = {
-						id: d.title['#text'], //uuidv4(),
-						title: d.title['#text'],
-						description: d.definition['#text'],
-						links: d.reference['#text'] || [],
-						img: { name: '', url: '' },
-						activity: null,
-						topics: [],
-						loc: { longitude: 4.39, latitude: 50.82 }
-					};
-					return e;
-				});
-			// console.log('xml', data);
-		});
+				cardData = rawdata
+					.filter((d) => d.title && d.definition && d.reference)
+					.map((d) => {
+						console.log('d', d);
+						const e = {
+							id: d.title['#text'], //uuidv4(),
+							title: d.title['#text'],
+							description: d.definition['#text'],
+							links: d.reference['#text'] || [],
+							img: { name: '', url: '' },
+							activity: null,
+							topics: [],
+							loc: { longitude: 4.39, latitude: 50.82 }
+						};
+						return {
+							...d,
+							links:
+								d.links?.map((l) => {
+									return {
+										name: l.name,
+										ref: l.url
+									};
+								}) || [],
+							id: uuidv4(),
+							description: d.definition,
+							loc: { longitude: 4.39, latitude: 50.82 }
+						};
+					});
+				console.log('cardData', cardData);
+			});
 
 	const createCards = () => {
 		onCreate(ncs);

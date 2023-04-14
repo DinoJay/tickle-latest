@@ -17,7 +17,7 @@
 	export let onCreate;
 	export let onRemove;
 
-	$: console.log('color', currentTopic);
+	$: console.log('current topic', currentTopic);
 </script>
 
 <form class="flex-initial flex flex-col overlflow-y-auto" on:submit={(e) => e.preventDefault()}>
@@ -71,7 +71,7 @@
 		<SelectColor
 			color={currentTopic.color}
 			onChange={(color) => {
-				console.log('sel color', color);
+				console.log('new color', color);
 				const newTopic = { ...currentTopic, color };
 				onChange(newTopic);
 			}}

@@ -7,9 +7,13 @@
 
 	import { page } from '$app/stores';
 	import PageTrans from '$lib/components/Map/utils/PageTrans.svelte';
+	import { doc, getDoc } from 'firebase/firestore';
+	import { db } from '$lib/firebaseConfig/firebase';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	$: route = $page.route?.id;
+
+	$: selectedEnvId = $page.params.envId;
 
 	// let width = null;
 	// let height = null;
@@ -31,9 +35,12 @@
 </script>
 
 <Notifications />
-<div class="flex flex-col w-full h-full sm:p-3">
+<div
+	class="flex flex-col w-full h-full sm:p-3 bg-cover bg-center"
+	style="background-image:url('/city-bg-yellow.png')"
+>
 	<div
-		class="mx-auto sm:border-2 dim m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden relative"
+		class="mx-auto bg-white sm:border-2 dim m-auto flex flex-col flex-grow w-full h-full overflow-x-hidden relative"
 	>
 		{#if route !== '/'}
 			<NavBar />
@@ -56,7 +63,7 @@
 	}
 	@media screen and (min-width: 1024px) {
 	}
-	@media screen and (min-width: 1280px) {
+	@media screen and (min-width: 1580px) {
 		.dim {
 			max-width: 950px;
 			max-height: 1200px;

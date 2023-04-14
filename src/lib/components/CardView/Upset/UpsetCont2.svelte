@@ -4,32 +4,22 @@
 	import { groups } from '$lib/group';
 	import hexToRgba from '$lib/components/utils/hexToRgba';
 	import { flip } from 'svelte/animate';
-	import { fly, fade, blur } from 'svelte/transition';
-	import Check from 'svelte-material-icons/Check.svelte';
+	import { fly, fade } from 'svelte/transition';
 
 	export let cards;
 	export let onCardClick;
 	export let selectedCardId;
-	/**
-	 * @type {any[]}
-	 */
 	export let topics;
 	export let onSelectTopicId;
-	/**
-	 * @type {null}
-	 */
 	export let selectedTopicId;
 
 	const labelHeight = '8rem';
 	const itemWidth = 'w-6';
 	const itemHeight = 'h-6';
-	const barHeightCls = 'h-2';
+	const barHeightCls = 'h-3';
 	const contPad = 'p-2';
 
 	const elems = cards.map(() => null);
-
-	const legendBarWidth = 'w-6';
-	const marginRight = topics.length === 1 ? '3.5rem' : '0.8rem';
 
 	afterUpdate(() => {
 		setTimeout(() => {
@@ -65,15 +55,14 @@
 		onSelectTopicId(selectedTopicId === topic.id ? null : topic.id);
 	};
 
-	let legendStraight = false;
-
-	const a = new Array(10).fill().map((d) => 1);
+	const legendBarWidth = 'w-8';
 </script>
 
 <div class="flex-grow flex  flex-col m-auto overflow-auto {contPad}">
-	<div class="flex items-center  {topics.length > 1 ? 'ml-legend' : 'ml-legend-single'} m-auto ">
+	<div class="flex items-center  ml-20 sm:ml-28 m-auto mb-3 ">
 		{#each topics as topic, i}
 			{@const beforeLast = i < topics.length - 1}
+			{@const highlighted = selectedTopicId === topic.id || selectedTopicId === null}
 			<div
 				on:click={() => onTopicClick(topic)}
 				on:keydown={() => onTopicClick(topic)}
@@ -82,12 +71,12 @@
 				class:marginRight={beforeLast}
 			>
 				<div
-					class="pt-2 relative transition-all"
+					class="pt-2 relative "
 					style:height={labelHeight}
 					style:writing-mode="vertical-rl"
 					style:text-orientation="mixed"
 					style:transform-origin="left bottom"
-					style:transform="rotate({legendStraight ? '0deg' : '-30deg'})"
+					style:transform="rotate(-20deg)"
 					style:isolation="isolate"
 				>
 					<div
@@ -104,82 +93,45 @@
 					<div class="absolute left-0 top-0 h-full z-10 crop pt-2 {legendBarWidth}">
 						<div class="w-full h-full flex items-center"><div class="crop">{topic.title}</div></div>
 					</div>
-					<div
-						class="absolute outline  left-0 top-0 h-full z-10 crop {legendBarWidth}"
-						style:outline-color={hexToRgba(topic.color, 0.5)}
-					/>
+					<div class="absolute border-2 left-0 top-0 h-full z-10 crop {legendBarWidth}" />
 				</div>
-				<!-- <div
-					class="absolute outline  left-0 inset-y-2 h-full z-30 crop {legendBarWidth}"
-					style:height="10px"
-					style:top="98%"
-					style:outline-color={hexToRgba(topic.color, 0.5)}
-					style:background={hexToRgba(topic.color, 0.5)}
-				/> -->
 				<!-- <div class="absolute w-6 h-6 border inset-0" style:background={t.color} /> -->
 			</div>
 		{/each}
 	</div>
-	<div
-		class="flex-grow flex flex-col overflow-y-auto {contPad} "
-		on:scroll={(e) => {
-			if (e.target.scrollTop > 35) legendStraight = true;
-			else legendStraight = false;
-		}}
-	>
+	<div class="flex-grow flex flex-col overflow-y-auto {contPad} ">
 		{#each cards as c, j (c.id)}
 			{@const lastIndex = topics?.findLastIndex((t) => c.topicIds.includes(t.id))}
 			{@const firstIndex = topics?.findIndex((t) => c.topicIds.includes(t.id))}
 			<div
-				bind:this={elems[j]}
-				transition:fly
 				animate:flip={{ duration: 700 }}
+				transition:fly
+				bind:this={elems[j]}
 				on:click={() => {
 					onCardClick(c.id);
 				}}
 				on:keydown={() => {
 					onCardClick(c.id);
 				}}
-				class="flex items-center cursor-pointer relative "
+				class="flex items-center mb-2 cursor-pointer relative bg-gray-100 p-1"
 			>
+				<!-- <div class="w-32">{c.title}</div> -->
+
 				{#key c.id}
-					<div
-						class="flex flex-col w-16 h-20 z-10 sm:h-28 sm:w-24  py-1"
-						style:margin-right={marginRight}
-					>
-						<MiniCard {...c} cls="flex-grow  my-auto " highlighted={c.id === selectedCardId} />
-					</div>
+					<MiniCard
+						{...c}
+						cls="w-16 h-20 sm:h-28 sm:w-24 mr-3"
+						highlighted={c.id === selectedCardId}
+					/>
 				{/key}
 				{#each topics as t, i (t.id + '' + c.id)}
 					{@const topic = c.topics?.find((t2) => t2.id === t.id)}
 					{@const tagOn = topic != undefined && selectedCardId === c.id}
 					{@const barOn = selectedCardId === c.id && i >= firstIndex && i <= lastIndex}
-					{@const beforeFirst = i <= firstIndex}
-					{@const selected = selectedCardId === c.id}
-					<div class="relative h-full flex items-center justify-center">
-						<!-- {#each Array(1).fill(0) as _, i} -->
-						{#if i <= firstIndex}
-							<div
-								class="h-2 absolute  "
-								style:width="75.5px"
-								style:margin-top="0.5rem"
-								style:background={selected ? '#374251' : '#9a9fa8'}
-								style:transform="translateX(-67%) translateY(-3.5px)"
-							/>
-						{/if}
-						{#if i === 0}
-							<div
-								class="h-2 absolute "
-								style:margin-top="0.5rem"
-								style:width="8px"
-								style:z-index="-1"
-								style:background={tagOn ? '#374251' : '#9a9fa8'}
-								style:transform="translateX(-30%) translateY(-3.5px)"
-							/>
-						{/if}
-						<div class="absolute h-full p-3 z-10" style:background={hexToRgba(t.color, 0.2)} />
+					<div class="relative">
+						<!-- <div class="absolute left-0 top-0 h-20 w-6 bg-red-500" /> -->
 						<div
-							class=" rounded-full flex items-center justify-center {itemHeight} {itemWidth} {topic !==
+							class=" rounded-full item-m-top item-m-bottom {itemHeight} {itemWidth} {topic !==
 							undefined
 								? 'border-2 border-gray-700 '
 								: 'bg-white'}"
@@ -187,33 +139,27 @@
 								? hexToRgba(topic.color, tagOn ? 1 : 0.5)
 								: 'white'}
 							style:transform={topic !== undefined ? 'scale(1.2)' : ''}
-						>
-							{#if topic !== undefined}
-								<Check />
-							{/if}
-						</div>
+						/>
 						{#if topic === undefined && i > firstIndex && i <= lastIndex && i < topics.length - 1}
 							<div
 								class="{itemWidth} {barHeightCls} {barOn
 									? 'opacity-100'
-									: 'opacity-50'}  bg-gray-700 absolute left-0 top-0"
-								style:transform="translateY(-50%)"
-								style:top="50%"
+									: 'opacity-50'} item-m-top bg-gray-700 absolute left-0 top-0"
+								style:transform="translateY(50%)"
 							/>
 						{/if}
 					</div>
 					{#if i < lastIndex && i >= firstIndex}
 						<div
-							class="{barHeightCls} barWidth bg-gray-700 {barOn ? 'opacity-100' : 'opacity-50'}"
+							class="{barHeightCls} barWidth bg-gray-700 
+							link-offset {barOn ? 'opacity-100' : 'opacity-50'}"
 							style:transform="translateY(-50%)"
-							style:margin-top="0.5rem"
 						/>
 					{:else}
 						<div
 							class={barOn ? 'opacity-100' : 'opacity-50'}
 							class:barWidth={i < topics.length - 1}
 							style:transform="translateY(-50%)"
-							style:margin-top="0.5rem"
 						/>
 					{/if}
 				{/each}
@@ -223,49 +169,30 @@
 </div>
 
 <style>
-	/* .item-m-top {
+	.item-m-top {
 		margin-top: 0.375rem;
 	}
 
 	.item-m-bottom {
 		margin-bottom: 0.375rem;
-	} */
+	}
 
 	.link-offset {
 		margin-top: 0.75rem;
 	}
 
 	.marginRight {
-		margin-right: 20px;
+		margin-right: 25px;
 	}
 	.barWidth {
-		width: 20px;
-	}
-	.ml-legend {
-		margin-left: 5.3rem;
-	}
-	.ml-legend-single {
-		margin-left: 10rem;
-	}
-	.helper-line-first {
-		width: 120px;
+		width: 25px;
 	}
 	@media only screen and (min-width: 600px) {
-		.link-offset {
-			margin-top: 1.25rem;
-		}
 		.marginRight {
 			margin-right: 50px;
 		}
 		.barWidth {
 			width: 50px;
-		}
-
-		.helper-line-first {
-			width: 50px;
-		}
-		.ml-legend {
-			margin-left: 7.3rem;
 		}
 		/* … */
 	}

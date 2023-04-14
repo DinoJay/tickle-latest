@@ -18,7 +18,6 @@
 	/**
 	 * @type {{ title: any; id: any; }}
 	 */
-	export let selectedTopic;
 	/**
 	 * @type {(arg0: any) => void}
 	 */
@@ -29,6 +28,11 @@
 	export let selectedEnvId;
 	let lbOpen = false;
 	let clbOpen = false;
+
+	let topix = topics;
+	let selectedTopicId = null;
+
+	$: selectedTopic = topix?.find((d) => d.id === selectedTopicId);
 </script>
 
 <div class="flex flex-wrap gap-3 p-1 mb-2">
@@ -40,7 +44,7 @@
 			<PreviewTopic
 				{...t}
 				onClick={() => {
-					onClick(t.id);
+					selectedTopicId = t.id;
 					lbOpen = true;
 				}}
 			/>
@@ -60,6 +64,7 @@
 	<EditTopic
 		{selectedEnvId}
 		onChange={(t) => {
+			console.log('onChange', t);
 			const ts = topics.map((d) => {
 				if (d.id === t.id) {
 					return t;
@@ -70,6 +75,7 @@
 
 			setDoc(docRef, t).catch((e) => console.log('err', e));
 			onChange(ts);
+			topix = ts;
 		}}
 		onRemove={(id) => {
 			onChange(topics.filter((t) => t.id !== id));

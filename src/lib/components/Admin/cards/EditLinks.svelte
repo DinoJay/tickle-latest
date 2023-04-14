@@ -36,7 +36,7 @@
 		<input
 			bind:value={ref}
 			placeholder="Type new link content"
-			class=" form-text w-full"
+			class=" ml-1 form-text w-full"
 			type="text"
 		/>
 	</div>

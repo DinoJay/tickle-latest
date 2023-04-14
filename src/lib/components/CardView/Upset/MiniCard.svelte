@@ -2,8 +2,7 @@
 	export let img = { url: '' };
 	export let title = '';
 	export let onClick = (d) => d;
-	export let className = '';
-	export let cls;
+	export let cls = '';
 	export let highlighted = false;
 
 	// $: console.log('highlighted', highlighted);
@@ -12,8 +11,8 @@
 <div
 	on:click={onClick}
 	on:keydown={onClick}
-	class="flex flex-col  {cls} p-1 sm:p-2 relative overflow-hidden
-		bg-white  drop-shadow-md cursor-pointer hover:scale-105 transition-all  {className}"
+	class="flex flex-col {cls} p-1 sm:p-2 relative overflow-hidden
+		bg-white  drop-shadow-md cursor-pointer hover:scale-105 transition-all  "
 >
 	{#if !!title}
 		<h1 class="shrink-0 title sm:block hidden ">

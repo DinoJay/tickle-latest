@@ -26,7 +26,8 @@
 	});
 	$: layout = memCalcLayout({ cards, topics, width, height, NODERAD });
 
-	$: console.log('color', layout);
+	$: console.log('layout', layout);
+
 	$: getTopic = (title) => topics.find((d) => d.title === title);
 </script>
 

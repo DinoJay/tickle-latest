@@ -9,6 +9,8 @@
 	import { clickOutside } from '$lib/components/utils/clickOutside';
 	import Logo from './Logo.svelte';
 	import Burger from './Burger.svelte';
+	import { doc, getDoc } from 'firebase/firestore';
+	import { db } from '$lib/firebaseConfig/firebase';
 
 	$: selectedEnvId = $page.params.envId || '';
 	$: console.log('page', $page);
@@ -19,6 +21,9 @@
 
 	let collapsed = true;
 
+	$: envPromise = selectedEnvId
+		? getDoc(doc(db, 'card-envs', selectedEnvId)).then((d) => d.data())
+		: null;
 	$: sections = [
 		{
 			name: 'Select environments/User View',
@@ -74,8 +79,12 @@
 	use:clickOutside
 	on:click_outside={() => (collapsed = true)}
 >
-	<div class="flex-grow flex relative">
+	<div class="flex-grow flex relative items-end">
 		<Logo onClick={() => logOut()} />
+
+		{#await envPromise then env}
+			<div class="mb-3">{env?.title || ''}</div>
+		{/await}
 
 		<div class="ml-auto relative mr-3 my-auto">
 			{#if $store?.currentUser}

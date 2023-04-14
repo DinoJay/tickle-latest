@@ -38,6 +38,7 @@
 		'z'
 	];
 
+	console.log('cards', cards);
 	let searchStr = '';
 	$: filtered = cards.filter((c) => c.title.toLowerCase().startsWith(searchStr.toLowerCase()));
 	$: nested = abc

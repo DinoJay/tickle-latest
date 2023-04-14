@@ -8,7 +8,7 @@
 
 <div class={cls} style="width:min(100vw, 40vh, 350px)">
 	<div class="grid " {style}>
-		{#each ['abcdefghij', 'klmnopqrst', 'uvwxyz'] as row}
+		{#each ['0123456789', 'abcdefghij', 'klmnopqrst', 'uvwxyz'] as row}
 			<div class="row">
 				{#each row as letter}
 					<button

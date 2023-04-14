@@ -5,7 +5,7 @@
 
 	const radians = [10, 50, 100, 200];
 
-	export let value = { title: null, description: null, location: null, radius: radians[0] };
+	export let value = { title: null, description: null, location: undefined, radius: radians[0] };
 	/**
 	 * @type {(arg0: { location: { lon: any; lat: any; } | null; title: any; description: any; radius:number}) => void}
 	 */
@@ -24,13 +24,15 @@
 	$: radius = value?.radius || radians[0];
 	$: title = value?.title || null;
 	$: description = value?.description || null;
+
+	$: curVal = { location, radius, title, description };
 </script>
 
 <RadiusMap
 	{location}
 	radiusInM={radius}
 	onChange={(lon, lat) => {
-		onChange({ ...value, location: { lon, lat } });
+		onChange({ ...curVal, location: { lon, lat } });
 	}}
 />
 
@@ -41,7 +43,7 @@
 		name="radius"
 		id="radius"
 		on:change={(e) => {
-			onChange({ ...value, radius: +e.target.value });
+			onChange({ ...curVal, radius: +e.target.value });
 		}}
 	>
 		{#each radians as r}
@@ -55,7 +57,7 @@
 		placeholder="Enter title"
 		value={title}
 		class="border-2 p-2 w-full"
-		on:input={(e) => onChange({ ...value, title: e.target.value })}
+		on:input={(e) => onChange({ ...curVal, title: e.target.value })}
 	/>
 </div>
 <div>
@@ -65,7 +67,7 @@
 		style="height:10rem"
 		value={description}
 		class="border-2 p-2 w-full"
-		on:input={(e) => onChange({ ...value, description: e.target.value })}
+		on:input={(e) => onChange({ ...curVal, description: e.target.value })}
 	/>
 </div>
 

@@ -14,18 +14,8 @@
 	// 	img: { name: '', url: '' },
 	// 	color: ''
 	// };
-
-	let selectedTopicId = null;
-
-	$: selectedTopic = topics?.find((d) => d.id === selectedTopicId);
 </script>
 
 <div class="flex flex-col flex-grow">
-	<TopicPage
-		{topics}
-		{selectedEnvId}
-		{selectedTopic}
-		{onChange}
-		onClick={(id) => (selectedTopicId = id)}
-	/>
+	<TopicPage {topics} {selectedEnvId} {onChange} />
 </div>

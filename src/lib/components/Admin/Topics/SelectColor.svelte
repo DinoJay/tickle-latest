@@ -3,16 +3,16 @@
 	import { select } from 'd3';
 	let open = false;
 	const colors = [
-		'#1f77b4',
-		'#ff7f0e',
-		'#2ca02c',
-		'#d62728',
-		'#9467bd',
-		'#8c564b',
-		'#e377c2',
-		'#7f7f7f',
-		'#bcbd22',
-		'#17becf'
+		'#4e79a7',
+		'#f28e2c',
+		'#e25759',
+		'#77b6b2',
+		'#58a04e',
+		'#edc948',
+		'#af7aa1',
+		'#ff9da6',
+		'#9c765e',
+		'#b9b0ab'
 	];
 	export let color = null;
 	export let onChange;

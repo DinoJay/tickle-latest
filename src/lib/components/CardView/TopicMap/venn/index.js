@@ -1,15 +1,20 @@
 
-import { packSiblings } from 'd3';
+import { packSiblings, text } from 'd3';
 import { points } from './diagram';
+
 const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) => {
     if (tmpCards.length == 0) return;
+
+    const topix = [...new Set(tmpCards.flatMap((d) => d.topicIds))]
+
+    console.log('topci', topix)
 
     const cards = tmpCards.map(d => ({ ...d, topics: d.topics.map(d => d.id) }))
 
     // const topics = tmpTopix.map(d => d.id)
 
     const sort = (ar, acc = (a) => a.title) => {
-        ar = ar.slice().sort((a, b) => acc(b).localeCompare(a.title));
+        ar = ar.slice().sort((a, b) => !acc(b).localeCompare(a.title));
         return ar;
     };
 
@@ -48,15 +53,23 @@ const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) =>
         );
         return ret;
     };
+    const getSetsStrRev = (d, accessor = (e) => e.title) => {
+        const ret = sort(d, accessor).reduce(
+            (acc, cur) => (acc.length > 0 ? `${accessor(cur)},${acc}` : accessor(cur)),
+            ''
+        );
+        return ret;
+    };
 
     const nodeData = cards.map((d) => {
         let cardTopics = [];
-        topics.forEach((topic) => {
-            if (d.topics.includes(topic.id)) cardTopics.push(topic);
+        topix.forEach((id) => {
+            if (d.topics.includes(id)) cardTopics.push(topics.find(d => d.id == id));
         });
         const sets = sort(cardTopics).map((d) => d.title);
         const setsStr = getSetsStr(cardTopics);
-        return { ...d, sets, setsStr };
+        const setsStrRev = getSetsStrRev(cardTopics);
+        return { ...d, sets, setsStr, setsStrRev };
     });
 
     const unique = (a) => [...new Set(a)];
@@ -78,31 +91,57 @@ const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) =>
         d.size = d.values.length / d.sets.length;
     });
 
+    // console.log('allSets', allSets)
     const { textCentres, circles: circleDict, rs } = points({ data: allSets, width, height });
+
+    // console.log('circleDict', circleDict, 'textCentres', textCentres, 'rs', rs)
 
     let circleVals = [];
     Object.keys(circleDict).forEach((key) => {
         circleVals = [...circleVals, { value: circleDict[key], title: key }];
     });
 
+    console.log('nodeData', nodeData)
+    console.log('textCentres', textCentres)
+
+    const textCentresArr = Object.entries(textCentres).map(([l, pos]) => ({ setsStr: l, ...pos }));
     const nodes = nodeData.map((d) => {
         return {
             ...d,
             ...circleDict[d.setsStr],
-            x: textCentres[d.setsStr]?.x,
-            y: textCentres[d.setsStr]?.y,
-            sx: textCentres[d.setsStr]?.x,
-            sy: textCentres[d.setsStr]?.y
+            x: textCentresArr.find(e => e.setsStr.split(',').every(f => d.sets.includes(f)))?.x,
+            y: textCentresArr.find(e => e.setsStr.split(',').every(f => d.sets.includes(f)))?.y,
+            sx: textCentresArr.find(e => e.setsStr.split(',').every(f => d.sets.includes(f)))?.x,
+            sy: textCentresArr.find(e => e.setsStr.split(',').every(f => d.sets.includes(f)))?.y,
+            // sx: textCentresArr.find(e => e.sets.every(f => d.setsStr.includes(f)))?.x,
+            // sy: textCentresArr.find(e => e.sets.every(f => d.setsStr.includes(f))).y,
         };
     });
+
+    console.log('nodes', nodes);
 
     const labelPoints = Object.entries(textCentres).map(([l, pos]) => ({ text: l, ...pos }));
 
     const labels = labelPoints.filter((d, i) => allSets[i].sets.length === 1);
 
+    console.log('rs', rs)
     const rsNodes = rs.map((d) => {
-        return { ...d, nodes: nodes.filter((n) => n.setsStr === d.setsStr) };
+        return { ...d, nodes: nodes.filter((n) => n.setsStr === d.setsStr || n.setsStrRev === d.setsStr.split(',').reverse().join(',')) };
     });
+
+
+    const uniqBy = (arr, predicate) => {
+        const cb = typeof predicate === 'function' ? predicate : (o) => o[predicate];
+
+        return [...arr.reduce((map, item) => {
+            const key = (item === null || item === undefined) ?
+                item : cb(item);
+
+            map.has(key) || map.set(key, item);
+
+            return map;
+        }, new Map()).values()];
+    };
 
     const setNodes = rsNodes.map((set) => {
         var innerRadius = set.r,

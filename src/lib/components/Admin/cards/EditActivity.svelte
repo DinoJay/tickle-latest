@@ -78,7 +78,7 @@
 		value={activity?.value}
 		onClose={() => (selectedActivity = null)}
 		onChange={(/** @type {any} */ value) => {
-			console.log('val', value);
+			console.log('val hangman', value);
 			onChange({ type: HANGMAN, value });
 		}}
 	/>

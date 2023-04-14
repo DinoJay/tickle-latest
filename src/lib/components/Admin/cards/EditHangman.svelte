@@ -45,7 +45,17 @@
 
 <div class="mb-3 ">
 	<div class="label text-2xl">Hint:</div>
-	<textarea value={hint} placeholder="Please enter your hint" class="input-text w-full h-24" />
+	<textarea
+		value={hint}
+		on:change={(e) => {
+			onChange({
+				hint: e.target.value,
+				word: word
+			});
+		}}
+		placeholder="Please enter your hint"
+		class="input-text w-full h-24"
+	/>
 </div>
 <div class="mb-3 text-2xl">
 	<div class="label mb-2">Word:</div>
@@ -67,13 +77,14 @@
 					on:input={(e) => {
 						if (word.length < 1 || e.target.value === '' || e.target.value === ' ') return;
 						e.target.select();
+
 						onChange({
 							hint: hint || HINT,
 							word: word.slice(0, i) + e.target?.value + word.slice(i + 1).trim()
 						});
 
 						const elems = [...document.querySelectorAll('.letter')];
-						const index = (i + 1) % word.length;
+						const index = (i + 1 < word.length ? i + 1 : i) % word.length;
 						// // console.log('elems', elems);
 						// elems[index]?.focus();
 						// elems[index]?.select();
@@ -147,7 +158,6 @@
 						// }, 100);
 					}}
 					maxlength="1"
-					type="text"
 					class="letter w-full h-full"
 					value={letter}
 				/>
