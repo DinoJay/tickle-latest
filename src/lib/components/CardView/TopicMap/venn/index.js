@@ -1,6 +1,7 @@
 
 import { packSiblings, text } from 'd3';
 import { points } from './diagram';
+import group from '$lib/group';
 
 const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) => {
     if (tmpCards.length == 0) return;
@@ -126,7 +127,7 @@ const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) =>
 
     console.log('rs', rs)
     const rsNodes = rs.map((d) => {
-        return { ...d, nodes: nodes.filter((n) => n.setsStr === d.setsStr || n.setsStrRev === d.setsStr.split(',').reverse().join(',')) };
+        return { ...d, nodes: nodes.filter((n) => n.sets.every(s => d.sets.includes(s)) || n.setsStr === d.setsStr || n.setsStrRev === d.setsStr.split(',').reverse().join(',')) };
     });
 
 
@@ -150,15 +151,30 @@ const calcLayout = ({ cards: tmpCards, topics, width, height, NODERAD = 12 }) =>
             x = center.x,
             y = center.y;
 
-        const p = packSiblings(nodes.map((d) => ({ ...d, r: NODERAD + 2 })));
+        console.log('set', set.setsStr, set)
+        // const p = packSiblings(uniqBy(nodes, 'id').map((d) => ({ ...d, r: NODERAD })));
+
+        const nested = [...group(nodes, d => `${d.x + x},${d.y + y}`)].map(([k, nodes]) => {
+            // console.log('k', k, 'nodes', nodes);
+            const p = packSiblings(uniqBy(nodes, 'id').map((d) => ({ ...d, r: nodes.length > 1 ? NODERAD : 0 })));
+            p.forEach((n) => {
+                n.x += x;
+                n.y += y;
+            });
+            return p
+
+        })
+        const p = packSiblings(uniqBy(nodes, 'id').map((d) => ({ ...d, r: nodes.length > 1 ? NODERAD : 0 })));
         p.forEach((n) => {
             n.x += x;
             n.y += y;
         });
-        return { ...set, nodes: p };
+
+        return { ...set, nodes: nested.flat() };
     });
 
-    return { nodes: setNodes.flatMap((d) => d.nodes), circleVals, labels };
+
+    return { nodes: uniqBy(setNodes.flatMap((d) => d.nodes), 'id'), circleVals, labels };
     // console.log(newNodes);
 };
 

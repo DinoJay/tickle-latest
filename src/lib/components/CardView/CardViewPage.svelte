@@ -1,5 +1,4 @@
 <script>
-	import { store } from '/src/stores/index';
 	import Slider from '$lib/components/CardView/Slider/index.svelte';
 	import TopicMap from '$lib/components/CardView/TopicMap/index.svelte';
 	import Map from '$lib/components/map/Map.svelte';
@@ -14,7 +13,7 @@
 	export let extended;
 
 	export let selectedCardId = null;
-	export const GEOMAP = 'map';
+	const GEOMAP = 'map';
 	const TOPICMAP = 'topicmap';
 	const UPSET = 'upset';
 	const VISTYPES = [GEOMAP, TOPICMAP, UPSET];
@@ -29,8 +28,7 @@
 
 	const topicIds = topics.map((t) => t.id);
 
-	let selVisTypeCounter = 0;
-	$: selVisType = VISTYPES[selVisTypeCounter];
+	let selVisType = GEOMAP;
 
 	const onCardClick = (id) => {
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
@@ -62,11 +60,7 @@
 			/>
 		{/if}
 
-		<SwitchVisBtn
-			selected={selVisType}
-			all={VISTYPES}
-			onClick={() => (selVisTypeCounter = (selVisTypeCounter + 1) % VISTYPES.length)}
-		/>
+		<SwitchVisBtn selected={selVisType} all={VISTYPES} onClick={(t) => (selVisType = t)} />
 	{:else}
 		<div class="m-auto text-2xl">No content in this Environment!</div>
 	{/if}

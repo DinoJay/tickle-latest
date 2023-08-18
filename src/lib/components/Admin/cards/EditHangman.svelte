@@ -216,7 +216,7 @@
 
 		onChange({
 			hint: hint || HINT,
-			word: word.slice(0, selIndex) + word.slice(selIndex + 1)
+			word
 		});
 	}}
 >

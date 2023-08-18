@@ -4,6 +4,7 @@
 	import { flip } from 'svelte/animate';
 	import { v4 as uuidv4 } from 'uuid';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
+	import PencilBox from 'svelte-material-icons/Pencil.svelte';
 
 	export let value = { itemList: null, description: '' };
 	export let onClose;
@@ -28,12 +29,17 @@
 	 */
 	let hovering = null;
 	let newItemTitle = null;
-	let modalOpen = false;
+	let newItemModalOpen = false;
+	/**
+	 * @type {null | string}
+	 */
+	let selectedId = null;
 
 	$: itemList = value?.itemList || exampleList.map((d) => ({ ...d, id: uuidv4() }));
+	$: selectedItem = itemList.find((d) => d.id === selectedId);
 
 	const drop = (event, target) => {
-		event.dataTransfer.dropEffect = 'move';
+		// event.dataTransfer.dropEffect = 'move';
 		const start = parseInt(event.dataTransfer.getData('text/plain'));
 
 		const startItem = itemList.find((d, i) => i === start);
@@ -44,8 +50,8 @@
 	};
 
 	const dragstart = (event, i) => {
-		event.dataTransfer.effectAllowed = 'move';
-		event.dataTransfer.dropEffect = 'move';
+		// event.dataTransfer.effectAllowed = 'move';
+		// event.dataTransfer.dropEffect = 'move';
 		const start = i;
 		event.dataTransfer.setData('text/plain', start);
 	};
@@ -56,7 +62,8 @@
 	<textarea
 		placeholder="Please enter your description"
 		class="text-area w-full"
-		on:change={(e) => onChange({ ...value, description: e.target.trim() })}
+		value={value?.description}
+		on:change={(e) => onChange({ ...value, description: e.target.value.trim() })}
 	/>
 </div>
 <div>
@@ -74,9 +81,12 @@
 				class:active={hovering === index}
 			>
 				<div>
-					<span>#{index}</span>
+					<span>#{index + 1}</span>
 					{n.name}
 				</div>
+				<button class="ml-3" on:click={() => (selectedId = n.id)}>
+					<PencilBox />
+				</button>
 				<button
 					class="ml-auto"
 					on:click={() => {
@@ -86,7 +96,7 @@
 			</div>
 		{/each}
 	</div>
-	<button class="mt-3 create-btn-2 w-full" on:click={() => (modalOpen = true)}
+	<button class="mt-3 create-btn-2 w-full" on:click={() => (newItemModalOpen = true)}
 		>Create new Item</button
 	>
 </div>
@@ -99,7 +109,12 @@
 	}}>Save and Close</button
 >
 
-<LightBox title="Create new Item" isOpen={modalOpen} height={200} close={() => (modalOpen = false)}>
+<LightBox
+	title="Create new Item"
+	isOpen={newItemModalOpen}
+	height={200}
+	close={() => (newItemModalOpen = false)}
+>
 	<div>
 		<div class="label">Name:</div>
 		<input
@@ -116,8 +131,43 @@
 		on:click={() => {
 			onChange({ ...value, itemList: [...itemList, { name: newItemTitle, id: uuidv4() }] });
 			newItemTitle = null;
-			modalOpen = false;
 		}}>Create new Item</button
+	>
+</LightBox>
+
+<LightBox
+	title={selectedItem?.name}
+	isOpen={!!selectedId}
+	height={200}
+	close={() => (selectedId = null)}
+>
+	<div>
+		<div class="label">Name:</div>
+		<input
+			placeholder="Please enter the name of the item"
+			class="form-text input-text w-full "
+			type="text"
+			value={selectedItem?.name}
+			on:change={(e) => {
+				onChange({
+					...value,
+					itemList: itemList.map((d) => {
+						if (d.id === selectedItem?.id) {
+							return { ...d, name: e.target?.value?.trim() };
+						}
+						return d;
+					})
+				});
+			}}
+		/>
+	</div>
+	<button
+		class="create-btn mt-auto"
+		disabled={selectedItem?.name === ''}
+		class:disabled={selectedItem?.name === ''}
+		on:click={() => {
+			selectedId = null;
+		}}>Save and Close</button
 	>
 </LightBox>
 

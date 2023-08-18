@@ -27,46 +27,38 @@
 	}
 </script>
 
-<div class="flex-grow flex flex-col bg-white w-full">
-	{#if counter < questions.length}
-		{#key curQ.id}
-			<div class="flex-grow flex flex-col">
-				<Question
-					{title}
-					{img}
-					{...curQ}
-					onChange={(answer) => {
-						onAnswerSubmit({ qid: curQ.id, answer });
-					}}
-					{counter}
-				/>
+{#if counter < questions.length}
+	{#key curQ.id}
+		<div class="flex-grow flex flex-col">
+			<Question
+				{title}
+				{img}
+				{...curQ}
+				onChange={(answer) => {
+					onAnswerSubmit({ qid: curQ.id, answer });
+				}}
+				{counter}
+			/>
 
-				<button
-					class="w-full mt-auto bg-black
+			<button
+				class="w-full mt-auto bg-black
 			 	text-xl p-3 text-white {disabledNextQ ? 'disabled' : ''}"
-					disabled={disabledNextQ}
-					on:click={() => {
-						counter++;
-					}}
-				>
-					{#if counter < questions.length - 1}
-						Next Question
-					{:else}
-						See Result
-					{/if}
-				</button>
-			</div>
-		{/key}
-	{:else}
-		<Result {questions} {responses} {title} {succeeded} />
-	{/if}
-</div>
+				disabled={disabledNextQ}
+				on:click={() => {
+					counter++;
+				}}
+			>
+				{#if counter < questions.length - 1}
+					Next Question
+				{:else}
+					See Result
+				{/if}
+			</button>
+		</div>
+	{/key}
+{:else}
+	<Result {questions} {responses} {title} {succeeded} />
+{/if}
 
 <style>
-	.cont {
-		width: 100vw;
-		max-width: 400px;
-		height: 100vh;
-		max-height: 600px;
-	}
 </style>

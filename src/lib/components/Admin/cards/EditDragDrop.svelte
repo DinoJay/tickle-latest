@@ -94,8 +94,8 @@
 	let selectedStackId = null;
 	let selectedItemId = null;
 	$: stack = value?.stack || exampleStack;
-	$: console.log('value', stack);
-	$: console.log('stack', stack);
+	// $: console.log('value', stack);
+	// $: console.log('stack', stack);
 
 	$: selectedStack = stack.find((s) => s.id === selectedStackId);
 

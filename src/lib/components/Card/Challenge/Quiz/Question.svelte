@@ -14,7 +14,7 @@
 	let response = answers.reduce((acc, cur) => ({ ...acc, [cur.text]: false }), {});
 </script>
 
-<div class="flex-grow flex flex-col w-full p-2">
+<div class="overflow-y-auto flex flex-col w-full ">
 	<h2 class="text-xl mb-2">{title}</h2>
 	{#if img}
 		<!-- <img class="object-cover w-full flex-grow shrink" style="max-height:200px" src={img.url} /> -->

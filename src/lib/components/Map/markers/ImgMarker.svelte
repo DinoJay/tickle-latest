@@ -17,5 +17,5 @@
 </script>
 
 <div class="absolute text-2xl" style="left:{pos.x}px;top:{pos.y}px">
-	<img src={'/avatars/' + userAvatar + '.svg'} alt={userAvatar} />
+	<img src={'/avatars/' + (userAvatar || 'responsibility') + '.svg'} alt={userAvatar} />
 </div>

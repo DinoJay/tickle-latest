@@ -35,16 +35,6 @@
 					.filter((d) => d.title && d.definition && d.reference)
 					.map((d) => {
 						console.log('d', d);
-						const e = {
-							id: d.title['#text'], //uuidv4(),
-							title: d.title['#text'],
-							description: d.definition['#text'],
-							links: d.reference['#text'] || [],
-							img: { name: '', url: '' },
-							activity: null,
-							topics: [],
-							loc: { longitude: 4.39, latitude: 50.82 }
-						};
 						return {
 							...d,
 							links:

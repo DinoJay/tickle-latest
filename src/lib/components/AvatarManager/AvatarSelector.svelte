@@ -10,6 +10,7 @@
 		<img
 			class="w-[4rem] h-[4rem] {userAvatar === av ? 'scale-125' : 'scale-100'}"
 			on:click={() => {
+				console.log('av', av);
 				onChange(av);
 			}}
 			on:keydown={() => onChange(av)}

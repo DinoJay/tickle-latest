@@ -16,7 +16,12 @@
 </script>
 
 {#if allTopics && topics}
-	<FieldThumb {onClick} type="array" name="Topics" value={topics.map((d) => d.title)} />
+	<FieldThumb
+		{onClick}
+		type="array"
+		name="Topics"
+		value={topics.filter(Boolean).map((d) => d.title)}
+	/>
 {:else}
 	<FieldThumb {onClick} type="string" name="Topics" value="loading..." />
 {/if}

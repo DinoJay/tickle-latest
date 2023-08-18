@@ -32,9 +32,14 @@
 		event.dataTransfer.setData('text/plain', srcItemId);
 	}
 
+	console.log('itemSlots', itemSlots);
+	console.log('allItems', allItems);
+
 	function drop(event, targetSlotIndex) {
 		event.preventDefault();
 		const srcItemId = event.dataTransfer.getData('text/plain');
+		console.log('srcItemId', srcItemId);
+		if (srcItemId === 'null' || !srcItemId) return;
 
 		const srcItemSlotId = itemSlots.find((d) => d.itemId === srcItemId)?.id;
 		let tmpId = null;
@@ -70,7 +75,7 @@
 	</p>
 </div>
 
-<div class="flex-grow flex flex-col ">
+<div class="flex-grow overflow-y-auto" style="max-height:300px">
 	{#each itemSlots as s, i (s.itemId + '-' + s.id)}
 		<div
 			animate:flip
@@ -113,7 +118,9 @@
 			{/key}
 		</div>
 	{/each}
-	<div class="flex flex-wrap border-2 border-dashed gap-2 p-2" style:min-height="150px">
+</div>
+<div class="flex-grow flex-col overflow-y-auto" style:min-height="150px" style:max-height="230px">
+	<div class="flex flex-wrap border-2 border-dashed gap-2 p-2">
 		{#each pool as p, i (p.id)}
 			<div
 				class="flex border-2 border-2  items-center  p-2 "

@@ -17,7 +17,7 @@
 	let newNodes = [];
 	let colors = [];
 
-	const NODERAD = 12;
+	const NODERAD = 8;
 
 	//TODO:hack
 	const memCalcLayout = memoize(calcLayout, (args) => {

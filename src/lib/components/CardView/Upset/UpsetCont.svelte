@@ -1,11 +1,11 @@
 <script>
-	import { afterUpdate } from 'svelte';
 	import MiniCard from './MiniCard.svelte';
 	import { groups } from '$lib/group';
 	import hexToRgba from '$lib/components/utils/hexToRgba';
 	import { flip } from 'svelte/animate';
 	import { fly, fade, blur } from 'svelte/transition';
 	import Check from 'svelte-material-icons/Check.svelte';
+	import { sort } from 'd3';
 
 	export let cards;
 	export let onCardClick;
@@ -29,9 +29,13 @@
 	const elems = cards.map(() => null);
 
 	const legendBarWidth = 'w-6';
-	const marginRight = topics.length === 1 ? '3.5rem' : '0.8rem';
 
-	afterUpdate(() => {
+	const usedTopics = topics.filter((d) => cards.find((c) => c.topicIds.includes(d.id)));
+	const marginRight = usedTopics.length === 1 ? '3.5rem' : '0.8rem';
+	let scrollBefore = null;
+
+	$: {
+		// if (beforeLegendStraight === legendStraight) return;
 		setTimeout(() => {
 			// console.log('selectedCardId', selectedCardId);
 			const i = cards.findIndex((card) => card.id === selectedCardId);
@@ -39,9 +43,15 @@
 			// console.log('i', i);
 
 			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
-		}, 100);
-	});
+		}, 200);
+	}
 
+	let timeoutId = null;
+	$: {
+		timeoutId = setTimeout(() => {
+			legendStraight = false;
+		}, 1000);
+	}
 	// $: selectedCard = cards.find((c) => c.id === selectedCardId);
 
 	// $: console.log('topics', topics);
@@ -54,10 +64,16 @@
 		values
 	}));
 
-	const sumTopics = tagGroups.reduce(
-		(acc, d) => (acc > d.values.length ? acc : d.values.length),
-		0
-	);
+	console.log('taggroups', tagGroups);
+
+	const maxTopic = tagGroups.reduce((acc, d) => (acc > d.values.length ? acc : d.values.length), 0);
+	const sortedTopics = usedTopics
+		.map((d) => ({
+			...d,
+			norm: tagGroups.find((e) => e.id === d.id).values.length / maxTopic
+		}))
+		.sort((a, b) => b.norm - a.norm);
+	// .slice(0, 2);
 	// console.log('sumtopics', sumTopics);
 
 	// console.log('onselecttopicId', onSelectTopicId);
@@ -66,20 +82,22 @@
 	};
 
 	let legendStraight = false;
-
-	const a = new Array(10).fill().map((d) => 1);
+	let lastScroll = 0;
 </script>
 
 <div class="flex-grow flex  flex-col m-auto overflow-auto {contPad}">
-	<div class="flex items-center  {topics.length > 1 ? 'ml-legend' : 'ml-legend-single'} m-auto ">
-		{#each topics as topic, i}
-			{@const beforeLast = i < topics.length - 1}
+	<div
+		class="flex items-center  {sortedTopics.length > 1 ? 'ml-legend' : 'ml-legend-single'} m-auto "
+	>
+		{#each sortedTopics as topic, i (topic.id)}
+			{@const beforeLast = i < sortedTopics.length - 1}
 			<div
 				on:click={() => onTopicClick(topic)}
 				on:keydown={() => onTopicClick(topic)}
 				class="relative cursor-pointer {beforeLast ? itemWidth : ''} "
 				style:height={labelHeight}
-				class:marginRight={beforeLast}
+				class:marginRight={beforeLast && sortedTopics.length >= 4}
+				class:marginRight-1={beforeLast && sortedTopics.length < 4}
 			>
 				<div
 					class="pt-2 relative transition-all"
@@ -97,9 +115,7 @@
 							topic.color,
 							selectedTopicId === null ? 0.5 : topic.id === selectedTopicId ? 0.8 : 0.2
 						)}
-						style:height={(tagGroups.find((d) => d.id === topic.id).values.length / sumTopics) *
-							100 +
-							'%'}
+						style:height={topic.norm * 100 + '%'}
 					/>
 					<div class="absolute left-0 top-0 h-full z-10 crop pt-2 {legendBarWidth}">
 						<div class="w-full h-full flex items-center"><div class="crop">{topic.title}</div></div>
@@ -123,21 +139,34 @@
 	<div
 		class="flex-grow flex flex-col overflow-y-auto {contPad} "
 		on:scroll={(e) => {
-			if (e.target.scrollTop > 35) legendStraight = true;
-			else legendStraight = false;
+			// console.log('scroll', e.target.scrollTop, lastScroll);
+			if (Math.abs(e.target.scrollTop - lastScroll) > 1) {
+				console.log('hit');
+				// legendStraight = true;
+				// } else legendStraight = false;
+			} else {
+				clearTimeout(timeoutId);
+				timeoutId = setTimeout(() => {
+					legendStraight = false;
+				}, 400);
+			}
+
+			legendStraight = true;
+
+			lastScroll = e.target.scrollTop;
 		}}
 	>
 		{#each cards as c, j (c.id)}
-			{@const lastIndex = topics?.findLastIndex((t) => c.topicIds.includes(t.id))}
-			{@const firstIndex = topics?.findIndex((t) => c.topicIds.includes(t.id))}
+			{@const lastIndex = sortedTopics?.findLastIndex((t) => c.topicIds.includes(t.id))}
+			{@const firstIndex = sortedTopics?.findIndex((t) => c.topicIds.includes(t.id))}
 			<div
 				bind:this={elems[j]}
 				transition:fly
 				animate:flip={{ duration: 700 }}
-				on:click={() => {
+				on:click={(e) => {
 					onCardClick(c.id);
 				}}
-				on:keydown={() => {
+				on:keydown={(e) => {
 					onCardClick(c.id);
 				}}
 				class="flex items-center cursor-pointer relative "
@@ -150,31 +179,20 @@
 						<MiniCard {...c} cls="flex-grow  my-auto " highlighted={c.id === selectedCardId} />
 					</div>
 				{/key}
-				{#each topics as t, i (t.id + '' + c.id)}
+				{#each sortedTopics as t, i (t.id + '' + c.id)}
 					{@const topic = c.topics?.find((t2) => t2.id === t.id)}
 					{@const tagOn = topic != undefined && selectedCardId === c.id}
 					{@const barOn = selectedCardId === c.id && i >= firstIndex && i <= lastIndex}
-					{@const beforeFirst = i <= firstIndex}
 					{@const selected = selectedCardId === c.id}
 					<div class="relative h-full flex items-center justify-center">
 						<!-- {#each Array(1).fill(0) as _, i} -->
 						{#if i <= firstIndex}
 							<div
 								class="h-2 absolute  "
-								style:width="75.5px"
+								style:width="76.5px"
 								style:margin-top="0.5rem"
 								style:background={selected ? '#374251' : '#9a9fa8'}
-								style:transform="translateX(-67%) translateY(-3.5px)"
-							/>
-						{/if}
-						{#if i === 0}
-							<div
-								class="h-2 absolute "
-								style:margin-top="0.5rem"
-								style:width="8px"
-								style:z-index="-1"
-								style:background={tagOn ? '#374251' : '#9a9fa8'}
-								style:transform="translateX(-30%) translateY(-3.5px)"
+								style:transform="translateX(-63%) translateY(-3.5px)"
 							/>
 						{/if}
 						<div class="absolute h-full p-3 z-10" style:background={hexToRgba(t.color, 0.2)} />
@@ -204,14 +222,18 @@
 					</div>
 					{#if i < lastIndex && i >= firstIndex}
 						<div
-							class="{barHeightCls} barWidth bg-gray-700 {barOn ? 'opacity-100' : 'opacity-50'}"
+							class="{barHeightCls} bg-gray-700 {barOn ? 'opacity-100' : 'opacity-50'}"
 							style:transform="translateY(-50%)"
+							class:barWidth={sortedTopics.length >= 4}
+							class:barWidth-1={sortedTopics.length < 4}
 							style:margin-top="0.5rem"
+							style:z-index={1}
 						/>
 					{:else}
 						<div
 							class={barOn ? 'opacity-100' : 'opacity-50'}
-							class:barWidth={i < topics.length - 1}
+							class:barWidth={i < sortedTopics.length - 1}
+							class:barWidth-1={i < sortedTopics.length - 1 && sortedTopics.length < 4}
 							style:transform="translateY(-50%)"
 							style:margin-top="0.5rem"
 						/>
@@ -238,8 +260,14 @@
 	.marginRight {
 		margin-right: 20px;
 	}
+	.marginRight-1 {
+		margin-right: 40px;
+	}
 	.barWidth {
 		width: 20px;
+	}
+	.barWidth-1 {
+		width: 40px;
 	}
 	.ml-legend {
 		margin-left: 5.3rem;
@@ -257,8 +285,16 @@
 		.marginRight {
 			margin-right: 50px;
 		}
+
+		.marginRight-1 {
+			margin-right: 70px;
+		}
 		.barWidth {
 			width: 50px;
+		}
+
+		.barWidth-1 {
+			width: 70px;
 		}
 
 		.helper-line-first {
