@@ -7,6 +7,8 @@
 	import { addNotification } from '/src/stores/notificationStore';
 	import AvatarManager from '$lib/components/AvatarManager/AvatarSelector.svelte';
 
+	import avatars from '$lib/components/avatarManager/avatars';
+
 	const errors = {
 		'auth/email-already-in-use': 'The email address is already in use by another account.',
 		'auth/admin-restricted-operation': 'This operation is restricted to administrators only.',
@@ -19,7 +21,7 @@
 	let email = '';
 	let pwd = '';
 	let pwdConfirmation = '';
-	let userAvatar = null;
+	let userAvatar = avatars[0];
 
 	/**
 	 * Sign up the user if all the information are correct
@@ -64,57 +66,45 @@
 	};
 </script>
 
-<div class="flex flex-col h-[calc(100vh-4rem)]">
-	<span class="translate-anim-container my-auto">
-		<img src="/tickle.svg" alt="tickle-logo" class="w-1/5 m-auto translate-anim" />
-	</span>
+<img src="/tickle.svg" alt="tickle-logo" class="flex-grow m-auto my-3 sm:max-h-72 p-12 sm:p-0" />
 
-	<form class="flex flex-col my-auto" action="" method="post" on:submit={(e) => submit(e)}>
-		<input
-			class="w-[90%] lg:w-2/5 m-auto py-2 px-3 mb-3
-				outline-c-dark-gray
-				border-black border-2 custom-shadow"
-			bind:value={email}
-			type="text"
-			id="email"
-			placeholder="Email Address"
-		/>
-		<input
-			class="w-[90%] lg:w-2/5 m-auto py-2 px-3 mb-3
-				outline-c-dark-gray
-				border-black border-2 custom-shadow"
-			bind:value={pwd}
-			type="password"
-			id="password"
-			placeholder="Choose password"
-		/>
-		<input
-			class="w-[90%] lg:w-2/5 m-auto py-2 px-3 mb-3
-				outline-c-dark-gray
-				border-black border-2 custom-shadow"
-			bind:value={pwdConfirmation}
-			type="password"
-			id="passwordConfirmation"
-			placeholder="Confirm password"
-		/>
+<form class="flex flex-col  p-3 w-full" action="" method="post" on:submit={(e) => submit(e)}>
+	<input
+		class="w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray border-black border-2 custom-shadow"
+		bind:value={email}
+		type="text"
+		id="email"
+		placeholder="Email Address"
+	/>
+	<input
+		class="w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray border-black border-2 custom-shadow"
+		bind:value={pwd}
+		type="password"
+		id="password"
+		placeholder="Choose password"
+	/>
+	<input
+		class="w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray border-black border-2 custom-shadow"
+		bind:value={pwdConfirmation}
+		type="password"
+		id="passwordConfirmation"
+		placeholder="Confirm password"
+	/>
 
-		<div class="w-auto mx-auto my-4">
-			<AvatarManager {userAvatar} currentUserAvatar={null} onChange={(av) => (userAvatar = av)} />
-		</div>
+	<div class="w-auto mx-auto my-2">
+		<AvatarManager {userAvatar} onChange={(av) => (userAvatar = av)} />
+	</div>
 
-		<button
-			class="w-[90%] lg:w-2/5 m-auto mb-1 px-3 py-3 
-				font-bold uppercase btn 
-			 	border-2 border-black custom-shadow 
+	<button
+		class="w-full m-auto mb-3 px-3 py-3 font-bold uppercase btn border-2 border-black custom-shadow 
 				bg-white hover:bg-c-light-gray"
-			type="submit">Sign up</button
-		>
-		<p class="mx-auto">
-			Already have an account ?
-			<a href="/" class="underline">Sign In</a>
-		</p>
-	</form>
-</div>
+		type="submit">Sign up</button
+	>
+	<p class="mx-auto">
+		Already have an account ?
+		<a href="/" class="underline">Sign In</a>
+	</p>
+</form>
 
 <style>
 	.custom-shadow {

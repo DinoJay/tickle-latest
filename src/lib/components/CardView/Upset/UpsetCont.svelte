@@ -48,9 +48,9 @@
 
 	let timeoutId = null;
 	$: {
-		timeoutId = setTimeout(() => {
-			legendStraight = false;
-		}, 1000);
+		// timeoutId = setTimeout(() => {
+		// 	legendStraight = false;
+		// }, 1000);
 	}
 	// $: selectedCard = cards.find((c) => c.id === selectedCardId);
 
@@ -139,21 +139,19 @@
 	<div
 		class="flex-grow flex flex-col overflow-y-auto {contPad} "
 		on:scroll={(e) => {
-			// console.log('scroll', e.target.scrollTop, lastScroll);
-			if (Math.abs(e.target.scrollTop - lastScroll) > 1) {
-				console.log('hit');
-				// legendStraight = true;
-				// } else legendStraight = false;
-			} else {
-				clearTimeout(timeoutId);
-				timeoutId = setTimeout(() => {
-					legendStraight = false;
-				}, 400);
-			}
-
-			legendStraight = true;
-
-			lastScroll = e.target.scrollTop;
+			// // console.log('scroll', e.target.scrollTop, lastScroll);
+			// if (Math.abs(e.target.scrollTop - lastScroll) > 1) {
+			// 	console.log('hit');
+			// 	// legendStraight = true;
+			// 	// } else legendStraight = false;
+			// } else {
+			// 	clearTimeout(timeoutId);
+			// 	timeoutId = setTimeout(() => {
+			// 		legendStraight = false;
+			// 	}, 400);
+			// }
+			// legendStraight = true;
+			// lastScroll = e.target.scrollTop;
 		}}
 	>
 		{#each cards as c, j (c.id)}

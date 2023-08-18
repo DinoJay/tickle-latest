@@ -1,4 +1,6 @@
 <script>
+	import { _ } from 'svelte-i18n';
+
 	import { auth, db } from '$lib/firebaseConfig/firebase';
 	import {
 		signInWithEmailAndPassword,
@@ -145,8 +147,10 @@
 				font-bold uppercase btn 
 			 	border-2 border-black custom-shadow 
 				bg-white hover:bg-c-light-gray"
-				type="submit">Sign in</button
+				type="submit"
 			>
+				{$_('sign_in.btn')}
+			</button>
 		</div>
 		<div class="w-full mt-3 px-3 flex mx-auto items-center">
 			<div class="mx-auto" id="buttonDiv" />

@@ -4,11 +4,9 @@
 	import Dnd from '$lib/DragDropTouch.js';
 	import Notifications from '$lib/components/Notifications/index.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
+	import Localize from '$lib/components/Localize/index.svelte';
 
 	import { page } from '$app/stores';
-	import PageTrans from '$lib/components/Map/utils/PageTrans.svelte';
-	import { doc, getDoc } from 'firebase/firestore';
-	import { db } from '$lib/firebaseConfig/firebase';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	$: route = $page.route?.id;
@@ -34,6 +32,7 @@
 	// });
 </script>
 
+<Localize />
 <Notifications />
 <div
 	class="flex flex-col w-full h-full sm:p-3 bg-cover bg-center"

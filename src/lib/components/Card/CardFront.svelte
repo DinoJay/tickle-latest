@@ -36,9 +36,11 @@
 <Description cls="mb-3" value={description} />
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
 	{#if actSub?.succeeded}
-		Collected
+		Collected {#if activity?.type !== undefined}
+			{activity.type}
+		{/if}
 	{:else if !!activity}
-		Challenge
+		Challenge: {activity.type}
 	{:else}
 		Collect
 	{/if}

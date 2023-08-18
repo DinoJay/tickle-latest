@@ -52,11 +52,10 @@
 			});
 		});
 
-	let succeeded = isSuccess(activity?.value?.stack, stack);
-	$: console.log('succeeded', succeeded);
+	let succeeded = null;
 </script>
 
-{#if succeeded}
+{#if succeeded === true}
 	<div
 		class="absolute overflow-hidden left-0 flex justify-center  w-full h-full pointer-events-none"
 		style:top="-50px"
@@ -71,7 +70,11 @@
 			fallDistance="100vh"
 		/>
 	</div>
-	<Notification type="success" close={() => (succeeded = false)}>Yay, you did it!</Notification>
+	<Notification type="success" close={() => (succeeded = null)}>Yay, you did it!</Notification>
+{/if}
+
+{#if succeeded === false}
+	<Notification close={() => (succeeded = null)}>Nah, you failed!</Notification>
 {/if}
 <DragDropCont
 	{...$$props}
@@ -79,12 +82,19 @@
 	{pool}
 	{succeeded}
 	onSubmit={(st, po) => {
-		succeeded = isSuccess(activity?.value?.stack, st);
 		console.log('success', succeeded);
 		pool = po;
 		stack = st;
-		onSubmit({ response: st, succeeded });
 
 		// addNotification({ text: 'Yay, you dit it!', type: 'info' });
 	}}
 />
+<button
+	class="btn"
+	on:click={() => {
+		succeeded = isSuccess(activity?.value?.stack, stack);
+		onSubmit({ response: stack, succeeded });
+	}}
+>
+	Submit
+</button>

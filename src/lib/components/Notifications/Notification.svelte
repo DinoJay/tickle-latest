@@ -31,7 +31,7 @@
 		close();
 	}}
 >
-	<div class="m-auto bg-white flex p-4 items-center {types[type]}">
+	<div class="m-auto  flex p-4 items-center {types[type]}">
 		<!-- <button on:click={close} class="absolute right-0 p-3"><WindowClose size="1.5em" /> </button> -->
 		<slot />
 		<button

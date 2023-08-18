@@ -3,14 +3,16 @@
 
 	export let userAvatar = null;
 	export let onChange;
+
+	$: console.log('userAvatar', avatars);
 </script>
 
-<div class="flex h-[5rem] overflow-visible">
+<h2 class="text-lg mb-1">Choose your Avatar:</h2>
+<div class="flex  overflow-visible flex-wrap">
 	{#each avatars as av}
 		<img
-			class="w-[4rem] h-[4rem] {userAvatar === av ? 'scale-125' : 'scale-100'}"
+			class="cursor-pointer transition-all {userAvatar === av ? 'w-20' : 'w-16'}"
 			on:click={() => {
-				console.log('av', av);
 				onChange(av);
 			}}
 			on:keydown={() => onChange(av)}

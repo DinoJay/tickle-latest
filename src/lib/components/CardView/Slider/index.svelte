@@ -52,7 +52,7 @@
 				onClick(card.id);
 			}}
 		>
-			<PreviewCard {...card} />
+			<PreviewCard {...card} highlighted={card.id === selectedCardId} />
 		</div>
 	{/each}
 </div>
