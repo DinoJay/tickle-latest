@@ -1,13 +1,15 @@
 <script>
 	import PreviewCard from '../PreviewCard.svelte';
 	import { goto } from '$app/navigation';
+	import Tabs from '../Tabs.svelte';
+	import TabItem from '../TabItem.svelte';
 
 	export let collectedCards;
 	export let selectedEnvId;
 	export let allTags;
 </script>
 
-<h2 class="text-lg mb-1">All Collected Cards</h2>
+<h2 class="text-xl mb-1">All Collected Cards</h2>
 <div class=" flex flex-wrap gap-2 mx-auto flex-grow mb-4">
 	{#each collectedCards as c}
 		<PreviewCard {...c} onClick={() => goto(`/diary/${selectedEnvId}/${c.id}`)} />
@@ -18,16 +20,21 @@
 		</div>
 	{/if}
 </div>
-{#each allTags as t}
-	<div class="mb-4">
-		<h2 class="mb-2 text-lg">
-			{t.openCards.length} Open Cards in
-			<span class="text-white p-1" style="background: {t.color}">{t.title}</span>
-		</h2>
-		<div class="flex flex-wrap gap-2">
-			{#each t.openCards as c}
-				<PreviewCard {...c} onClick={() => goto(`/diary/${selectedEnvId}/${c.id}`)} />
-			{/each}
-		</div>
-	</div>
-{/each}
+<h2 class="text-xl mb-1">Open Cards</h2>
+<Tabs>
+	{#each allTags as t}
+		<TabItem title={t.title} color={t.color}>
+			<div class="mb-4" style:min-height="16rem">
+				<h2 class="mb-2 text-lg">
+					{t.openCards.length} Open Cards in
+					<span class="text-white p-1" style="background: {t.color}">{t.title}</span>
+				</h2>
+				<div class="flex flex-wrap gap-2">
+					{#each t.openCards as c}
+						<PreviewCard {...c} onClick={() => goto(`/diary/${selectedEnvId}/${c.id}`)} />
+					{/each}
+				</div>
+			</div>
+		</TabItem>
+	{/each}
+</Tabs>

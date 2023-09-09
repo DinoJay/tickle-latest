@@ -73,6 +73,10 @@ body {
 	@apply border-2 border-gray-700 p-2 drop-shadow-sm
 }
 
+.sel-btn {
+	@apply border-2 border-gray-700 bg-gray-700 p-2 text-white drop-shadow-sm
+}
+
 .placeholder-text {
 	@apply text-gray-500 text-xl
 }
