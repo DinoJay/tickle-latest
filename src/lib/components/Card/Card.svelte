@@ -33,6 +33,18 @@
 	 */
 	export let description;
 	/**
+	 * @type {any|undefined}
+	 */
+	export let description_fr;
+	/**
+	 * @type {any|undefined}
+	 */
+	export let description_en;
+	/**
+	 * @type {any|undefined}
+	 */
+	export let description_nl;
+	/**
 	 * @type {any}
 	 */
 	export let img;
@@ -52,6 +64,8 @@
 	 * @type {any}
 	 */
 	export let onChange;
+
+	export let videos;
 
 	export let onActivitySubmit = (d) => d;
 
@@ -91,13 +105,14 @@
 		flipped = false;
 	}}
 	onFlip={() => (flipped = !flipped)}
-	cls="flex-grow overflow-y-auto"
 >
 	<!-- <div class=" flex flex-col" slot="front"> -->
 	<div slot="front" class=" flex-grow flex flex-col overflow-y-auto">
 		<CardFront
-			{title}
 			{description}
+			{description_en}
+			{description_fr}
+			{description_nl}
 			{img}
 			{activity}
 			{topics}
@@ -107,6 +122,7 @@
 			{onClose}
 			{onChange}
 			{selectedEnvId}
+			{videos}
 			actSub={curActSub}
 			onSubmit={() => {
 				if (!!activity) activityOpen = true;

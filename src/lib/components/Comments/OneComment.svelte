@@ -23,7 +23,6 @@
 
 	$: pr = getDoc(doc(db, 'users', uid)).then((doc) => {
 		const u = doc.data();
-		console.log('u', u);
 		user = u;
 		// return u;
 		// console.log('u');
@@ -35,7 +34,7 @@
 		{#await pr}
 			<div class="m-auto">...</div>
 		{:then _}
-			<img class="w-full h-full" src={`/avatars/${user.avatar}.svg`} />
+			<img alt="avatar" class="w-full h-full" src={`/avatars/${user.avatar}.svg`} />
 		{/await}
 	</div>
 	{#if user}

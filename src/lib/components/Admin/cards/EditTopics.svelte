@@ -11,9 +11,9 @@
 	$: console.log('alltopics', allTopics);
 </script>
 
-<div class="flex-grow flex flex-col  ">
+<div class="flex-grow flex flex-col">
 	<p class="text-lg mb-3">Please Click on a topic to select it</p>
-	<div class="flex-grow flex flex-col ">
+	<div class="flex-grow flex flex-col">
 		<h2 class="text-lg mb-1 flex-shrink-0">All Topics</h2>
 
 		{#if !otherTopics || otherTopics.length === 0}
@@ -39,6 +39,7 @@
 			<div class="flex flex-wrap gap-3 flex-grow overflow-y-auto p-2">
 				{#each selectedTopics as t}
 					<PreviewCard
+						highlighted={true}
 						title={t.title}
 						img={t.img}
 						onClick={() => onChange(topicIds.filter((id) => id !== t.id))}

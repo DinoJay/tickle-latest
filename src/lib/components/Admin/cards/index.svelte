@@ -42,7 +42,11 @@
 			<div class="text-center w-full m-12 text-xl">No Cards</div>
 		{/if}
 		{#each cards as c}
-			<PreviewCard {...c} onClick={() => (selectedCardId = c.id)} />
+			<PreviewCard
+				{...c}
+				highlighted={selectedCardId === c.id}
+				onClick={() => (selectedCardId = c.id)}
+			/>
 		{/each}
 	{:else}
 		<Spinner cls="mx-auto my-12" />
@@ -51,7 +55,7 @@
 
 <div class=" w-full mt-3 flex-shrink-0 flex-grow flex">
 	<button class="flex-grow create-btn mr-2" on:click={() => (lbNcOpen = true)}>Create Card</button>
-	<button class="flex-grow create-btn " on:click={() => (slOpen = true)}>Load Cards</button>
+	<button class="flex-grow create-btn" on:click={() => (slOpen = true)}>Load Cards</button>
 </div>
 
 <LightBox

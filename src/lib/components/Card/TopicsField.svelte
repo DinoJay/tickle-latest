@@ -1,10 +1,9 @@
 <script>
 	export let topics;
-
-	console.log('topix', topics);
+	export let cls = '';
 </script>
 
-<div class="flex flex-wrap gap-1">
+<div class="flex flex-wrap gap-1 {cls}">
 	{#if !!topics}
 		{#each topics as t}
 			<div class="text-white px-1" style="background:{t.color}">{t.title}</div>

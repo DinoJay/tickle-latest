@@ -11,6 +11,7 @@
 	import EditActivity from './EditActivity.svelte';
 
 	import TopicsThumb from './TopicsThumb.svelte';
+	import EditYoutube from './EditYoutube.svelte';
 
 	/**
 	 * @type {string}
@@ -20,11 +21,15 @@
 		id: 'null',
 		title: '',
 		description: '',
+		description_en: '',
+		description_fr: '',
+		description_nl: '',
 		img: { name: '', url: '' },
 		activity: null,
 		topics: [],
 		loc: { longitude: 4.39, latitude: 50.82 },
-		links: []
+		links: [],
+		videos: []
 	};
 	/**
 	 * @type {(arg0: { img: { name: string; url: string; } | { url: string; name: string; }; id: string; title: any; description: any; activity: any; topics: any; loc: { longitude: number; latitude: number; }; links: any; }) => void}
@@ -45,6 +50,7 @@
 	const LINKS = 'links';
 	const DESCR = 'description';
 	const ACTIVITY = 'activity';
+	const VIDEOS = 'videos';
 	/**
 	 * @type {import("@firebase/firestore").DocumentData[]}
 	 */
@@ -81,7 +87,7 @@
 	<FieldThumb
 		type="string"
 		name="Description"
-		value={currentCard.description}
+		value={currentCard.description || currentCard.description_en || currentCard.description_fr}
 		onClick={() => (selectedField = DESCR)}
 	/>
 	<TopicsThumb {allTopics} topicIds={currentCard.topics} onClick={() => (selectedField = TOPICS)} />
@@ -91,6 +97,13 @@
 		value={currentCard.links}
 		accessor={(d) => d.name}
 		onClick={() => (selectedField = LINKS)}
+	/>
+	<FieldThumb
+		type="array"
+		name="Videos"
+		value={currentCard.videos}
+		accessor={(d) => d.title}
+		onClick={() => (selectedField = VIDEOS)}
 	/>
 	<FieldThumb
 		type="array"
@@ -112,10 +125,9 @@
 
 <LightBox
 	isOpen={selectedField === TITLE}
-	title={selectedField}
+	title={selectedField || undefined}
 	close={() => (selectedField = null)}
 	height={null}
-	cls="overflow-y-auto"
 >
 	<EditTitle
 		onClose={() => (selectedField = null)}
@@ -126,22 +138,23 @@
 
 <LightBox
 	isOpen={selectedField === DESCR}
-	title={selectedField}
+	title={selectedField || undefined}
 	height={null}
 	close={() => (selectedField = null)}
 >
 	<EditDescr
-		value={currentCard.description}
+		valueEn={currentCard.description_en || currentCard.description || ''}
+		valueFr={currentCard.description_fr || ''}
+		valueNl={currentCard.description_nl || ''}
 		onClose={() => (selectedField = null)}
-		onChange={(description) => onChange({ ...currentCard, description })}
+		onChange={(description) => onChange({ ...currentCard, ...description })}
 	/>
 </LightBox>
 
 <LightBox
 	isOpen={selectedField === LINKS}
-	title={selectedField}
+	title={selectedField || undefined}
 	close={() => (selectedField = null)}
-	cls="flex-grow"
 >
 	<EditLinks
 		onClose={() => (selectedField = null)}
@@ -152,7 +165,7 @@
 
 <LightBox
 	isOpen={selectedField === TOPICS}
-	title={selectedField}
+	title={selectedField || undefined}
 	close={() => (selectedField = null)}
 >
 	<EditTopics
@@ -160,6 +173,18 @@
 		topicIds={currentCard.topics}
 		{allTopics}
 		onChange={(topics) => onChange({ ...currentCard, topics })}
+	/>
+</LightBox>
+
+<LightBox
+	isOpen={selectedField === VIDEOS}
+	title={selectedField || undefined}
+	close={() => (selectedField = null)}
+>
+	<EditYoutube
+		videos={currentCard.videos}
+		onClose={() => (selectedField = null)}
+		onChange={(videos) => onChange({ ...currentCard, videos })}
 	/>
 </LightBox>
 

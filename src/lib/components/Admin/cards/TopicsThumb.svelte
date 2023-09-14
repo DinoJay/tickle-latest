@@ -3,11 +3,17 @@
 	import { collection, doc, getDocs } from 'firebase/firestore';
 	import FieldThumb from './FieldThumb.svelte';
 	/**
-	 * @type {string}
+	 * @type {string[]}
 	 */
 	export let topicIds;
+	/**
+	 * @type {any}
+	 */
 	export let onClick;
 
+	/**
+	 * @type {any[]}
+	 */
 	export let allTopics;
 
 	console.log('alltopics', allTopics);

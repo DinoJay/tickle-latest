@@ -1,12 +1,11 @@
 <script>
-	import { transition } from 'd3-transition';
 	import { modalPortal } from '$lib/portalAction';
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import { blur, fly, fade } from 'svelte/transition';
 	import { afterUpdate } from 'svelte';
 	import FlipCard from '../Card/FlipCard.svelte';
-	import { v4 as uuidv4 } from 'uuid';
+	// import { v4 as uuidv4 } from 'uuid';
 
 	export let isOpen = false;
 	/**
@@ -15,10 +14,13 @@
 	export let close;
 	export let onFlip = () => false;
 	export let isMandatory = false;
+	/**
+	 * @type {number|null}
+	 */
 	export let height = 700;
 	export let width = 450;
 	export let title = '';
-	export let cls = '';
+	// export let cls = '';
 	export let backCls = '';
 	export let flipped = false;
 	export let flipCls = '';
@@ -74,24 +76,26 @@
 		}}
 	>
 		<FlipCard
-			style="{!!height ? `max-height:${height}px` : 'height:200px'}; max-width:{width}px"
+			style="{!!height ? `max-height:${height}px` : 'height:330px'}; max-width:{width}px"
 			cls="m-auto drop-shadow-xl {!!height ? 'h-full' : ''} w-full {flipCls} overflow-hidden"
 			{flipped}
 		>
 			<div
-				class="bg-white  h-full w-full flex flex-col p-3"
+				class="bg-white h-full w-full flex flex-col p-3"
 				slot="front"
 				on:keydown={() => null}
 				on:click={(e) => e.stopPropagation()}
 			>
-				<div class=" flex mb-3 items-start ">
+				<div class=" flex mb-3 items-start">
 					<div
-						class="text-xl {!titleExpanded ? 'crop' : ''} transition uppercase cursor-pointer"
+						class="text-xl flex {!titleExpanded ? 'crop' : ''} transition uppercase cursor-pointer"
 						on:click={() => (titleExpanded = !titleExpanded)}
 						on:keydown={() => (titleExpanded = !titleExpanded)}
 						style="max-width:90%"
 					>
-						{title}
+						<h1>
+							{title}
+						</h1>
 					</div>
 					{#if !isMandatory}
 						{#if flippable}
@@ -120,7 +124,7 @@
 								<TurnIcon size="1.5em" />
 							</button>
 							{#if flippable}
-								<button on:click={close} class="ml-3 ">
+								<button on:click={close} class="ml-3">
 									<WindowClose size="1.5em" />
 								</button>
 							{/if}

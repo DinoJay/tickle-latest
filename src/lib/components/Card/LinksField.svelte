@@ -4,9 +4,10 @@
 	 * @type {any[]}
 	 */
 	export let links;
+	export let cls = '';
 </script>
 
-<div class="mb-3 mt-1 flex flex-wrap ">
+<div class="{cls} flex flex-wrap">
 	{#each links as l}
 		<div class="px-1 flex items-center">
 			<LinkIcon />

@@ -20,7 +20,7 @@
 		</div>
 	{/if}
 </div>
-<h2 class="text-xl mb-1">Open Cards</h2>
+<h2 class="text-xl mb-2">Open Cards</h2>
 <Tabs>
 	{#each allTags as t}
 		<TabItem title={t.title} color={t.color}>

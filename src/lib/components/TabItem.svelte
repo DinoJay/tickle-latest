@@ -6,7 +6,7 @@
 	const { tabs } = getContext('tabs');
 
 	export let title;
-	export let color;
+	export let color = '';
 	let index;
 
 	// pull out current tab, updates whenever store changes
