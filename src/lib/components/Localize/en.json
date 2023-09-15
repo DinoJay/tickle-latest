@@ -3,6 +3,9 @@
         "title": "TICKLE English"
     },
     "sign_in": {
-        "btn": "Sign In!"
+        "title": "Sign In - English!"
+    },
+    "select_env": {
+        "title": "Welcome to TICKLE!"
     }
 }

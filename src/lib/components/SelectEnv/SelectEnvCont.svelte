@@ -4,6 +4,7 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import SimpleLightBox from '../utils/SimpleLightBox.svelte';
 	import { flip } from 'svelte/animate';
+	import { _ } from 'svelte-i18n';
 
 	export let isOpen = false;
 	export let isMandatory = false;
@@ -25,7 +26,7 @@
 </script>
 
 <SimpleLightBox {isOpen} close={() => (isOpen = false)} {isMandatory} cls="flex-grow">
-	<h2 class="text-3xl mb-1 text-c-black">Welcome to TICKLE!</h2>
+	<h2 class="text-3xl mb-1 text-c-black">{$_('select_env.title')}</h2>
 
 	<div class="flex-grow flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}

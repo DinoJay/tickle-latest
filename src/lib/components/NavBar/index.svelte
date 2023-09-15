@@ -11,6 +11,8 @@
 	import Burger from './Burger.svelte';
 	import { doc, getDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
+	import { locale } from 'svelte-i18n';
+	import { get } from 'svelte/store';
 
 	$: selectedEnvId = $page.params.envId || '';
 	$: console.log('page', $page);
@@ -75,7 +77,7 @@
 </script>
 
 <nav
-	class="flex items-center h-16 w-full  bg-gray-700 text-white z-50"
+	class="flex items-center h-16 w-full bg-gray-700 text-white z-50"
 	use:clickOutside
 	on:click_outside={() => (collapsed = true)}
 >
@@ -94,7 +96,7 @@
 		{#if !collapsed}
 			<div
 				transition:fly={{ x: 400, duration: 500, opacity: 1 }}
-				class="flex flex-col h-auto w-screen max-w-xs  absolute top-[4.1rem] right-0 z-20 bg-gray-700"
+				class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-20 bg-gray-700"
 			>
 				{#each sections as section}
 					<button
@@ -108,7 +110,32 @@
 						{section.name}
 					</button>
 				{/each}
+				<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
+					<div class="m-auto">
+						<button
+							on:click={() => locale.set('en')}
+							class="border-2 p-1"
+							class:btn-selected={$locale === 'en'}>EN</button
+						>
+						<button
+							on:click={() => locale.set('fr')}
+							class="mx-1 border-2 p-1"
+							class:btn-selected={$locale === 'fr'}>FR</button
+						>
+						<button
+							on:click={() => locale.set('nl')}
+							class="border-white border-2 p-1"
+							class:btn-selected={$locale === 'nl'}>NL</button
+						>
+					</div>
+				</div>
 			</div>
 		{/if}
 	</div>
 </nav>
+
+<style>
+	.btn-selected {
+		@apply bg-white text-gray-700;
+	}
+</style>

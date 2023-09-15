@@ -1,6 +1,6 @@
 <script>
-	import Plus from 'svelte-material-icons/PlusBox.svelte';
-	import Minus from 'svelte-material-icons/MinusBox.svelte';
+	import Plus from 'svelte-material-icons/Plus.svelte';
+	import Minus from 'svelte-material-icons/Minus.svelte';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
 	export let videos = [];
 	/**
@@ -53,7 +53,7 @@
 					src={`https://www.youtube.com/embed/${video.id.videoId}`}
 				/>
 				<button
-					class="absolute bottom-0 right-0 z-10 bg-white m-2"
+					class="absolute bottom-0 right-0 z-10 bg-white"
 					on:click={() => {
 						if (videoIds.includes(video.id.videoId)) {
 							onChange(videos.filter((v) => v.id !== video.id.videoId));

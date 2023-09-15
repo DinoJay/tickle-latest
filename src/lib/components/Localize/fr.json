@@ -1,5 +1,11 @@
 {
     "index": {
         "title": "TICKLE French"
+    },
+    "sign_in": {
+        "title": "TICKLE French - Sign In"
+    },
+    "select_env": {
+        "title": "Bienvenue á TICKLE!"
     }
 }

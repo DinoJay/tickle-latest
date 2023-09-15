@@ -132,7 +132,7 @@
 		<div class="w-full px-3 flex">
 			<input
 				class=" flex-grow m-auto py-2 px-3 mb-3
-				outline-c-dark-gray 
+				outline-c-dark-gray
 				border-black border-2 custom-shadow"
 				bind:value={pwd}
 				type="password"
@@ -143,13 +143,13 @@
 
 		<div class="w-full px-3 flex mb-1">
 			<button
-				class="flex-grow m-auto mb-1 px-3 py-3 
-				font-bold uppercase btn 
-			 	border-2 border-black custom-shadow 
+				class="flex-grow m-auto mb-1 px-3 py-3
+				font-bold uppercase btn
+			 	border-2 border-black custom-shadow
 				bg-white hover:bg-c-light-gray"
 				type="submit"
 			>
-				{$_('sign_in.btn')}
+				{$_('sign_in.title')}
 			</button>
 		</div>
 		<div class="w-full mt-3 px-3 flex mx-auto items-center">
