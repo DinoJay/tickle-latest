@@ -12,6 +12,7 @@
 
 	import { doc, setDoc, getDoc } from 'firebase/firestore';
 	import { addNotification } from '/src/stores/notificationStore';
+	import Spinner from '../utils/Spinner.svelte';
 	const errors = {
 		'auth/invalid-email': 'The email address is badly formatted.',
 		'auth/user-not-found': 'There is no user record corresponding to this identifier.',
@@ -21,6 +22,7 @@
 
 	let email = '';
 	let pwd = '';
+	let loading = false;
 
 	/**
 	 * Sign in the user if all the information are correct
@@ -35,9 +37,11 @@
 	 * Sign in the user - redirect the user to the card view page
 	 */
 	const signInUser = () => {
+		loading = true;
 		signInWithEmailAndPassword(auth, email.trim(), pwd)
 			.then(() => {
 				goto('/cardview/environment');
+				loading = false;
 			})
 			.catch((error) => {
 				addNotification({ text: errors[error.code] });
@@ -50,6 +54,7 @@
 		const idToken = response.credential;
 		const credential = GoogleAuthProvider.credential(idToken);
 
+		loading = true;
 		// Sign in with credential from the Google user.
 		signInWithCredential(auth, credential)
 			.catch((error) => {
@@ -73,7 +78,10 @@
 							avatar: 'responsibility',
 							email: email,
 							admin: true
-						}).then(() => goto('/cardview/environment'));
+						}).then(() => {
+							loading = false;
+							goto('/cardview/environment');
+						});
 					}
 				} catch (error) {
 					console.log(error);
@@ -143,13 +151,18 @@
 
 		<div class="w-full px-3 flex mb-1">
 			<button
+				disabled={loading}
 				class="flex-grow m-auto mb-1 px-3 py-3
 				font-bold uppercase btn
 			 	border-2 border-black custom-shadow
-				bg-white hover:bg-c-light-gray"
+				bg-white hover:bg-c-light-gray flex flex-col items-center justify-center"
 				type="submit"
 			>
-				{$_('sign_in.title')}
+				{#if loading === true}
+					<Spinner width="20px" height="20px" />
+				{:else}
+					{$_('sign_in.title')}
+				{/if}
 			</button>
 		</div>
 		<div class="w-full mt-3 px-3 flex mx-auto items-center">

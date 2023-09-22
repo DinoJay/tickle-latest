@@ -73,9 +73,10 @@
 	<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
 </div>
 
-<LightBox isOpen={lbOpen} close={() => (lbOpen = false)}>
+<LightBox title={selectedEnv?.title} isOpen={lbOpen} close={() => (lbOpen = false)}>
 	<EditEnvironment
 		env={selectedEnv}
+		onClose={() => (lbOpen = false)}
 		onChange={(/** @type {any} */ newEnv) => {
 			const docRef = doc(db, 'card-envs', newEnv.id);
 			setDoc(docRef, newEnv).catch((error) => {
@@ -100,7 +101,7 @@
 					deleteDoc(doc(db, 'card-envs', selectedEnv.id));
 					onSelectEnv(newEnvs[newIndex].id);
 			  }
-			: null}
+			: undefined}
 	/>
 </LightBox>
 

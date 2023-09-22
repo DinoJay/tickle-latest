@@ -24,7 +24,10 @@
 	export let onSelectEnv;
 	export let onTopicsChange;
 
+	$: console.log('selectedEnvId', selectedEnvId);
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
+	$: console.log({ envs });
+	$: console.log({ selectedEnv });
 
 	let selectedCardId = null;
 	let userLogs = null;
@@ -37,20 +40,20 @@
 </script>
 
 <!-- {#if $store?.currentUser?.admin} -->
-<div class="grid grid-cols-1 gap-3 m-2 ">
-	<Panel title={selectedEnv ? selectedEnv.title : 'Select an Environment'}>
+<div class="grid grid-cols-1 gap-3 m-2">
+	<Panel title={selectedEnv.title}>
 		<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
 	</Panel>
 
 	<div>
 		<Panel title={'Topics'}>
-			<Topics {selectedEnvId} {topics} onChange={onTopicsChange} />
+			<Topics {selectedEnvId} {topics} onChange={onTopicsChange} langs={selectedEnv.langs} />
 		</Panel>
 	</div>
 
 	<div>
 		<Panel title={'Cards'}>
-			<Cards {cards} {selectedEnvId} onChange={onCardsChange} />
+			<Cards {cards} {selectedEnvId} onChange={onCardsChange} langs={selectedEnv.langs} />
 		</Panel>
 	</div>
 

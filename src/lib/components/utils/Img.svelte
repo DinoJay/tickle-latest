@@ -10,22 +10,22 @@
 	export let cls = '';
 </script>
 
-<div {style} class={cls}>
+<div {style} class={`${cls} flex flex-col`}>
 	{#if !!url}
 		<!-- <img src={url} alt={title} class="w-full object-contain h-full" /> -->
-		<div class="h-full w-full relative">
+		<div class="flex flex-col flex-grow relative">
 			<!-- <div class="absolute left-0 top-0 w-full  h-full flex" style="z-index:-1">
 				<div class="m-auto">
 					<ImageArea size="200" color="grey" />
 				</div>
 			</div> -->
 			<div
-				class="h-full w-full bg-contain bg-center bg-no-repeat"
+				class="flex-grow w-full bg-contain bg-center bg-no-repeat"
 				style="background-image: url('{url}')"
 			/>
 		</div>
 	{:else}
-		<div class="w-full  h-full flex">
+		<div class="w-full h-full flex">
 			<div class="m-auto">
 				<ImageArea size="200" color="grey" />
 			</div>

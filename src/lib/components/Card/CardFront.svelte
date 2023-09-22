@@ -59,44 +59,46 @@
 	$: console.log('videos', videos);
 </script>
 
-<Img url={img?.url} style="min-height:250px" cls="mb-3" />
-{#if !!topics}
-	<TopicsPreview cls="mb-2" {topics} />
-{/if}
-{#if !!links && links.length > 0}
-	<LinksField cls="mb-2" {links} />
-{/if}
-{#if !!videos && videos.length > 0}
-	<VideosField cls="mb-2" {videos} />
-{/if}
-<div class="mb-3 flex flex-1">
-	<div class="flex flex-col gap-2 mr-3">
-		{#if !!description_en || !!description}
-			<button class="btn flex-1" class:sel-btn={selLang === EN} on:click={() => (selLang = EN)}
-				>EN</button
-			>
-		{/if}
-		{#if !!description_fr}
-			<button class="btn flex-1" class:sel-btn={selLang === FR} on:click={() => (selLang = FR)}
-				>FR</button
-			>
-		{/if}
-		{#if !!description_nl}
-			<button class="btn flex-1" class:sel-btn={selLang === NL} on:click={() => (selLang = FR)}
-				>NL</button
-			>
-		{/if}
+<div class="flex-grow overflow-auto">
+	<Img url={img?.url} style="min-height:250px" cls="mb-3 flex-none" />
+	{#if !!topics}
+		<TopicsPreview cls="mb-2" {topics} />
+	{/if}
+	{#if !!links && links.length > 0}
+		<LinksField cls="mb-2" {links} />
+	{/if}
+	{#if !!videos && videos.length > 0}
+		<VideosField cls="mb-2" {videos} />
+	{/if}
+	<div class="mb-3 flex flex-1">
+		<div class="flex flex-col gap-2 mr-3">
+			{#if !!description_en || !!description}
+				<button class="btn flex-1" class:sel-btn={selLang === EN} on:click={() => (selLang = EN)}
+					>EN</button
+				>
+			{/if}
+			{#if !!description_fr}
+				<button class="btn flex-1" class:sel-btn={selLang === FR} on:click={() => (selLang = FR)}
+					>FR</button
+				>
+			{/if}
+			{#if !!description_nl}
+				<button class="btn flex-1" class:sel-btn={selLang === NL} on:click={() => (selLang = FR)}
+					>NL</button
+				>
+			{/if}
+		</div>
+		<Description
+			cls="flex-initial h-64"
+			{selLang}
+			{NL}
+			{EN}
+			{FR}
+			description_en={description_en || description}
+			{description_fr}
+			{description_nl}
+		/>
 	</div>
-	<Description
-		cls="flex-initial h-64"
-		{selLang}
-		{NL}
-		{EN}
-		{FR}
-		description_en={description_en || description}
-		{description_fr}
-		{description_nl}
-	/>
 </div>
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
 	{#if actSub?.succeeded}

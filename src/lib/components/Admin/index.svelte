@@ -20,8 +20,6 @@
 
 	$: selectedEnvId = envId || user?.selectedAdminEnvId || 'bnW56f62WWEJ0bwJwQ0m';
 
-	$: console.log('user', user);
-
 	let topics;
 	$: {
 		cards = undefined;
@@ -76,6 +74,6 @@
 		}}
 		onCardsChange={(cs) => (cards = cs)}
 		onEnvsChange={(es) => (envs = es)}
-		onTopicsChange={(ts) => (envs = ts)}
+		onTopicsChange={(ts) => (topics = ts)}
 	/>
 {/if}

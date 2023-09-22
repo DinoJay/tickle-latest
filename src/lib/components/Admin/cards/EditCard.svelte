@@ -131,8 +131,10 @@
 >
 	<EditTitle
 		onClose={() => (selectedField = null)}
-		value={currentCard.title}
-		onChange={(title) => onChange({ ...currentCard, title })}
+		valueEn={currentCard.title_en || currentCard.title}
+		valueFr={currentCard.title_fr}
+		valueNl={currentCard.title_nl}
+		onChange={(title) => onChange({ ...currentCard, ...title })}
 	/>
 </LightBox>
 

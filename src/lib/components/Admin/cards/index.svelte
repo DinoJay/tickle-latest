@@ -10,6 +10,7 @@
 	import StaticLoader from './StaticLoader.svelte';
 	import EditCardBack from './EditCardBack.svelte';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
+	import { titleLocales } from '$lib/constants/locales.js';
 
 	/**
 	 * @type {any[]}
@@ -27,6 +28,13 @@
 	/**
 	 * @type {string | null}
 	 */
+
+	export let langs;
+
+	$: selLang = langs[0];
+
+	$: titleKey = titleLocales[selLang];
+
 	let selectedCardId = null;
 	let lbNcOpen = false;
 	let slOpen = false;
@@ -44,6 +52,7 @@
 		{#each cards as c}
 			<PreviewCard
 				{...c}
+				title={c[titleKey] || c.title}
 				highlighted={selectedCardId === c.id}
 				onClick={() => (selectedCardId = c.id)}
 			/>
@@ -65,7 +74,6 @@
 		selectedCardId = null;
 		flipped = false;
 	}}
-	cls="flex-grow overflow-y-auto"
 	{flipped}
 	onFlip={() => (flipped = !flipped)}
 >

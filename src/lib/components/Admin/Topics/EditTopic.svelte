@@ -7,49 +7,72 @@
 	import SelectColor from './SelectColor.svelte';
 
 	export let currentTopic = {
-		title: '',
+		title: null,
+		title_en: null,
+		title_fr: null,
+		title_nl: null,
 		description: '',
 		id: null,
 		img: { name: '', url: '' },
 		color: null
 	};
+	/**
+	 * @type {string[]}
+	 */
+	export let langs;
+	/**
+	 * @type {(arg0: { title_en: any; title: null; title_fr: null; title_nl: null; description: string; id: null; img: { name: string; url: string; } | { name: string; url: string; }; color: any; }) => void}
+	 */
 	export let onChange;
+	/**
+	 * @type {(arg0: null) => void}
+	 */
 	export let onCreate;
+	/**
+	 * @type {(arg0: null) => void}
+	 */
 	export let onRemove;
+	/**
+	 * @type {string}
+	 */
+	export let selLang;
+	/**
+	 * @type {(arg0: string) => any}
+	 */
+	export let onLangChange;
 
-	$: console.log('current topic', currentTopic);
+	/**
+	 * @type {string }
+	 */
+	export let titleKey;
+
+	// const descrLocales = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
 </script>
 
-<form class="flex-initial flex flex-col overlflow-y-auto" on:submit={(e) => e.preventDefault()}>
-	<div class="mb-3 ">
+<div class="flex gap-1 mb-3">
+	{#each langs as l}
+		<button class="flex-grow btn" class:sel-btn={selLang === l} on:click={() => onLangChange(l)}
+			>{l}</button
+		>
+	{/each}
+</div>
+<form
+	class="flex-initial flex flex-grow flex-col overlflow-y-auto"
+	on:submit={(e) => e.preventDefault()}
+>
+	<div class="mb-3">
 		<div class="label">
 			<label for="title">Title:</label>
 		</div>
 		<input
-			value={currentTopic.title}
+			placeholder="Enter your title"
+			value={currentTopic[titleKey] || ''}
+			class="border-2 p-2 w-full"
 			on:input={(e) => {
-				const newTopic = { ...currentTopic, title: e.target.value };
-				onChange(newTopic);
+				onChange({ ...currentTopic, [titleKey]: e.target.value });
 			}}
-			class="w-full"
-			name="title"
-			placeholder="title"
 		/>
-	</div>
-	<div>
-		<div class="label">
-			<label for="description">Description:</label>
-		</div>
-		<textarea
-			value={currentTopic.description}
-			on:input={(e) => {
-				const newTopic = { ...currentTopic, description: e.target.value };
-				onChange(newTopic);
-			}}
-			class="border w-full"
-			name="description"
-			placeholder="description"
-		/>
+		<abs />
 	</div>
 	<div class="mb-3">
 		<div class="label">
@@ -81,14 +104,14 @@
 	<div class="mt-auto">
 		{#if onCreate}
 			<button
-				class="create-btn w-full "
+				class="create-btn w-full"
 				on:click={() => {
 					onCreate(currentTopic.id);
 				}}>Create</button
 			>
 		{:else}
 			<button
-				class="del-btn w-full "
+				class="del-btn w-full"
 				on:click={() => {
 					onRemove(currentTopic.id);
 				}}>Delete</button

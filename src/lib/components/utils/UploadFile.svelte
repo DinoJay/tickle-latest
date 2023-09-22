@@ -4,7 +4,7 @@
 	import { storage } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuidv4 } from 'uuid';
 	/**
-	 * @type {null}
+	 * @type {null|string}
 	 */
 	export let url = null;
 	export let label = null;
@@ -56,12 +56,7 @@
 			</div>
 		{/if}
 		{#if !!url && !loading}
-			<img
-				style="height:200px"
-				class="m-auto w-full max-w-full object-cover "
-				src={url}
-				alt={url}
-			/>
+			<img style="height:200px" class="m-auto w-full max-w-full object-cover" src={url} alt={url} />
 		{/if}
 		{#if !loading && !url}
 			<div style="height:200px" class="flex text-c-gray cursor-pointer border">
