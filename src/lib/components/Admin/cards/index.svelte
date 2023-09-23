@@ -36,8 +36,6 @@
 	 */
 	export let selLang;
 
-	export let onSelLangChange;
-
 	$: titleKey = titleLocales[selLang];
 
 	/**
@@ -54,13 +52,6 @@
 	$: console.log('langs', langs);
 </script>
 
-<div class="flex gap-1">
-	{#each langs as l}
-		<button class="btn flex-grow" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
-			>{l}</button
-		>
-	{/each}
-</div>
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
 	{#if !!cards}
 		{#if cards.length === 0}
@@ -69,7 +60,7 @@
 		{#each cards as c}
 			<PreviewCard
 				{...c}
-				title={c[titleKey] || selLang === EN ? c.title : 'no-title'}
+				title={c[titleKey] || (selLang === EN ? c.title : 'no-title')}
 				highlighted={selectedCardId === c.id}
 				onClick={() => (selectedCardId = c.id)}
 			/>

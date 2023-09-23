@@ -17,7 +17,6 @@
 	$: {
 		if (expanded) {
 			setTimeout(() => {
-				console.log('el', el, 'scroll');
 				el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'end' });
 			}, 600);
 		}
@@ -47,6 +46,9 @@
 		<h1 class=" text-xl font-medium crop">
 			{title}
 		</h1>
+		<div class="ml-auto">
+			<slot name="header" />
+		</div>
 	</div>
 
 	<div class="flex-grow flex flex-col overflow-y-auto">

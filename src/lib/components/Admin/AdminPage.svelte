@@ -66,7 +66,11 @@
 				.map((d) => ({ ...d, logType: LOG_ACTIVITY_SUBTYPE }))
 		: null;
 
-	$: selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
+	let selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
+
+	$: langs = selectedEnv?.langs !== undefined ? selectedEnv.langs : LANGS;
+
+	console.log({ langs });
 
 	// $: console.log({ selectedEnv });
 </script>
@@ -75,6 +79,18 @@
 <div class="grid grid-cols-1 gap-3 m-2">
 	<Panel title={selectedEnv.title}>
 		<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
+		<div slot="header" class="flex gap-1">
+			{#each langs as l}
+				<button
+					class="small-btn"
+					class:sel-small-btn={selLang === l}
+					on:click={(e) => {
+						e.stopPropagation();
+						selLang = l;
+					}}>{l}</button
+				>
+			{/each}
+		</div>
 	</Panel>
 
 	<div>

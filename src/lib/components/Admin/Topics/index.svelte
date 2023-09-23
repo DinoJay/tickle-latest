@@ -47,18 +47,8 @@
 	$: selectedTopic = topix?.find((d) => d.id === selectedTopicId);
 
 	$: titleKey = titleLocales[selLang];
-
-	$: console.log('langs', langs);
-	$: console.log('selLang', selLang);
 </script>
 
-<div class="flex gap-1">
-	{#each langs as l}
-		<button class="btn flex-grow" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
-			>{l}</button
-		>
-	{/each}
-</div>
 <div class="flex flex-wrap gap-3 p-1 mb-2">
 	{#if !!topics}
 		{#if topics.length === 0}
@@ -67,7 +57,7 @@
 		{#each topics as t}
 			<PreviewTopic
 				{...t}
-				title={t[titleKey] || selLang === EN ? t.title : 'no-title'}
+				title={t[titleKey] || (selLang === EN ? t.title : 'no-title')}
 				onClick={() => {
 					selectedTopicId = t.id;
 					lbOpen = true;

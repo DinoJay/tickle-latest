@@ -73,6 +73,15 @@ body {
 	@apply border-2 border-gray-700 p-2 drop-shadow-sm
 }
 
+
+.small-btn {
+	@apply border-2 border-gray-700 px-1 drop-shadow-sm
+}
+
+.sel-small-btn {
+	@apply border-2 border-gray-700 bg-gray-700 px-1 text-white drop-shadow-sm
+}
+
 .sel-btn {
 	@apply border-2 border-gray-700 bg-gray-700 p-2 text-white drop-shadow-sm
 }

@@ -32,13 +32,13 @@
 	const DEFAULTLON = 4.39;
 	const DEFAULTLAT = 50.82;
 
-	$: updateCardCoords = () => {
-		let docRef = doc(db, 'card-envs', selectedEnvId, 'cards', selectedCardId);
+	// $: updateCardCoords = () => {
+	// 	let docRef = doc(db, 'card-envs', selectedEnvId, 'cards', selectedCardId);
 
-		return updateDoc(docRef, {
-			loc: { longitude: lon, latitude: lat }
-		});
-	};
+	// 	return updateDoc(docRef, {
+	// 		loc: { longitude: lon, latitude: lat }
+	// 	});
+	// };
 
 	$: setCard = (c) => {
 		const newCards = cards.map((d) => {

@@ -1,13 +1,21 @@
 <script>
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
+	/**
+	 * @type {string[]}
+	 */
 	export let topicIds;
+	/**
+	 * @type {any[]}
+	 */
 	export let allTopics;
+	/**
+	 * @type {(arg0: any[]) => any}
+	 */
 	export let onChange;
 	export let onClose;
 
 	$: selectedTopics = !!topicIds ? topicIds.map((id) => allTopics.find((d) => d.id === id)) : [];
 	$: otherTopics = allTopics.filter((t) => !topicIds?.includes(t.id));
-	$: console.log('alltopics', allTopics);
 </script>
 
 <div class="flex-grow flex flex-col">

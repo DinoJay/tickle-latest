@@ -5,7 +5,7 @@
 	import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 	import { v4 as uuidv4 } from 'uuid';
 	import SelectColor from './SelectColor.svelte';
-	import { LANGS } from '$lib/constants/locales';
+	import { LANGS, titleLocales } from '$lib/constants/locales';
 
 	export let currentTopic = {
 		title: null,
@@ -45,15 +45,16 @@
 	/**
 	 * @type {string }
 	 */
-	export let titleKey;
+
+	let lang = selLang || LANGS[0];
+	$: titleKey = titleLocales[lang];
 
 	// const descrLocales = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
 </script>
 
 <div class="flex gap-1 mb-3">
 	{#each langs as l}
-		<button class="flex-grow btn" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
-			>{l}</button
+		<button class="flex-grow btn" class:sel-btn={lang === l} on:click={() => (lang = l)}>{l}</button
 		>
 	{/each}
 </div>

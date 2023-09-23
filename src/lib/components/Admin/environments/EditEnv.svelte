@@ -33,7 +33,6 @@
 	 */
 	export let onClose;
 
-	$: console.log('env', env.langs);
 	$: langs = env.langs || [EN];
 </script>
 
@@ -65,7 +64,7 @@
 		/>
 	</div>
 	<div class="mb-3">
-		<div><label class="form-text" for="description">Description:</label></div>
+		<div><label class="form-text" for="description">Lanuages:</label></div>
 		<div class="flex gap-1">
 			{#each [EN, FR, NL] as l}
 				<button
