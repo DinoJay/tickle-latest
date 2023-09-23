@@ -10,7 +10,7 @@
 	import StaticLoader from './StaticLoader.svelte';
 	import EditCardBack from './EditCardBack.svelte';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
-	import { titleLocales } from '$lib/constants/locales.js';
+	import { titleLocales, LANGS, EN } from '$lib/constants/locales.js';
 
 	/**
 	 * @type {any[]}
@@ -26,15 +26,23 @@
 	export let onChange;
 
 	/**
-	 * @type {string | null}
+	 * @type {string[]}
 	 */
 
-	export let langs;
+	export let langs = LANGS;
 
-	$: selLang = langs[0];
+	/**
+	 * @type {string}
+	 */
+	export let selLang;
+
+	export let onSelLangChange;
 
 	$: titleKey = titleLocales[selLang];
 
+	/**
+	 * @type {string | null}
+	 */
 	let selectedCardId = null;
 	let lbNcOpen = false;
 	let slOpen = false;
@@ -42,8 +50,17 @@
 
 	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
 	$: console.log('selectedCard', selectedCard);
+
+	$: console.log('langs', langs);
 </script>
 
+<div class="flex gap-1">
+	{#each langs as l}
+		<button class="btn flex-grow" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
+			>{l}</button
+		>
+	{/each}
+</div>
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
 	{#if !!cards}
 		{#if cards.length === 0}
@@ -52,7 +69,7 @@
 		{#each cards as c}
 			<PreviewCard
 				{...c}
-				title={c[titleKey] || c.title}
+				title={c[titleKey] || selLang === EN ? c.title : 'no-title'}
 				highlighted={selectedCardId === c.id}
 				onClick={() => (selectedCardId = c.id)}
 			/>

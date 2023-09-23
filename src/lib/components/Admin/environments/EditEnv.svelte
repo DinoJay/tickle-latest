@@ -70,7 +70,7 @@
 			{#each [EN, FR, NL] as l}
 				<button
 					class="btn flex-grow"
-					class:sel-btn={env.langs?.includes(l)}
+					class:sel-btn={langs?.includes(l)}
 					on:click={() => {
 						let newLangs;
 						if (langs.includes(l)) {

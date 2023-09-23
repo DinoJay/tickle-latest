@@ -7,15 +7,11 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
 
-	import { EN, FR, NL, titleLocales } from '$lib/constants/locales';
+	import { EN, LANGS, titleLocales } from '$lib/constants/locales';
 	/**
 	 * @type {any[]}
 	 */
 	export let topics;
-	/**
-	 * @type {(arg0: any) => void}
-	 */
-	export let onClick;
 
 	/**
 	 * @type {{ title: any; id: any; }}
@@ -31,7 +27,16 @@
 	/**
 	 * @type {string[]}
 	 */
-	export let langs;
+	export let langs = LANGS;
+
+	/**
+	 * @type {string}
+	 */
+	export let selLang;
+	/**
+	 * @type {(arg0: string) => any}
+	 */
+	export let onSelLangChange;
 
 	let lbOpen = false;
 	let clbOpen = false;
@@ -41,14 +46,19 @@
 
 	$: selectedTopic = topix?.find((d) => d.id === selectedTopicId);
 
-	let selLang = langs[0];
-
 	$: titleKey = titleLocales[selLang];
 
 	$: console.log('langs', langs);
 	$: console.log('selLang', selLang);
 </script>
 
+<div class="flex gap-1">
+	{#each langs as l}
+		<button class="btn flex-grow" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
+			>{l}</button
+		>
+	{/each}
+</div>
 <div class="flex flex-wrap gap-3 p-1 mb-2">
 	{#if !!topics}
 		{#if topics.length === 0}
@@ -57,6 +67,7 @@
 		{#each topics as t}
 			<PreviewTopic
 				{...t}
+				title={t[titleKey] || selLang === EN ? t.title : 'no-title'}
 				onClick={() => {
 					selectedTopicId = t.id;
 					lbOpen = true;
@@ -78,7 +89,7 @@
 		{langs}
 		{selLang}
 		{titleKey}
-		onLangChange={(s) => (selLang = s)}
+		{onSelLangChange}
 		onChange={(t) => {
 			const ts = topics.map((d) => {
 				if (d.id === t.id) {

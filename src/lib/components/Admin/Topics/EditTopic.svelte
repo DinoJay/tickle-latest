@@ -5,6 +5,7 @@
 	import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 	import { v4 as uuidv4 } from 'uuid';
 	import SelectColor from './SelectColor.svelte';
+	import { LANGS } from '$lib/constants/locales';
 
 	export let currentTopic = {
 		title: null,
@@ -19,7 +20,7 @@
 	/**
 	 * @type {string[]}
 	 */
-	export let langs;
+	export let langs = LANGS;
 	/**
 	 * @type {(arg0: { title_en: any; title: null; title_fr: null; title_nl: null; description: string; id: null; img: { name: string; url: string; } | { name: string; url: string; }; color: any; }) => void}
 	 */
@@ -39,7 +40,7 @@
 	/**
 	 * @type {(arg0: string) => any}
 	 */
-	export let onLangChange;
+	export let onSelLangChange;
 
 	/**
 	 * @type {string }
@@ -51,7 +52,7 @@
 
 <div class="flex gap-1 mb-3">
 	{#each langs as l}
-		<button class="flex-grow btn" class:sel-btn={selLang === l} on:click={() => onLangChange(l)}
+		<button class="flex-grow btn" class:sel-btn={selLang === l} on:click={() => onSelLangChange(l)}
 			>{l}</button
 		>
 	{/each}

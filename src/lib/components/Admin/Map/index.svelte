@@ -6,14 +6,29 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
 
+	/**
+	 * @type {string | null}
+	 */
 	export let selectedEnvId = null;
+	/**
+	 * @type {string | null}
+	 */
 	export let selectedCardId = null;
+	/**
+	 * @type {Object[]}
+	 */
 	export let cards = [];
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
 	export let onChange;
 	/**
 	 * @type {string | null}
 	 */
 
+	/**
+	 * @type {number}
+	 */
 	const DEFAULTLON = 4.39;
 	const DEFAULTLAT = 50.82;
 

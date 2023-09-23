@@ -1,6 +1,5 @@
 <script>
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
-	import { get_all_dirty_from_scope } from 'svelte/internal';
 	export let topicIds;
 	export let allTopics;
 	export let onChange;

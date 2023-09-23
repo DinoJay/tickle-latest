@@ -5,6 +5,9 @@
 	import { key } from '../Map/mapbox';
 
 	export let title = '';
+	/**
+	 * @type {null|string}
+	 */
 	export let height = null;
 	export let anim = true;
 
@@ -27,13 +30,13 @@
 
 <!-- Main block -->
 <div
-	class="{expanded ? 'expanded ' : ''} p-2 flex flex-col border-2 border-black custom-shadow "
+	class="{expanded ? 'expanded ' : ''} p-2 flex flex-col border-2 border-black custom-shadow"
 	style={height !== null && expanded ? `height:${height}` : ''}
 	bind:this={el}
 >
 	<div
 		on:keydown={() => null}
-		class="flex {expanded ? 'mb-3' : ''}  w-full flex-none justify-center cursor-pointer "
+		class="flex {expanded ? 'mb-3' : ''}  w-full flex-none justify-center cursor-pointer"
 		on:click={() => {
 			expanded = !expanded;
 		}}

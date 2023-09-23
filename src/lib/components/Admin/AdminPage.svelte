@@ -14,14 +14,39 @@
 	import { getAllContexts } from 'svelte';
 
 	import { LOG_ACTIVITY_SUBTYPE } from './UserActivities/logTypes';
+	import { LANGS } from '$lib/constants/locales';
 
+	/**
+	 * @type {any[]}
+	 */
 	export let envs;
+	/**
+	 * @type {any[]}
+	 */
 	export let cards;
+	/**
+	 * @type {any}
+	 */
 	export let topics;
+	/**
+	 * @type {string}
+	 */
 	export let selectedEnvId;
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
 	export let onEnvsChange;
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
 	export let onCardsChange;
+	/**
+	 * @type {(arg0: any) => void}
+	 */
 	export let onSelectEnv;
+	/**
+	 * @type {(arg0: any[]) => void}
+	 */
 	export let onTopicsChange;
 
 	$: console.log('selectedEnvId', selectedEnvId);
@@ -30,6 +55,9 @@
 	$: console.log({ selectedEnv });
 
 	let selectedCardId = null;
+	/**
+	 * @type {any[] | null}
+	 */
 	let userLogs = null;
 
 	$: userLogs = !!cards
@@ -37,6 +65,10 @@
 				.flatMap((d) => d.activitySubmissions)
 				.map((d) => ({ ...d, logType: LOG_ACTIVITY_SUBTYPE }))
 		: null;
+
+	$: selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
+
+	// $: console.log({ selectedEnv });
 </script>
 
 <!-- {#if $store?.currentUser?.admin} -->
@@ -47,19 +79,33 @@
 
 	<div>
 		<Panel title={'Topics'}>
-			<Topics {selectedEnvId} {topics} onChange={onTopicsChange} langs={selectedEnv.langs} />
+			<Topics
+				{selectedEnvId}
+				{topics}
+				onChange={onTopicsChange}
+				langs={selectedEnv.langs}
+				{selLang}
+				onSelLangChange={(/** @type {string} */ l) => (selLang = l)}
+			/>
 		</Panel>
 	</div>
 
 	<div>
 		<Panel title={'Cards'}>
-			<Cards {cards} {selectedEnvId} onChange={onCardsChange} langs={selectedEnv.langs} />
+			<Cards
+				{cards}
+				{selectedEnvId}
+				onChange={onCardsChange}
+				langs={selectedEnv.langs}
+				{selLang}
+				onSelLangChange={(/** @type {string} */ l) => (selLang = l)}
+			/>
 		</Panel>
 	</div>
 
 	<div>
 		<Panel title={`Map`} height={'40rem'}>
-			<Map {cards} {selectedEnvId} onChange={onCardsChange} />
+			<Map {cards} {selectedEnvId} onChange={onCardsChange} {selLang} />
 		</Panel>
 	</div>
 	<div>
@@ -68,7 +114,6 @@
 				{cards}
 				{userLogs}
 				{selectedEnvId}
-				onChange={onCardsChange}
 				onDelete={(logId) => {
 					userLogs = userLogs.filter((d) => d.id !== logId);
 				}}
