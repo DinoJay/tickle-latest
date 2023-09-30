@@ -15,10 +15,10 @@
 	export let onFlip = () => false;
 	export let isMandatory = false;
 	/**
-	 * @type {number|null}
+	 * @type {string|null}
 	 */
-	export let height = 700;
-	export let width = 450;
+	export let height = '700px';
+	export let width = '450px';
 	export let title = '';
 	// export let cls = '';
 	export let backCls = '';
@@ -76,7 +76,7 @@
 		}}
 	>
 		<FlipCard
-			style="{!!height ? `max-height:${height}px` : 'height:330px'}; max-width:{width}px"
+			style="{!!height ? `max-height:${height}` : 'height:330px'}; max-width:{width}"
 			cls="m-auto drop-shadow-xl {!!height ? 'h-full' : ''} w-full {flipCls} overflow-hidden"
 			{flipped}
 		>

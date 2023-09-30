@@ -1,4 +1,5 @@
 <script>
+	import { activityValueLocales } from './../../constants/locales.js';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
@@ -10,6 +11,7 @@
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
 	import CardBack from './CardBack.svelte';
+	import { locale } from 'svelte-i18n';
 
 	$: uid = $store.currentUser.uid;
 
@@ -33,15 +35,15 @@
 	 */
 	export let description;
 	/**
-	 * @type {any|undefined}
+	 * @type {string|undefined}
 	 */
 	export let description_fr;
 	/**
-	 * @type {any|undefined}
+	 * @type {string|undefined}
 	 */
 	export let description_en;
 	/**
-	 * @type {any|undefined}
+	 * @type {string|undefined}
 	 */
 	export let description_nl;
 	/**
@@ -66,6 +68,7 @@
 	export let onChange;
 
 	export let videos;
+	export let langs;
 
 	export let onActivitySubmit = (d) => d;
 
@@ -123,6 +126,7 @@
 			{onChange}
 			{selectedEnvId}
 			{videos}
+			{langs}
 			actSub={curActSub}
 			onSubmit={() => {
 				if (!!activity) activityOpen = true;
@@ -163,6 +167,7 @@
 	}}
 	{activity}
 	currentActSub={curActSub}
+	actValAcc={activityValueLocales[$locale]}
 	onSubmit={(/** @type {any} */ respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
 		const actSub = { ...activityInformation, ...respObj };

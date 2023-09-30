@@ -1,6 +1,7 @@
 <script>
 	import { updateCurrentUser } from 'firebase/auth';
 	import { afterUpdate } from 'svelte';
+	import { v4 as uuidv4 } from 'uuid';
 
 	const WORD = 'example';
 	const HINT = null;
@@ -10,14 +11,15 @@
 	 */
 	export let onChange;
 	export let onClose;
+	export let id = uuidv4();
 
 	/**
 	 * @type {number | null | undefined}
 	 */
 	let selIndex = null;
 
-	$: word = value.word || WORD;
-	$: hint = value.hint || HINT;
+	$: word = value?.word || WORD;
+	$: hint = value?.hint || HINT;
 
 	function useInit(node, selIndex) {
 		node.focus();
@@ -43,7 +45,7 @@
 	$: console.log('disabledRemoveBtn', disabledRemoveBtn);
 </script>
 
-<div class="mb-3 ">
+<div class="mb-3">
 	<div class="label text-2xl">Hint:</div>
 	<textarea
 		value={hint}
@@ -62,7 +64,7 @@
 
 	<div class="flex flex-wrap gap-2">
 		{#each [...word] as letter, i}
-			<div class="border-2  border-gray-600  letter-cont">
+			<div class="border-2 border-gray-600 letter-cont">
 				<!-- <span class="visually-hidden ">empty</span> -->
 				<input
 					use:useInit
@@ -83,7 +85,7 @@
 							word: word.slice(0, i) + e.target?.value + word.slice(i + 1).trim()
 						});
 
-						const elems = [...document.querySelectorAll('.letter')];
+						const elems = [...document.querySelectorAll(`.${id}`)];
 						const index = (i + 1 < word.length ? i + 1 : i) % word.length;
 						// // console.log('elems', elems);
 						// elems[index]?.focus();
@@ -98,7 +100,7 @@
 						// return;
 						if (word.length <= 1) return;
 
-						const elems = [...document.querySelectorAll('.letter')];
+						const elems = [...document.querySelectorAll(`.${id}`)];
 						if (e.key === 'Backspace') {
 							e.preventDefault();
 							onChange({
@@ -158,7 +160,7 @@
 						// }, 100);
 					}}
 					maxlength="1"
-					class="letter w-full h-full"
+					class="letter w-full h-full {id}"
 					value={letter}
 				/>
 			</div>
@@ -167,7 +169,7 @@
 </div>
 <div class="mt-auto flex">
 	<button
-		class="del-btn flex-grow {disabledRemoveBtn ? 'disabled pointer-events-none' : ''}"
+		class="del-btn mr-1 flex-grow {disabledRemoveBtn ? 'disabled pointer-events-none' : ''}"
 		style="max-width:50%"
 		on:click={(e) => {
 			e.preventDefault();
@@ -179,12 +181,12 @@
 			});
 			selIndex = null;
 
-			const elems = [...document.querySelectorAll('.letter')];
+			const elems = [...document.querySelectorAll(`.${id}`)];
 			// selIndex = (i - 1) % word.length;
 
 			elems[word.length - 2].focus();
 
-			const index = (i - 1) % word.length;
+			const index = word.length > 1 ? word.length - 1 : 0;
 			// // console.log('elems', elems);
 			// elems[index]?.focus();
 			// elems[index]?.select();
@@ -203,7 +205,7 @@
 
 			setTimeout(() => (selIndex = word.length), 400);
 			console.log('word', word);
-			const elems = [...document.querySelectorAll('.letter')];
+			const elems = [...document.querySelectorAll(`.${id}`)];
 			elems[elems.length - 1]?.focus();
 			// console.log('elems', elems);
 		}}>Add letter</button

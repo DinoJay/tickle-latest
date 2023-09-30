@@ -62,64 +62,53 @@
 	<textarea
 		placeholder="Please enter your description"
 		class="text-area w-full"
-		value={value?.description}
+		value={value?.description || ''}
 		on:change={(e) => onChange({ ...value, description: e.target.value.trim() })}
 	/>
 </div>
-<div>
-	<div class="label">Reordable List:</div>
-	<div class="drop-shadow-sm ">
-		{#each itemList as n, index (n.id)}
-			<div
-				class="border-2 mb-1 p-2 bg-white flex items-center"
-				animate:flip={{ duration: 200 }}
-				draggable={true}
-				on:dragstart={(event) => dragstart(event, index)}
-				on:drop|preventDefault={(event) => drop(event, index)}
-				ondragover="return false"
-				on:dragenter={() => (hovering = index)}
-				class:active={hovering === index}
-			>
-				<div>
-					<span>#{index + 1}</span>
-					{n.name}
-				</div>
-				<button class="ml-3" on:click={() => (selectedId = n.id)}>
-					<PencilBox />
-				</button>
-				<button
-					class="ml-auto"
-					on:click={() => {
-						onChange({ ...value, itemList: itemList.filter((d, i) => d.id !== n.id) });
-					}}><WindowClose color="red" /></button
-				>
+<div class="label">Reordable List:</div>
+<div class="drop-shadow-sm">
+	{#each itemList as n, index (n.id)}
+		<div
+			class="border-2 mb-1 p-2 bg-white flex items-center"
+			animate:flip={{ duration: 200 }}
+			draggable={true}
+			on:dragstart={(event) => dragstart(event, index)}
+			on:drop|preventDefault={(event) => drop(event, index)}
+			ondragover="return false"
+			on:dragenter={() => (hovering = index)}
+			class:active={hovering === index}
+		>
+			<div>
+				<span>#{index + 1}</span>
+				{n.name}
 			</div>
-		{/each}
-	</div>
-	<button class="mt-3 create-btn-2 w-full" on:click={() => (newItemModalOpen = true)}
-		>Create new Item</button
-	>
+			<button class="ml-3" on:click={() => (selectedId = n.id)}>
+				<PencilBox />
+			</button>
+			<button
+				class="ml-auto"
+				on:click={() => {
+					onChange({ ...value, itemList: itemList.filter((d, i) => d.id !== n.id) });
+				}}><WindowClose color="red" /></button
+			>
+		</div>
+	{/each}
 </div>
-
-<button
-	class="mt-auto create-btn w-full"
-	on:click={() => {
-		onChange({ ...value, itemList });
-		onClose();
-	}}>Save and Close</button
+<button class="mt-auto create-btn-2 w-full" on:click={() => (newItemModalOpen = true)}
+	>Create new Item</button
 >
 
 <LightBox
 	title="Create new Item"
 	isOpen={newItemModalOpen}
-	height={200}
 	close={() => (newItemModalOpen = false)}
 >
 	<div>
 		<div class="label">Name:</div>
 		<input
 			placeholder="Please enter the name of the item"
-			class="form-text input-text w-full "
+			class="form-text input-text w-full"
 			type="text"
 			bind:value={newItemTitle}
 		/>
@@ -145,7 +134,7 @@
 		<div class="label">Name:</div>
 		<input
 			placeholder="Please enter the name of the item"
-			class="form-text input-text w-full "
+			class="form-text input-text w-full"
 			type="text"
 			value={selectedItem?.name}
 			on:change={(e) => {

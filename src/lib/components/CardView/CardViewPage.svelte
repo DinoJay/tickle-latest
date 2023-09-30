@@ -8,20 +8,34 @@
 	import SwitchVisBtn from './SwitchVisBtn.svelte';
 
 	export let selectedEnvId = 'undefined';
+	/**
+	 * @type {{ langs: string[]; }}
+	 */
+	export let selectedEnv;
+	/**
+	 * @type {object[]}
+	 */
 	export let cards;
+	/**
+	 * @type {object[]}
+	 */
 	export let topics;
+	/**
+	 * @type {boolean}
+	 */
 	export let extended;
 
+	/**
+	 * @type {string|null}
+	 */
 	export let selectedCardId = null;
+
 	const GEOMAP = 'map';
 	const TOPICMAP = 'topicmap';
 	const UPSET = 'upset';
 	const VISTYPES = [GEOMAP, TOPICMAP, UPSET];
 
 	let centerLocation = '';
-
-	let width;
-	let height;
 
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
@@ -41,7 +55,7 @@
 		{#if [TOPICMAP, GEOMAP].includes(selVisType)}
 			<Slider {cards} selectedEnvironment={selectedEnvId} {selectedCardId} onClick={onCardClick} />
 		{/if}
-		<div class="absolute h-full w-full  {selVisType === GEOMAP ? 'visible' : 'invisible'}">
+		<div class="absolute h-full w-full {selVisType === GEOMAP ? 'visible' : 'invisible'}">
 			<Map {cards} {centerLocation} onClick={onCardClick} />
 		</div>
 
@@ -69,10 +83,10 @@
 	{#key selectedCardId}
 		<Card
 			open={!!selectedCardId}
+			langs={selectedEnv.langs}
 			{selectedEnvId}
 			onClose={() => {
 				//TODO: wrong fix that
-
 				selectedCardId = null;
 			}}
 			onActivitySubmit={(sub) => {}}

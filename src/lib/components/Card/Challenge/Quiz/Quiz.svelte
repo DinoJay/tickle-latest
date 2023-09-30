@@ -8,11 +8,12 @@
 	export let responses;
 	export let onResult;
 	export let succeeded;
+	export let actValAcc;
 
 	// console.log('activity', activity);
 
-	const questions = activity.value;
-	const title = activity.value.title;
+	const questions = activity[actValAcc];
+	const title = activity[actValAcc].title;
 
 	$: counter = 0;
 	$: curQ = questions[counter];

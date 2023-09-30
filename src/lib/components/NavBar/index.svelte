@@ -26,6 +26,7 @@
 	$: envPromise = selectedEnvId
 		? getDoc(doc(db, 'card-envs', selectedEnvId)).then((d) => d.data())
 		: null;
+
 	$: sections = [
 		{
 			name: 'Select environments/User View',
@@ -86,51 +87,43 @@
 
 		{#await envPromise then env}
 			<div class="mb-3">{env?.title || ''}</div>
-		{/await}
 
-		<div class="ml-auto relative mr-3 my-auto">
-			{#if $store?.currentUser}
-				<Burger bind:collapsed />
-			{/if}
-		</div>
-		{#if !collapsed}
-			<div
-				transition:fly={{ x: 400, duration: 500, opacity: 1 }}
-				class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-20 bg-gray-700"
-			>
-				{#each sections as section}
-					<button
-						class="sm:text-xl text-2xl border-b hover:underline p-2"
-						on:click={(e) => {
-							// e.stopPropagation();
-							collapsed = true;
-							section.go();
-						}}
-					>
-						{section.name}
-					</button>
-				{/each}
-				<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
-					<div class="m-auto">
+			<div class="ml-auto relative mr-3 my-auto">
+				{#if $store?.currentUser}
+					<Burger bind:collapsed />
+				{/if}
+			</div>
+			{#if !collapsed}
+				<div
+					transition:fly={{ x: 400, duration: 500, opacity: 1 }}
+					class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-20 bg-gray-700"
+				>
+					{#each sections as section}
 						<button
-							on:click={() => locale.set('en')}
-							class="border-2 p-1"
-							class:btn-selected={$locale === 'en'}>EN</button
+							class="sm:text-xl text-2xl border-b hover:underline p-2"
+							on:click={(e) => {
+								// e.stopPropagation();
+								collapsed = true;
+								section.go();
+							}}
 						>
-						<button
-							on:click={() => locale.set('fr')}
-							class="mx-1 border-2 p-1"
-							class:btn-selected={$locale === 'fr'}>FR</button
-						>
-						<button
-							on:click={() => locale.set('nl')}
-							class="border-white border-2 p-1"
-							class:btn-selected={$locale === 'nl'}>NL</button
-						>
+							{section.name}
+						</button>
+					{/each}
+					<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
+						<div class="m-auto">
+							{#each env?.langs as l}
+								<button
+									on:click={() => locale.set(l)}
+									class="border-2 p-1"
+									class:btn-selected={$locale === l}>{l.toUpperCase()}</button
+								>
+							{/each}
+						</div>
 					</div>
 				</div>
-			</div>
-		{/if}
+			{/if}
+		{/await}
 	</div>
 </nav>
 

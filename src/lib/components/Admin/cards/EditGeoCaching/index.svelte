@@ -70,5 +70,3 @@
 		on:input={(e) => onChange({ ...curVal, description: e.target.value })}
 	/>
 </div>
-
-<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>

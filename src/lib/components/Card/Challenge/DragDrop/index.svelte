@@ -10,6 +10,10 @@
 	export let activity;
 	export let onSubmit;
 
+	export let actValAcc;
+
+	$: actVal = activity?.[actValAcc];
+
 	const exampleStack = [
 		{
 			name: 'Frontend Stack',
@@ -27,7 +31,7 @@
 
 	const POOLTYPE = 'pool';
 	let stack =
-		currentActSub?.response || [...activity?.value?.stack?.map((d) => ({ ...d, items: [] }))] ||
+		currentActSub?.response || [...actVal?.stack?.map((d) => ({ ...d, items: [] }))] ||
 		exampleStack;
 
 	const allSetItems = currentActSub?.response?.flatMap((d) => d.items) || [];
@@ -37,7 +41,7 @@
 	let pool = {
 		name: 'All Items',
 		type: POOLTYPE,
-		items: activity?.value?.stack.flatMap((d) =>
+		items: actVal?.stack.flatMap((d) =>
 			d.items.filter((e) => !allSetItems.find((f) => f.id === e.id))
 		)
 	};
@@ -57,7 +61,7 @@
 
 {#if succeeded === true}
 	<div
-		class="absolute overflow-hidden left-0 flex justify-center  w-full h-full pointer-events-none"
+		class="absolute overflow-hidden left-0 flex justify-center w-full h-full pointer-events-none"
 		style:top="-50px"
 	>
 		<Confetti
@@ -92,7 +96,7 @@
 <button
 	class="btn"
 	on:click={() => {
-		succeeded = isSuccess(activity?.value?.stack, stack);
+		succeeded = isSuccess(actVal?.stack, stack);
 		onSubmit({ response: stack, succeeded });
 	}}
 >

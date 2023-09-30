@@ -1,4 +1,6 @@
 <script>
+	import { EN, FR, NL } from '$lib/constants/locales';
+	import { locale } from 'svelte-i18n';
 	/**
 	 * @type {string}
 	 */
@@ -12,32 +14,16 @@
 	 */
 	export let description_nl;
 	export let cls = '';
-	/**
-	 * @type {string}
-	 */
-	export let NL;
-	/**
-	 * @type {string}
-	 */
-	export let FR;
-	/**
-	 * @type {string}
-	 */
-	export let EN;
-	/**
-	 * @type {string}
-	 */
-	export let selLang;
 </script>
 
 {#if !!description_en || !!description_fr || !!description_nl}
 	<div class={`${cls} flex`}>
 		<p class=" overflow-y-auto">
-			{#if selLang === EN}
+			{#if $locale === EN}
 				{description_en}
-			{:else if selLang === FR}
+			{:else if $locale === FR}
 				{description_fr}
-			{:else if selLang === NL}
+			{:else if $locale === NL}
 				{description_nl}
 			{/if}
 		</p>

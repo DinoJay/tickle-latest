@@ -2,9 +2,13 @@
 	import Hangman from './Hangman.svelte';
 
 	/**
+	 * @type {string}
+	 */
+	export let actValAcc;
+	/**
 	 * @type {{ value: { word: any; hint: any; }; }}
 	 */
-	export let activity = { value: { word: '', hint: '' } };
+	export let activity = { [actValAcc]: { word: '', hint: '' } };
 	export let currentActSub = { response: { wordList: [] } };
 	/**
 	 * @type {(arg0: { response: { wordList: { letter: any; visible: boolean; }[]; }; succeeded: boolean; }) => void}
@@ -12,8 +16,8 @@
 	export let onSubmit;
 	$: console.log('activity HANG', activity, 'props', $$props);
 
-	const word = activity.value.word;
-	const hint = activity.value.hint;
+	const word = activity[actValAcc].word;
+	const hint = activity[actValAcc].hint;
 	let errors = 0;
 
 	let wordList = [...word].map((c) => {

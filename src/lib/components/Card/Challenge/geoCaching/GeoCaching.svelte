@@ -5,6 +5,8 @@
 
 	import Camera from 'svelte-material-icons/Camera.svelte';
 	import RadiusMap from '$lib/components/Map/RadiusMap.svelte';
+	import { locale } from 'svelte-i18n';
+	import { activityValueLocales } from '$lib/constants/locales';
 
 	/**
 	 * @type {(arg0: { imgUrl?: string; answer?: any; }) => void}
@@ -20,17 +22,24 @@
 	 */
 	export let userResponse = { answer: null, imgUrl: null };
 
+	/**
+	 * @type {string}
+	 */
+	export let actValAcc;
+
 	// let activityDone = false;
 
 	let makingPhoto = false;
+
+	$: value = activity[actValAcc];
 </script>
 
 <!-- <h1 class="text-xl mb-2 p-2">{activity.value?.title}</h1> -->
 
 <div class="flex-grow mb-3" style="max-height: 20rem">
-	<RadiusMap radiusInM={activity.value.radius} location={activity.value?.location} />
+	<RadiusMap radiusInM={value.radius} location={value?.location} />
 </div>
-<p>{activity.value?.description}</p>
+<p>{value?.description}</p>
 
 <button
 	class="create-btn mt-auto flex justify-center items-center w-full mt-auto text-xl"

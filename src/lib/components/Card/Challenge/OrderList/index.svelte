@@ -3,35 +3,39 @@
 	import { v4 as uuid } from 'uuid';
 	import Confetti from 'svelte-confetti/src/Confetti.svelte';
 	import Notification from '$lib/components/Notifications/Notification.svelte';
+	import avatars from '$lib/components/AvatarManager/avatars';
 
 	export let currentActSub;
 	export let activity;
 	export let onSubmit;
+	export let actValAcc = 'value';
+
+	$: actVal = activity?.[actValAcc];
 
 	const POOLTYPE = 'pool';
 	let itemSlots = currentActSub?.response || [
-		...activity?.value?.itemList?.map((d) => ({ id: uuid(), itemId: null }))
+		...actVal?.itemList?.map((d) => ({ id: uuid(), itemId: null }))
 	];
 
 	let pool = activity?.value?.itemList.filter(
 		(d) => itemSlots.find((e) => e.itemId === d.id) === undefined
 	);
 
-	$: description = activity?.value?.description;
+	$: description = actVal?.description;
 
-	$: allItems = activity?.value?.itemList;
+	$: allItems = actVal?.itemList;
 
 	const isSuccess = (itemList, itemSlots) => {
 		const itemIds = itemList.map((d) => d.id);
 		const slotIds = itemSlots.map((d) => d.itemId);
 		return JSON.stringify(itemIds) === JSON.stringify(slotIds);
 	};
-	let succeeded = isSuccess(activity.value.itemList, itemSlots);
+	let succeeded = isSuccess(actVal.itemList, itemSlots);
 </script>
 
 {#if succeeded === true}
 	<div
-		class="absolute overflow-hidden left-0 flex justify-center  w-full h-full pointer-events-none"
+		class="absolute overflow-hidden left-0 flex justify-center w-full h-full pointer-events-none"
 		style:top="-50px"
 	>
 		<Confetti
@@ -66,6 +70,6 @@
 	class="btn"
 	on:click={() => {
 		onSubmit({ response: itemSlots });
-		succeeded = isSuccess(activity.value.itemList, itemSlots);
+		succeeded = isSuccess(actVal?.itemList, itemSlots);
 	}}>Submit</button
 >

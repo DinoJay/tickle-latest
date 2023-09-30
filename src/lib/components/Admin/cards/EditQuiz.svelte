@@ -38,7 +38,7 @@
 	console.log('quiz props', $$props);
 </script>
 
-<div class="flex mb-auto flex-col w-full  flex-grow overflow-y-auto  ">
+<div class="flex mb-auto flex-col flex-grow overflow-y-auto">
 	{#if questions.length === 0}
 		<div class="m-auto text-xl text-gray-500">No Questions added!</div>
 	{/if}
@@ -53,8 +53,7 @@
 		</button>
 	{/each}
 </div>
-<button class="w-full border-2  p-2" on:click={() => (sq = true)}> Add a question </button>
-<button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button>
+<button class="w-full mt-auto border-2 p-2" on:click={() => (sq = true)}> Add a question </button>
 
 <EditNewQuestion
 	onCreate={(q) => {
