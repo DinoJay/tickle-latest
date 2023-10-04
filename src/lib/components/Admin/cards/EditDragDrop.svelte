@@ -1,9 +1,9 @@
 <script>
-	import Description from './../../Card/Description.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import PencilBox from 'svelte-material-icons/Pencil.svelte';
+	import { v4 as uuidv4 } from 'uuid';
 
 	export let value = { stack: null, description: '' };
 
@@ -11,7 +11,7 @@
 	 * @type {(arg0: { description: any; stack: any[] | never[] | any[]; }) => void}
 	 */
 	export let onChange;
-	export let onClose;
+	// export let onClose;
 
 	const abc = [
 		'A',

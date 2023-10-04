@@ -48,8 +48,6 @@
 
 	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
 	$: console.log('selectedCard', selectedCard);
-
-	$: console.log('langs', langs);
 </script>
 
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
@@ -88,6 +86,7 @@
 	<EditCard
 		slot="front"
 		currentCard={selectedCard}
+		{langs}
 		{selectedEnvId}
 		onRemove={(d) => {
 			console.log('d', d);

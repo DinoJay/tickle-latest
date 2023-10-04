@@ -211,19 +211,6 @@
 		}}>Add letter</button
 	>
 </div>
-<button
-	class="w-full create-btn mt-3"
-	on:click={() => {
-		onClose();
-
-		onChange({
-			hint: hint || HINT,
-			word
-		});
-	}}
->
-	Save & Close
-</button>
 
 <style>
 	.letter-cont {

@@ -14,6 +14,10 @@
 	import EditYoutube from './EditYoutube.svelte';
 
 	/**
+	 * @type {string[]}
+	 */
+	export let langs;
+	/**
 	 * @type {string}
 	 */
 	export let selectedEnvId;
@@ -199,6 +203,7 @@
 	<EditActivity
 		onClose={() => (selectedField = null)}
 		activity={currentCard.activity}
+		{langs}
 		onChange={(activity) => {
 			console.log('activity', activity);
 			onChange({ ...currentCard, activity });
