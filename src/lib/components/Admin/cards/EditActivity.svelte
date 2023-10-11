@@ -7,10 +7,8 @@
 	import EditDragDrop from './EditDragDrop.svelte';
 	import EditOrderList from './EditOrderList.svelte';
 	import { activityLocales } from '$lib/constants/locales';
-	import TabItem from '$lib/components/TabItem.svelte';
-	import Tabs from '$lib/components/Tabs.svelte';
-	import ExtTabs from '$lib/components/ExtTabs.svelte';
-	import ExtTabItem from '$lib/components/ExtTabItem.svelte';
+	import TabItem from '$lib/components/ResponsiveTabItem.svelte';
+	import Tabs from '$lib/components/ResponsiveTabs.svelte';
 
 	/**
 	 * @type {string[]}
@@ -70,9 +68,9 @@
 	close={() => (selectedActivity = null)}
 	width="auto"
 >
-	<ExtTabs>
+	<Tabs>
 		{#each langs as l, i}
-			<ExtTabItem title={l}>
+			<TabItem title={l}>
 				<h2 class="label text-xl">Quiz {l}</h2>
 				<EditQuiz
 					onClose={() => (selectedActivity = null)}
@@ -82,9 +80,9 @@
 						onChange({ [activityField]: { type: QUIZ, value: questions } });
 					}}
 				/>
-			</ExtTabItem>
+			</TabItem>
 		{/each}
-	</ExtTabs>
+	</Tabs>
 	<button class="w-full btn mt-3 max-w-2xl mx-auto" on:click={() => (selectedActivity = null)}>
 		Close
 	</button>
@@ -96,9 +94,9 @@
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<ExtTabs>
+	<Tabs>
 		{#each langs as l, i}
-			<ExtTabItem title={l}>
+			<TabItem title={l}>
 				<h2>GeoCaching {l}</h2>
 				<EditGeoCaching
 					onClose={() => (selectedActivity = null)}
@@ -108,9 +106,9 @@
 						onChange({ [activityField]: { type: GEOCACHING, value } });
 					}}
 				/>
-			</ExtTabItem>
+			</TabItem>
 		{/each}
-	</ExtTabs>
+	</Tabs>
 	<button class="w-full btn mt-3 m-auto" on:click={() => (selectedActivity = null)}> Close </button>
 </LightBox>
 <LightBox
@@ -118,9 +116,9 @@
 	isOpen={selectedActivity === HANGMAN}
 	close={() => (selectedActivity = null)}
 >
-	<ExtTabs>
+	<Tabs>
 		{#each langs as l, i}
-			<ExtTabItem title={l}>
+			<TabItem title={l}>
 				<h2 class="text-xl label">Hangman {l}</h2>
 				<EditHangman
 					id="h{l}"
@@ -131,9 +129,9 @@
 						onChange({ [activityField]: { type: HANGMAN, value } });
 					}}
 				/>
-			</ExtTabItem>
+			</TabItem>
 		{/each}
-	</ExtTabs>
+	</Tabs>
 	<button class="w-full btn mt-3 mx-auto" on:click={() => (selectedActivity = null)}>
 		Close
 	</button>
@@ -145,9 +143,9 @@
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<ExtTabs>
+	<Tabs>
 		{#each langs as l, i}
-			<ExtTabItem title={l}>
+			<TabItem title={l}>
 				<h2 class="label text-xl">DragDrop {l}</h2>
 				<EditDragDrop
 					value={$$props[activityLocales(l)]?.value}
@@ -156,9 +154,9 @@
 						onChange({ [activityField]: { type: DRAGDROP, value } });
 					}}
 				/>
-			</ExtTabItem>
+			</TabItem>
 		{/each}
-	</ExtTabs>
+	</Tabs>
 	<button
 		class="mt-3 flex-none btn mx-auto w-full"
 		on:click={() => {
@@ -173,9 +171,9 @@
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<ExtTabs>
+	<Tabs>
 		{#each langs as l, i}
-			<ExtTabItem title={l}>
+			<TabItem title={l}>
 				<h2 class="text-xl label">OrderList {l}</h2>
 				<EditOrderList
 					value={$$props[activityLocales(l)]?.value}
@@ -185,9 +183,9 @@
 						onChange({ [activityField]: { type: ORDERLIST, value } });
 					}}
 				/>
-			</ExtTabItem>
+			</TabItem>
 		{/each}
-	</ExtTabs>
+	</Tabs>
 	<button
 		class="mt-3 flex-none btn mx-auto w-full"
 		on:click={() => {

@@ -20,8 +20,8 @@
 	import TopicsThumb from './TopicsThumb.svelte';
 	import EditYoutube from './EditYoutube.svelte';
 
-	import Tabs from '$lib/components/ExtTabs.svelte';
-	import TabItem from '$lib/components/ExtTabItem.svelte';
+	import Tabs from '$lib/components/ResponsiveTabs.svelte';
+	import TabItem from '$lib/components/ResponsiveTabItem.svelte';
 
 	/**
 	 * @type {string[]}
