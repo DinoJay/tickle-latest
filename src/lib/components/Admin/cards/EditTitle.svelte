@@ -1,41 +1,41 @@
 <script>
+	import { titleLocales } from './../../../constants/locales.js';
 	import Tabs from '$lib/components/Tabs.svelte';
 	import TabItem from '$lib/components/TabItem.svelte';
 
-	export let value;
+	/**
+	 * @type {(arg0: { [x: number]: any; }) => any}
+	 */
 	export let onChange;
+	/**
+	 * @type {any}
+	 */
 	export let onClose;
-	export let valueEn;
-	export let valueFr;
-	export let valueNl;
+	/**
+	 * @type {any}
+	 */
+	export let langs;
+	/**
+	 * @type {string}
+	 */
+	export let selLang;
 
-	console.log('value', value);
+	/**
+	 * @type {object}
+	 */
+	export let card;
 </script>
 
-<Tabs>
-	<TabItem title="en">
-		<input
-			placeholder="Enter your title"
-			value={valueEn || ''}
-			class="border-2 p-2 w-full"
-			on:input={(e) => onChange({ title_en: e.target.value })}
-		/>
-	</TabItem>
-	<TabItem title="fr">
-		<input
-			placeholder="Enter your title"
-			value={valueFr || ''}
-			class="border-2 p-2 w-full"
-			on:input={(e) => onChange({ title_fr: e.target.value })}
-		/>
-	</TabItem>
-	<TabItem title="nl">
-		<input
-			placeholder="Enter your title"
-			value={valueNl || ''}
-			class="border-2 p-2 w-full"
-			on:input={(e) => onChange({ title_nl: e.target.value })}
-		/>
-	</TabItem>
+<Tabs selectedStartIndex={langs.findIndex((l) => l === selLang)}>
+	{#each langs as l}
+		<TabItem title={l}>
+			<input
+				placeholder="Enter your title"
+				value={card[titleLocales[l]] || ''}
+				class="border-2 p-2 w-full"
+				on:input={(e) => onChange({ [titleLocales[l]]: e.target.value })}
+			/>
+		</TabItem>
+	{/each}
 </Tabs>
 <button class="create-btn mt-auto" on:click={onClose}>Save & Close</button>

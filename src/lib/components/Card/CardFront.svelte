@@ -9,8 +9,6 @@
 	import LinksField from './LinksField.svelte';
 	import Description from './Description.svelte';
 	import VideosField from './VideosField.svelte';
-	import { locale } from 'svelte-i18n';
-	import { titleLocales, EN, FR, NL } from '$lib/constants/locales.js';
 
 	/**
 	 * @type {string}
@@ -19,15 +17,6 @@
 	/**
 	 * @type {string | undefined}
 	 */
-	export let description_en;
-	/**
-	 * @type {string | undefined}
-	 */
-	export let description_fr;
-	/**
-	 * @type {string | undefined}
-	 */
-	export let description_nl;
 	export let img = '';
 	/**
 	 * @type {{ type: string | undefined; }}
@@ -54,10 +43,9 @@
 	 */
 	export let actSub;
 
-	/**
-	 * @type {string[]}
-	 */
-	export let langs;
+	$: console.log('actSub', actSub);
+
+	$: console.log('activity', activity);
 </script>
 
 <div class="flex-grow overflow-auto">
@@ -72,12 +60,7 @@
 		<VideosField cls="mb-2" {videos} />
 	{/if}
 	<div class="mb-3 flex flex-1">
-		<Description
-			cls="flex-initial h-64"
-			description_en={description_en || description}
-			{description_fr}
-			{description_nl}
-		/>
+		<Description cls="flex-initial h-64" {description} />
 	</div>
 </div>
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
@@ -85,9 +68,9 @@
 		Collected {#if activity?.type !== undefined}
 			{activity.type}
 		{/if}
-	{:else if !!activity}
+	{:else if activity !== undefined}
 		Challenge: {activity.type}
-	{:else}
+	{:else if !activity}
 		Collect
 	{/if}
 </button>

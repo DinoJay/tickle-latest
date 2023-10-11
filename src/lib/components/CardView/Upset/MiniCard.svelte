@@ -1,4 +1,8 @@
 <script>
+	import { titleLocales } from '$lib/constants/locales';
+
+	import { locale } from 'svelte-i18n';
+
 	export let img = { url: '' };
 	export let title = '';
 	export let onClick = (d) => d;
@@ -12,12 +16,12 @@
 	on:click={onClick}
 	on:keydown={onClick}
 	class="flex flex-col {cls} p-1 sm:p-2 relative overflow-hidden
-		bg-white  drop-shadow-md cursor-pointer hover:scale-105 transition-all  "
+		bg-white drop-shadow-md cursor-pointer hover:scale-105 transition-all"
 >
 	{#if !!title}
-		<h1 class="shrink-0 title sm:block hidden ">
-			{title}
-		</h1>
+		<p class="shrink-0 title sm:block hidden">
+			{$$props[titleLocales[$locale]] || 'No Title'}
+		</p>
 	{:else}
 		<div class="ph-row">
 			<div class="ph-col-12 big hidden sm:block" />
@@ -30,8 +34,8 @@
 			style:filter={!highlighted ? 'grayscale(100%)' : ''}
 		/>
 	{:else}
-		<div class="flex-grow flex flex-col mt-1 ">
-			<div class="flex-grow bg-gray-300 " />
+		<div class="flex-grow flex flex-col mt-1">
+			<div class="flex-grow bg-gray-300" />
 		</div>
 	{/if}
 </div>

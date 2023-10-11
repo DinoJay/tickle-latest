@@ -62,20 +62,20 @@ body {
 }
 
 .create-btn {
-	@apply bg-green-500 text-white p-2 drop-shadow-sm
+	@apply bg-green-500 text-white p-2 drop-shadow-sm max-w-2xl
 }
 
 .create-btn-2 {
-	@apply border-2 border-green-500 p-2 drop-shadow-sm
+	@apply border-2 border-green-500 p-2 drop-shadow-sm max-w-2xl
 }
 
 .btn {
-	@apply border-2 border-gray-700 p-2 drop-shadow-sm
+	@apply border-2 border-gray-700 p-2 drop-shadow-sm max-w-2xl
 }
 
 
 .small-btn {
-	@apply border-2 border-gray-700 px-1 drop-shadow-sm
+	@apply border-2 border-gray-700 px-1 drop-shadow-sm max-w-2xl
 }
 
 .sel-small-btn {

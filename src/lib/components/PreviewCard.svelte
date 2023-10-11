@@ -1,6 +1,10 @@
 <script>
+	import { titleLocales } from '$lib/constants/locales';
+
+	import { locale } from 'svelte-i18n';
+
 	export let img = { url: '' };
-	export let title = '';
+	export let title;
 	export let onClick = (d) => d;
 	export let className = '';
 	export let highlighted = false;
@@ -9,10 +13,12 @@
 <div
 	on:click={onClick}
 	on:keydown={onClick}
-	class="flex flex-col  h-32 w-24 sm:h-36 sm:w-28 p-2 relative bg-white  drop-shadow-md cursor-pointer hover:scale-105 transition-all overflow-visible {className}"
+	class="flex flex-col h-32 w-24 sm:h-36 sm:w-28 p-2 relative bg-white drop-shadow-md cursor-pointer hover:scale-105 transition-all overflow-visible {className}"
 >
-	{#if !!title}
-		<h1 class="shrink-0 title">{title}</h1>
+	{#if !!title || $$props[titleLocales[$locale]]}
+		<h1 class="shrink-0 title">
+			{title || $$props[titleLocales[$locale]] || 'No Title'}
+		</h1>
 	{:else}
 		<div class="ph-row">
 			<div class="ph-col-12 big" />
@@ -25,8 +31,8 @@
 			filter:{!highlighted ? 'grayscale(100%)' : ''}"
 		/>
 	{:else}
-		<div class="flex-grow flex flex-col mt-1 ">
-			<div class="flex-grow bg-gray-300 " />
+		<div class="flex-grow flex flex-col mt-1">
+			<div class="flex-grow bg-gray-300" />
 		</div>
 	{/if}
 </div>

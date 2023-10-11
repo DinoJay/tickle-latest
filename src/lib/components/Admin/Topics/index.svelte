@@ -105,6 +105,8 @@
 
 <LightBox cls="overflow-y-auto" isOpen={clbOpen} close={() => (clbOpen = false)}
 	><CreateTopic
+		{langs}
+		{selLang}
 		onCreate={(nt) => {
 			console.log('onChange', nt);
 			const docRef = doc(db, 'card-envs', selectedEnvId, 'topics', nt.id);

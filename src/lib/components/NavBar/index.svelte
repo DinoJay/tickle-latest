@@ -12,7 +12,6 @@
 	import { doc, getDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { locale } from 'svelte-i18n';
-	import { get } from 'svelte/store';
 
 	$: selectedEnvId = $page.params.envId || '';
 	$: console.log('page', $page);
@@ -111,7 +110,7 @@
 						</button>
 					{/each}
 					<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
-						<div class="m-auto">
+						<div class="m-auto flex gap-1">
 							{#each env?.langs as l}
 								<button
 									on:click={() => locale.set(l)}

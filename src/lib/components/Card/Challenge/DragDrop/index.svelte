@@ -10,10 +10,6 @@
 	export let activity;
 	export let onSubmit;
 
-	export let actValAcc;
-
-	$: actVal = activity?.[actValAcc];
-
 	const exampleStack = [
 		{
 			name: 'Frontend Stack',
@@ -30,18 +26,17 @@
 	];
 
 	const POOLTYPE = 'pool';
+	console.log('activity', activity);
 	let stack =
-		currentActSub?.response || [...actVal?.stack?.map((d) => ({ ...d, items: [] }))] ||
+		currentActSub?.response || [...activity.value?.stack?.map((d) => ({ ...d, items: [] }))] ||
 		exampleStack;
 
 	const allSetItems = currentActSub?.response?.flatMap((d) => d.items) || [];
-	console.log('allSetItems', allSetItems);
-	console.log('stack', stack);
 
 	let pool = {
 		name: 'All Items',
 		type: POOLTYPE,
-		items: actVal?.stack.flatMap((d) =>
+		items: activity.value?.stack.flatMap((d) =>
 			d.items.filter((e) => !allSetItems.find((f) => f.id === e.id))
 		)
 	};
@@ -96,7 +91,8 @@
 <button
 	class="btn"
 	on:click={() => {
-		succeeded = isSuccess(actVal?.stack, stack);
+		succeeded = isSuccess(activity.value?.stack, stack);
+		console.log('success', succeeded);
 		onSubmit({ response: stack, succeeded });
 	}}
 >

@@ -1,5 +1,11 @@
 <script>
-	import { activityValueLocales } from './../../constants/locales.js';
+	import {
+		activityLocales,
+		descriptionLocales,
+		linksLocales,
+		titleLocales,
+		videosLocales
+	} from './../../constants/locales.js';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
@@ -19,7 +25,15 @@
 	/**
 	 * @type {any}
 	 */
-	export let activity;
+	export let activity_en;
+	/**
+	 * @type {any}
+	 */
+	export let activity_fr;
+	/**
+	 * @type {any}
+	 */
+	export let activity_nl;
 	export let id = '';
 	export let open = false;
 	/**
@@ -76,6 +90,9 @@
 
 	let flipped = false;
 
+	$: activity = $$props[activityLocales($locale)];
+
+	$: console.log('acti', activity);
 	$: activityInformation = {
 		id: uuid(),
 		date: new Date().getTime(),
@@ -96,11 +113,11 @@
 			getDoc(docRef).then((snap) => (curActSub = snap.data()));
 		}
 	}
-	// $: console.log('card props', $$props);
+	$: console.log('curActSub ', curActSub);
 </script>
 
 <LightBox
-	{title}
+	title={$$props[titleLocales[$locale]] || 'No Title'}
 	{flipped}
 	isOpen={open}
 	close={() => {
@@ -112,25 +129,25 @@
 	<!-- <div class=" flex flex-col" slot="front"> -->
 	<div slot="front" class=" flex-grow flex flex-col overflow-y-auto">
 		<CardFront
-			{description}
+			description={$$props[descriptionLocales[$locale]] || 'No Description'}
 			{description_en}
 			{description_fr}
 			{description_nl}
 			{img}
 			{activity}
 			{topics}
-			{links}
+			links={$$props[linksLocales[$locale]]}
 			{id}
 			{open}
 			{onClose}
 			{onChange}
 			{selectedEnvId}
-			{videos}
+			videos={$$props[videosLocales[$locale]]}
 			{langs}
 			actSub={curActSub}
 			onSubmit={() => {
-				if (!!activity) activityOpen = true;
-				else {
+				if ($$props[activityLocales($locale)] !== undefined) activityOpen = true;
+				if (!activity) {
 					const docRef = doc(
 						db,
 						'card-envs',
@@ -165,9 +182,8 @@
 	onClose={() => {
 		activityOpen = false;
 	}}
-	{activity}
+	activity={$$props[activityLocales($locale)]}
 	currentActSub={curActSub}
-	actValAcc={activityValueLocales[$locale]}
 	onSubmit={(/** @type {any} */ respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);
 		const actSub = { ...activityInformation, ...respObj };

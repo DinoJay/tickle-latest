@@ -14,7 +14,7 @@
 	export let collectedCards;
 
 	/**
-	 * @type {number}
+	 * @type {string}
 	 */
 	export let selectedEnvId;
 	/**
@@ -66,7 +66,7 @@
 
 <div class="flex flex-wrap gap-1 mt-2">
 	{#each collectedTags as t}
-		<div class="text-white px-1 " style="background:{t.color}">
+		<div class="text-white px-1" style="background:{t.color}">
 			{t.title}
 			{t.collectedNum} / {t.allNum}
 		</div>

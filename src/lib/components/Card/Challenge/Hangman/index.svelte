@@ -16,8 +16,8 @@
 	export let onSubmit;
 	$: console.log('activity HANG', activity, 'props', $$props);
 
-	const word = activity[actValAcc].word;
-	const hint = activity[actValAcc].hint;
+	const word = activity.value.word;
+	const hint = activity.value.hint;
 	let errors = 0;
 
 	let wordList = [...word].map((c) => {

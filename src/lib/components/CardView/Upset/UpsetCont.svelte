@@ -85,9 +85,9 @@
 	let lastScroll = 0;
 </script>
 
-<div class="flex-grow flex  flex-col m-auto overflow-auto {contPad}">
+<div class="flex-grow flex flex-col m-auto overflow-auto {contPad}">
 	<div
-		class="flex items-center  {sortedTopics.length > 1 ? 'ml-legend' : 'ml-legend-single'} m-auto "
+		class="flex items-center {sortedTopics.length > 1 ? 'ml-legend' : 'ml-legend-single'} m-auto"
 	>
 		{#each sortedTopics as topic, i (topic.id)}
 			{@const beforeLast = i < sortedTopics.length - 1}
@@ -121,7 +121,7 @@
 						<div class="w-full h-full flex items-center"><div class="crop">{topic.title}</div></div>
 					</div>
 					<div
-						class="absolute outline  left-0 top-0 h-full z-10 crop {legendBarWidth}"
+						class="absolute outline left-0 top-0 h-full z-10 crop {legendBarWidth}"
 						style:outline-color={hexToRgba(topic.color, 0.5)}
 					/>
 				</div>
@@ -167,11 +167,11 @@
 				on:keydown={(e) => {
 					onCardClick(c.id);
 				}}
-				class="flex items-center cursor-pointer relative "
+				class="flex items-center cursor-pointer relative"
 			>
 				{#key c.id}
 					<div
-						class="flex flex-col w-16 h-20 z-10 sm:h-28 sm:w-24  py-1"
+						class="flex flex-col w-16 h-20 z-10 sm:h-28 sm:w-24 py-1"
 						style:margin-right={marginRight}
 					>
 						<MiniCard {...c} cls="flex-grow  my-auto " highlighted={c.id === selectedCardId} />
@@ -186,7 +186,7 @@
 						<!-- {#each Array(1).fill(0) as _, i} -->
 						{#if i <= firstIndex}
 							<div
-								class="h-2 absolute  "
+								class="h-2 absolute"
 								style:width="76.5px"
 								style:margin-top="0.5rem"
 								style:background={selected ? '#374251' : '#9a9fa8'}

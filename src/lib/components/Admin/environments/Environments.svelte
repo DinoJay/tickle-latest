@@ -6,8 +6,6 @@
 	import CreateEnv from './CreateEnv.svelte';
 
 	import { v4 as uuidv4 } from 'uuid';
-	import Panel from '../Panel.svelte';
-
 	export let toxinId = 'bnW56f62WWEJ0bwJwQ0m';
 
 	/**
@@ -18,7 +16,7 @@
 	 * @type {import("@firebase/firestore").Firestore}
 	 */
 	/**
-	 * @type {{ id: any; title: string} | null}
+	 * @type {any | null}
 	 */
 	export let selectedEnv = null;
 	/**
@@ -29,6 +27,11 @@
 	 * @type {(arg0: any) => void}
 	 */
 	export let onSelectEnv;
+
+	// /**
+	//  * @type {string}
+	//  */
+	// export let selLang;
 
 	let lbOpen = false;
 	let nlbOpen = false;
@@ -73,7 +76,11 @@
 	<button class="create-btn mt-auto" on:click={() => (nlbOpen = true)}>Create Env</button>
 </div>
 
-<LightBox title={selectedEnv?.title} isOpen={lbOpen} close={() => (lbOpen = false)}>
+<LightBox
+	title={selectedEnv?.title || 'Edit Environment'}
+	isOpen={lbOpen}
+	close={() => (lbOpen = false)}
+>
 	<EditEnvironment
 		env={selectedEnv}
 		onClose={() => (lbOpen = false)}
@@ -105,7 +112,7 @@
 	/>
 </LightBox>
 
-<LightBox isOpen={nlbOpen} close={() => (nlbOpen = false)}>
+<LightBox title={'New Environment'} isOpen={nlbOpen} close={() => (nlbOpen = false)}>
 	<CreateEnv
 		onCreate={(env) => {
 			const id = uuidv4();

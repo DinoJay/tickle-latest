@@ -5,7 +5,6 @@
 	import { store } from '/src/stores/index';
 	import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import { v4 as uuidv4 } from 'uuid';
 	import NewCard from './NewCard.svelte';
 	import StaticLoader from './StaticLoader.svelte';
 	import EditCardBack from './EditCardBack.svelte';
@@ -47,7 +46,6 @@
 	let flipped = false;
 
 	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
-	$: console.log('selectedCard', selectedCard);
 </script>
 
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
@@ -75,7 +73,7 @@
 
 <LightBox
 	isOpen={!!selectedCardId}
-	title={selectedCard?.title || 'No Title'}
+	title={selectedCard?.[titleKey] || 'No Title'}
 	close={() => {
 		selectedCardId = null;
 		flipped = false;
@@ -87,6 +85,7 @@
 		slot="front"
 		currentCard={selectedCard}
 		{langs}
+		{selLang}
 		{selectedEnvId}
 		onRemove={(d) => {
 			console.log('d', d);
@@ -112,6 +111,8 @@
 <LightBox isOpen={!!lbNcOpen} title={'New Card'} close={() => (lbNcOpen = false)}>
 	<NewCard
 		{selectedEnvId}
+		{langs}
+		{selLang}
 		onCreate={(c) => {
 			lbNcOpen = false;
 			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', c.id);

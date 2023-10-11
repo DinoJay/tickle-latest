@@ -1,7 +1,4 @@
 <script>
-	import OrderList from './../../Card/Challenge/OrderList/OrderList.svelte';
-	import Hangman from './../../Card/Challenge/Hangman/Hangman.svelte';
-	import Check from 'svelte-material-icons/Check.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import EditQuiz from './EditQuiz.svelte';
 	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST } from './activityConsts';
@@ -9,16 +6,28 @@
 	import EditHangman from './EditHangman.svelte';
 	import EditDragDrop from './EditDragDrop.svelte';
 	import EditOrderList from './EditOrderList.svelte';
-	import { EN, FR, NL, activityValueLocales } from '$lib/constants/locales';
+	import { activityLocales } from '$lib/constants/locales';
+	import TabItem from '$lib/components/TabItem.svelte';
+	import Tabs from '$lib/components/Tabs.svelte';
+	import ExtTabs from '$lib/components/ExtTabs.svelte';
+	import ExtTabItem from '$lib/components/ExtTabItem.svelte';
 
 	/**
 	 * @type {string[]}
 	 */
 	export let langs;
 	/**
-	 * @type {{ type: string; value_en: any; value_fr:any; value_nl:any }}
+	 * @type {{ type: string; value_en: any; value_fr:any; value_nl:any }|null}
 	 */
-	export let activity;
+	export let activity_en;
+	/**
+	 * @type {{ type: string; value_en: any; value_fr:any; value_nl:any }|null}
+	 */
+	export let activity_fr;
+	/**
+	 * @type {{ type: string; value_en: any; value_fr:any; value_nl:any }|null}
+	 */
+	export let activity_nl;
 	/**
 	 * @type {(arg0: { type: string; value_en: any; value_fr:any; value_nl:any}) => any}
 	 */
@@ -40,11 +49,17 @@
 <div class="flex flex-col gap-2 flex-grow">
 	{#each ACTIVITIES as a}
 		<button
-			class="p-2 text-xl flex-grow border-2 {activity?.type === a ? 'bg-gray-700 text-white' : ''}"
+			class="p-2 text-xl flex-grow border-2 {[
+				activity_en?.type,
+				activity_fr?.type,
+				activity_nl?.type
+			].includes(a)
+				? 'bg-gray-700 text-white'
+				: ''}"
 			on:click={() => (selectedActivity = a)}>{a}</button
 		>
 	{/each}
-	{#if !!activity}
+	{#if !!activity_en || !!activity_fr || !!activity_nl}
 		<button class="del-btn" on:click={onRemove}>Remove Activity</button>
 	{/if}
 </div>
@@ -53,78 +68,75 @@
 	title={QUIZ}
 	isOpen={selectedActivity === QUIZ}
 	close={() => (selectedActivity = null)}
-	width="100%"
+	width="auto"
 >
-	<div class="act-cont">
+	<ExtTabs>
 		{#each langs as l, i}
-			<div class="act-sec" class:spacer={langs.length > 1 && i === 1}>
-				<h2>Quiz {l}</h2>
+			<ExtTabItem title={l}>
+				<h2 class="label text-xl">Quiz {l}</h2>
 				<EditQuiz
 					onClose={() => (selectedActivity = null)}
-					value={activity?.[activityValueLocales[l]]}
+					value={$$props[activityLocales(l)]?.value}
 					onChange={(/** @type {any} */ questions) => {
-						console.log('QUIZ value', questions);
-						onChange({ ...activity, type: QUIZ, [activityValueLocales[l]]: questions });
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: QUIZ, value: questions } });
 					}}
 				/>
-			</div>
+			</ExtTabItem>
 		{/each}
-	</div>
-	<button class="w-full create-btn mt-3" on:click={() => (selectedActivity = null)}>
-		Save & Close
+	</ExtTabs>
+	<button class="w-full btn mt-3 max-w-2xl mx-auto" on:click={() => (selectedActivity = null)}>
+		Close
 	</button>
 </LightBox>
 
 <LightBox
-	title={activity?.value?.title || GEOCACHING}
+	title={GEOCACHING}
 	isOpen={selectedActivity === GEOCACHING}
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<div class="act-cont">
+	<ExtTabs>
 		{#each langs as l, i}
-			<div class:spacer={langs.length > 1 && i === 1} class="act-sec">
+			<ExtTabItem title={l}>
 				<h2>GeoCaching {l}</h2>
 				<EditGeoCaching
 					onClose={() => (selectedActivity = null)}
-					value={activity?.value_en}
-					onChange={(/** @type {any} */ value) =>
-						onChange({ ...activity, type: GEOCACHING, [activityValueLocales[l]]: value })}
+					value={$$props[activityLocales(l)]?.value}
+					onChange={(/** @type {any} */ value) => {
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: GEOCACHING, value } });
+					}}
 				/>
-			</div>
+			</ExtTabItem>
 		{/each}
-	</div>
-	<button class="w-full create-btn mt-3" on:click={() => (selectedActivity = null)}>
-		Save & Close
-	</button>
+	</ExtTabs>
+	<button class="w-full btn mt-3 m-auto" on:click={() => (selectedActivity = null)}> Close </button>
 </LightBox>
 <LightBox
 	title={HANGMAN}
 	isOpen={selectedActivity === HANGMAN}
 	close={() => (selectedActivity = null)}
-	width="100%"
 >
-	<div class="act-cont">
+	<ExtTabs>
 		{#each langs as l, i}
-			<div class:spacer={langs.length > 1 && i === 1} class="act-sec">
-				<h2>Hangman {l}</h2>
+			<ExtTabItem title={l}>
+				<h2 class="text-xl label">Hangman {l}</h2>
 				<EditHangman
-					id="h0"
-					value={activity?.value_en}
+					id="h{l}"
+					value={$$props[activityLocales(l)]?.value}
 					onClose={() => (selectedActivity = null)}
 					onChange={(/** @type {any} */ value) => {
-						onChange({ ...activity, type: HANGMAN, [activityValueLocales[l]]: value });
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: HANGMAN, value } });
 					}}
 				/>
-			</div>
+			</ExtTabItem>
 		{/each}
-	</div>
-	<button
-		class="mt-3 flex-none create-btn w-full"
-		on:click={() => {
-			selectedActivity = null;
-		}}>Save and Close</button
-	>
+	</ExtTabs>
+	<button class="w-full btn mt-3 mx-auto" on:click={() => (selectedActivity = null)}>
+		Close
+	</button>
 </LightBox>
 
 <LightBox
@@ -133,26 +145,25 @@
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<div class="act-cont">
+	<ExtTabs>
 		{#each langs as l, i}
-			<div class:spacer={langs.length > 1 && i === 1} class="act-sec">
-				<h2>DragDrop {l}</h2>
+			<ExtTabItem title={l}>
+				<h2 class="label text-xl">DragDrop {l}</h2>
 				<EditDragDrop
-					value={activity?.value_en}
-					onClose={() => (selectedActivity = null)}
+					value={$$props[activityLocales(l)]?.value}
 					onChange={(/** @type {any} */ value) => {
-						onChange({ ...activity, type: DRAGDROP, [activityValueLocales[l]]: value });
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: DRAGDROP, value } });
 					}}
 				/>
-			</div>
+			</ExtTabItem>
 		{/each}
-	</div>
-
+	</ExtTabs>
 	<button
-		class="mt-3 flex-none create-btn w-full"
+		class="mt-3 flex-none btn mx-auto w-full"
 		on:click={() => {
 			selectedActivity = null;
-		}}>Save and Close</button
+		}}>Close</button
 	>
 </LightBox>
 
@@ -162,26 +173,26 @@
 	close={() => (selectedActivity = null)}
 	width="100%"
 >
-	<div class="act-cont">
+	<ExtTabs>
 		{#each langs as l, i}
-			<div class:spacer={langs.length > 1 && i === 1} class="act-sec">
-				<h2>OrderList {EN}</h2>
+			<ExtTabItem title={l}>
+				<h2 class="text-xl label">OrderList {l}</h2>
 				<EditOrderList
-					value={activity?.value_en}
+					value={$$props[activityLocales(l)]?.value}
 					onClose={() => (selectedActivity = null)}
 					onChange={(/** @type {any} */ value) => {
-						// console.log('val', value);
-						onChange({ ...activity, type: ORDERLIST, [activityValueLocales[l]]: value });
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: ORDERLIST, value } });
 					}}
 				/>
-			</div>
+			</ExtTabItem>
 		{/each}
-	</div>
+	</ExtTabs>
 	<button
-		class="mt-3 flex-none create-btn w-full"
+		class="mt-3 flex-none btn mx-auto w-full"
 		on:click={() => {
 			selectedActivity = null;
-		}}>Save and Close</button
+		}}>Close</button
 	>
 </LightBox>
 

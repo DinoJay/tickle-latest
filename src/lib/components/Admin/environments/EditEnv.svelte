@@ -1,15 +1,15 @@
 <script>
-	import { uniqBy } from 'lodash.uniqBy';
-	import { db } from '$lib/firebaseConfig/firebase';
-	import { collection, doc, updateDoc, setDoc } from 'firebase/firestore';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { EN, FR, NL } from '$lib/constants/locales';
 
 	export let env = {
 		id: null,
 		title: '',
-		description: '',
-		img: { name: '', url: '' },
+		title_en: null,
+		title_fr: null,
+		title_nl: null,
+		description: null,
+		img: { name: null, url: null },
 		/**
 		 * @type {string[]}
 		 */
@@ -33,10 +33,15 @@
 	 */
 	export let onClose;
 
+	// /**
+	//  * @type {string}
+	//  */
+	// export let selLang
+
 	$: langs = env.langs || [EN];
 </script>
 
-<form class="flex-grow flex flex-col" on:submit={(e) => e.preventDefault()}>
+<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 	<div class="mb-3">
 		<div><label class="form-text" for="title">Title:</label></div>
 		<input
@@ -47,7 +52,7 @@
 			}}
 			class="w-full"
 			name="title"
-			placeholder="title"
+			placeholder="Enter Title"
 		/>
 	</div>
 	<div>
@@ -60,7 +65,7 @@
 			}}
 			class="border w-full"
 			name="description"
-			placeholder="description"
+			placeholder="Enter description"
 		/>
 	</div>
 	<div class="mb-3">
@@ -97,18 +102,18 @@
 			}}
 		/>
 	</div>
-	<div class="mt-auto">
-		{#if onRemove}
-			<button class="del-btn w-full" on:click={() => onRemove(env.id)}>Delete Environment</button>
-		{/if}
-		{#if onCreate !== undefined}
-			<button class="create-btn w-full" on:click={onCreate}>Create Environment</button>
-		{/if}
-		{#if onRemove === undefined && onCreate === undefined}
-			<button class="btn w-full" on:click={onClose}>Close</button>
-		{/if}
-	</div>
-</form>
+</div>
+<div class="mt-auto">
+	{#if onRemove}
+		<button class="del-btn w-full" on:click={() => onRemove(env.id)}>Delete Environment</button>
+	{/if}
+	{#if onCreate !== undefined}
+		<button class="create-btn w-full" on:click={onCreate}>Create Environment</button>
+	{/if}
+	{#if onRemove === undefined && onCreate === undefined}
+		<button class="btn w-full" on:click={onClose}>Close</button>
+	{/if}
+</div>
 
 <style>
 	input {

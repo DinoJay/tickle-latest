@@ -16,14 +16,21 @@
 	 */
 
 	let currentTopic = {
-		title: '',
-		description: '',
-		img: { name: '', url: '' },
-		color: ''
+		title: null,
+		title_en: null,
+		title_fr: null,
+		title_nl: null,
+		description: null,
+		description_en: null,
+		description_fr: null,
+		description_nl: null,
+		img: { name: null, url: null },
+		color: null
 	};
 </script>
 
 <EditTopic
+	{...$$props}
 	{currentTopic}
 	onChange={(t) => {
 		currentTopic = t;

@@ -38,13 +38,13 @@
 	console.log('quiz props', $$props);
 </script>
 
-<div class="flex mb-auto flex-col flex-grow overflow-y-auto">
+<div class="flex mb-3 flex-col flex-auto overflow-y-auto h-48">
 	{#if questions.length === 0}
 		<div class="m-auto text-xl text-gray-500">No Questions added!</div>
 	{/if}
 	{#each questions as q, i}
 		<button
-			class="crop p-2 border-2 mb-1"
+			class="crop p-2 border-2 mb-1 flex-none"
 			on:click={() => {
 				selQIndex = i;
 			}}
@@ -54,6 +54,8 @@
 	{/each}
 </div>
 <button class="w-full mt-auto border-2 p-2" on:click={() => (sq = true)}> Add a question </button>
+
+<!-- <button class="w-full create-btn mt-3" on:click={onClose}> Save & Close </button> -->
 
 <EditNewQuestion
 	onCreate={(q) => {

@@ -2,7 +2,6 @@
 	import { locale } from 'svelte-i18n';
 	import Question from './Question.svelte';
 	import Quiz from './Quiz.svelte';
-	import { activityValueLocales } from '$lib/constants/locales';
 	/**
 	 * @type {(arg0: {}) => void}
 	 */
@@ -16,11 +15,10 @@
 	/**
 	 * @type {string}
 	 */
-	export let actValAcc;
 
 	let quizResponses = {};
 	let succeeded = false;
-	$: qs = activity[actValAcc];
+	$: qs = activity.value;
 
 	const responseSucceeded = (qs, responses) => {
 		const succeeded = qs

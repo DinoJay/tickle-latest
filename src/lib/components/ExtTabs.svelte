@@ -8,7 +8,7 @@
 	const tabs = writable([]);
 
 	// track which tab is active
-	let activeIndex = selectedStartIndex;
+	let activeIndexes = [selectedStartIndex];
 
 	// create a context called "tabs" to share the store with children
 	setContext('tabs', { tabs });
@@ -18,7 +18,7 @@
 	$: $tabs = $tabs.map((tab, i) => {
 		return {
 			...tab,
-			active: i == activeIndex
+			active: activeIndexes.includes(i)
 		};
 	});
 </script>
@@ -29,7 +29,13 @@
 			class="btn flex-1"
 			class:sel-btn={tab.active}
 			class:opacity-70={!tab.active}
-			on:click={() => (activeIndex = i)}
+			on:click={() => {
+				if (activeIndexes.includes(i)) {
+					if (activeIndexes.length > 1) activeIndexes = activeIndexes.filter((d) => d !== i);
+				} else {
+					activeIndexes = [...activeIndexes, i];
+				}
+			}}
 			style:background={tab.color}
 		>
 			{tab.title}
@@ -37,7 +43,17 @@
 	{/each}
 </nav>
 
-<slot />
+<div class="flex flex-wrap dir gap-3 h-full w-full">
+	<slot />
+</div>
 
 <style>
+	.dir {
+		@apply flex-col justify-start;
+	}
+	@screen sm {
+		.dir {
+			@apply flex-row justify-center;
+		}
+	}
 </style>

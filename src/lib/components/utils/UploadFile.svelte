@@ -7,6 +7,9 @@
 	 * @type {null|string}
 	 */
 	export let url = null;
+	/**
+	 * @type {null|string}
+	 */
 	export let label = null;
 	export let onChange = (/** @type {string} */ e, /** @type {string} */ _fname) => undefined;
 	/**

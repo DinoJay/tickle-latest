@@ -20,7 +20,7 @@
 	/**
 	 * @type {string[]}
 	 */
-	export let langs = LANGS;
+	export let langs;
 	/**
 	 * @type {(arg0: { title_en: any; title: null; title_fr: null; title_nl: null; description: string; id: null; img: { name: string; url: string; } | { name: string; url: string; }; color: any; }) => void}
 	 */
@@ -47,7 +47,9 @@
 	 */
 
 	let lang = selLang || LANGS[0];
+	$: console.log('lang', lang);
 	$: titleKey = titleLocales[lang];
+	$: console.log('titleKey', titleKey);
 
 	// const descrLocales = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
 </script>

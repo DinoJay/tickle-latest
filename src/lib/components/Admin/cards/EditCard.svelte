@@ -9,44 +9,65 @@
 	import EditTitle from './EditTitle.svelte';
 	import EditTopics from './EditTopics.svelte';
 	import EditActivity from './EditActivity.svelte';
+	import {
+		activityLocales,
+		descriptionLocales,
+		linksLocales,
+		titleLocales,
+		videosLocales
+	} from '$lib/constants/locales.js';
 
 	import TopicsThumb from './TopicsThumb.svelte';
 	import EditYoutube from './EditYoutube.svelte';
+
+	import Tabs from '$lib/components/ExtTabs.svelte';
+	import TabItem from '$lib/components/ExtTabItem.svelte';
 
 	/**
 	 * @type {string[]}
 	 */
 	export let langs;
+
+	/**
+	 * @type {string}
+	 */
+	export let selLang;
 	/**
 	 * @type {string}
 	 */
 	export let selectedEnvId;
 	export let currentCard = {
-		id: 'null',
+		id: null,
 		title: '',
+		title_en: null,
+		title_fr: null,
+		title_nl: null,
 		description: '',
 		description_en: '',
 		description_fr: '',
 		description_nl: '',
 		img: { name: '', url: '' },
-		activity: null,
+		activity_en: null,
+		activity_fr: null,
+		activity_nl: null,
 		topics: [],
 		loc: { longitude: 4.39, latitude: 50.82 },
 		links: [],
-		videos: []
+		links_en: [],
+		links_fr: [],
+		links_nl: [],
+		videos: [],
+		videos_en: [],
+		videos_fr: [],
+		videos_nl: []
 	};
 	/**
-	 * @type {(arg0: { img: { name: string; url: string; } | { url: string; name: string; }; id: string; title: any; description: any; activity: any; topics: any; loc: { longitude: number; latitude: number; }; links: any; }) => void}
+	 * @type {(arg0: { img: { name: string; url: string; } | { url: string; name: string; }; id: null; title: string; title_en: null; title_fr: null; title_nl: null; description: string; description_en: string; description_fr: string; description_nl: string; activity_en: null; activity_fr: null; activity_nl: null; topics: any[] | never[]; loc: { longitude: number; latitude: number; }; links: never[]; links_en: never[]; links_fr: never[]; links_nl: never[]; videos: never[]; videos_en: never[]; videos_fr: never[]; videos_nl: never[]; type?: string; value_en?: any; value_fr?: any; value_nl?: any; activity?: null; }) => void}
 	 */
 	export let onChange;
-	/**
-	 * @type {(arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any}
-	 */
+
 	export let onRemove;
 
-	/**
-	 * @type {((arg0: { id: string; title: string; description: string; img: { name: string; url: string; }; activity: null; topics: never[]; loc: { longitude: number; latitude: number; }; links: never[]; }) => any) | null}
-	 */
 	export let onCreate = null;
 
 	const TITLE = 'title';
@@ -63,13 +84,15 @@
 	/**
 	 * @type {string | null}
 	 */
-	let selectedField;
-
-	console.log('currentCard', currentCard);
+	let selectedField = null;
 
 	$: getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
 		allTopics = snap.docs.map((doc) => doc.data());
 	});
+
+	console.log('currentCard', currentCard);
+
+	$: tabStartIndex = langs.indexOf(selLang);
 </script>
 
 <div class="mb-3 flex-shrink-0">
@@ -81,38 +104,38 @@
 		}}
 	/>
 </div>
-<div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto mb-auto">
+<div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto mb-auto h-80 items-start">
 	<FieldThumb
 		type="string"
 		name="Title"
-		value={currentCard.title}
+		value={currentCard[titleLocales[selLang]]}
 		onClick={() => (selectedField = TITLE)}
 	/>
 	<FieldThumb
 		type="string"
 		name="Description"
-		value={currentCard.description || currentCard.description_en || currentCard.description_fr}
+		value={currentCard[descriptionLocales[selLang]]}
 		onClick={() => (selectedField = DESCR)}
 	/>
 	<TopicsThumb {allTopics} topicIds={currentCard.topics} onClick={() => (selectedField = TOPICS)} />
 	<FieldThumb
 		type="array"
 		name="Links"
-		value={currentCard.links}
+		value={currentCard[linksLocales[selLang]]}
 		accessor={(d) => d.name}
 		onClick={() => (selectedField = LINKS)}
 	/>
 	<FieldThumb
 		type="array"
 		name="Videos"
-		value={currentCard.videos}
+		value={currentCard[videosLocales[selLang]]}
 		accessor={(d) => d.title}
 		onClick={() => (selectedField = VIDEOS)}
 	/>
 	<FieldThumb
 		type="array"
 		name="Activity"
-		value={currentCard.activity?.type}
+		value={currentCard[activityLocales(selLang)]?.type}
 		onClick={() => (selectedField = ACTIVITY)}
 	/>
 </div>
@@ -135,9 +158,9 @@
 >
 	<EditTitle
 		onClose={() => (selectedField = null)}
-		valueEn={currentCard.title_en || currentCard.title}
-		valueFr={currentCard.title_fr}
-		valueNl={currentCard.title_nl}
+		{selLang}
+		{langs}
+		card={currentCard}
 		onChange={(title) => onChange({ ...currentCard, ...title })}
 	/>
 </LightBox>
@@ -148,13 +171,19 @@
 	height={null}
 	close={() => (selectedField = null)}
 >
-	<EditDescr
-		valueEn={currentCard.description_en || currentCard.description || ''}
-		valueFr={currentCard.description_fr || ''}
-		valueNl={currentCard.description_nl || ''}
-		onClose={() => (selectedField = null)}
-		onChange={(description) => onChange({ ...currentCard, ...description })}
-	/>
+	<Tabs selectedStartIndex={tabStartIndex}>
+		{#each langs as l (l)}
+			<TabItem title={l}>
+				<EditDescr
+					description={currentCard[descriptionLocales[l]]}
+					onClose={() => (selectedField = null)}
+					onChange={(description) =>
+						onChange({ ...currentCard, [descriptionLocales[l]]: description })}
+				/>
+			</TabItem>
+		{/each}
+	</Tabs>
+	<button class="btn mt-3 w-full mx-auto" on:click={() => (selectedField = null)}>Close</button>
 </LightBox>
 
 <LightBox
@@ -162,11 +191,21 @@
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
 >
-	<EditLinks
-		onClose={() => (selectedField = null)}
-		links={currentCard.links}
-		onChange={(links) => onChange({ ...currentCard, links })}
-	/>
+	<Tabs selectedStartIndex={tabStartIndex}>
+		{#each langs as l (l)}
+			<TabItem title={l}>
+				<EditLinks
+					onClose={() => (selectedField = null)}
+					links={currentCard[linksLocales[l]]}
+					onChange={(links) => onChange({ ...currentCard, [linksLocales[l]]: links })}
+				/>
+			</TabItem>
+		{/each}
+	</Tabs>
+
+	<button class="btn mt-3 mx-auto w-full" on:click={() => (selectedField = null)}
+		>Save & Close</button
+	>
 </LightBox>
 
 <LightBox
@@ -187,27 +226,36 @@
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
 >
-	<EditYoutube
-		videos={currentCard.videos}
-		onClose={() => (selectedField = null)}
-		onChange={(videos) => onChange({ ...currentCard, videos })}
-	/>
+	<Tabs selectedStartIndex={tabStartIndex}>
+		{#each langs as l (l)}
+			<TabItem title={l}>
+				<EditYoutube
+					videos={currentCard[videosLocales[l]]}
+					onClose={() => (selectedField = null)}
+					onChange={(videos) => onChange({ ...currentCard, [videosLocales[l]]: videos })}
+				/>
+			</TabItem>
+		{/each}
+	</Tabs>
+	<button class="btn mt-3 w-full mx-auto" on:click={() => (selectedField = null)}>Close</button>
 </LightBox>
 
 <LightBox
 	isOpen={selectedField === ACTIVITY}
-	title={selectedField}
+	title={selectedField || undefined}
 	close={() => (selectedField = null)}
-	cls="flex-grow"
 >
 	<EditActivity
 		onClose={() => (selectedField = null)}
-		activity={currentCard.activity}
+		activity_en={currentCard.activity_en}
+		activity_fr={currentCard.activity_fr}
+		activity_nl={currentCard.activity_nl}
 		{langs}
-		onChange={(activity) => {
-			console.log('activity', activity);
-			onChange({ ...currentCard, activity });
+		onChange={(activityObj) => {
+			onChange({ ...currentCard, ...activityObj });
 		}}
-		onRemove={() => onChange({ ...currentCard, activity: null })}
+		onRemove={() =>
+			//TODO remove single activity
+			onChange({ ...currentCard, activity_en: null, activity_fr: null, activity_nl: null })}
 	/>
 </LightBox>

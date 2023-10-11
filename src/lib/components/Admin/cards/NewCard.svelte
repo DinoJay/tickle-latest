@@ -18,10 +18,10 @@
 		links: [],
 		...currentCard
 	};
-	console.log('currentCard', currentCard);
 </script>
 
 <EditCard
+	{...$$props}
 	currentCard={newCard}
 	{selectedEnvId}
 	onChange={(c) => {

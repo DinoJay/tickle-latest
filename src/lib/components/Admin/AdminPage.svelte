@@ -1,7 +1,6 @@
 <script>
 	import { db } from '$lib/firebaseConfig/firebase';
 
-	import { collection, doc, getDocs } from 'firebase/firestore';
 	import Panel from '$lib/components/Admin/Panel.svelte';
 	import Environments from '$lib/components/Admin/environments/Environments.svelte';
 	import Topics from '$lib/components/Admin/Topics/index.svelte';
@@ -11,10 +10,9 @@
 	import UserActivities from './UserActivities/index.svelte';
 	// @ts-ignore
 	import { store } from '/src/stores/index';
-	import { getAllContexts } from 'svelte';
 
 	import { LOG_ACTIVITY_SUBTYPE } from './UserActivities/logTypes';
-	import { LANGS } from '$lib/constants/locales';
+	import { LANGS, EN } from '$lib/constants/locales';
 
 	/**
 	 * @type {any[]}
@@ -49,10 +47,7 @@
 	 */
 	export let onTopicsChange;
 
-	$: console.log('selectedEnvId', selectedEnvId);
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
-	$: console.log({ envs });
-	$: console.log({ selectedEnv });
 
 	let selectedCardId = null;
 	/**
@@ -68,7 +63,7 @@
 
 	let selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
 
-	$: langs = selectedEnv?.langs !== undefined ? selectedEnv.langs : LANGS;
+	$: langs = selectedEnv?.langs !== undefined ? selectedEnv.langs : [EN];
 
 	console.log({ langs });
 
@@ -78,11 +73,11 @@
 <!-- {#if $store?.currentUser?.admin} -->
 <div class="grid grid-cols-1 gap-3 m-2">
 	<Panel title={selectedEnv.title}>
-		<Environments {envs} {selectedEnv} {onSelectEnv} onChange={onEnvsChange} />
+		<Environments {envs} {selectedEnv} {selLang} {onSelectEnv} onChange={onEnvsChange} />
 		<div slot="header" class="flex gap-1">
 			{#each langs as l}
 				<button
-					class="small-btn"
+					class="small-btn uppercase"
 					class:sel-small-btn={selLang === l}
 					on:click={(e) => {
 						e.stopPropagation();
@@ -108,14 +103,7 @@
 
 	<div>
 		<Panel title={'Cards'}>
-			<Cards
-				{cards}
-				{selectedEnvId}
-				onChange={onCardsChange}
-				langs={selectedEnv.langs}
-				{selLang}
-				onSelLangChange={(/** @type {string} */ l) => (selLang = l)}
-			/>
+			<Cards {cards} {selectedEnvId} onChange={onCardsChange} langs={selectedEnv.langs} {selLang} />
 		</Panel>
 	</div>
 

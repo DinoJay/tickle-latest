@@ -48,6 +48,8 @@
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
 		else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
 	};
+
+	console.log('Cards', cards);
 </script>
 
 <div class="flex-grow flex flex-col w-full relative overflow-y-auto">

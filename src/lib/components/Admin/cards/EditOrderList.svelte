@@ -120,6 +120,7 @@
 		on:click={() => {
 			onChange({ ...value, itemList: [...itemList, { name: newItemTitle, id: uuidv4() }] });
 			newItemTitle = null;
+			newItemModalOpen = false;
 		}}>Create new Item</button
 	>
 </LightBox>

@@ -46,7 +46,7 @@
 </script>
 
 <div class="mb-3">
-	<div class="label text-2xl">Hint:</div>
+	<div class="label text-lg">Hint:</div>
 	<textarea
 		value={hint}
 		on:change={(e) => {
@@ -59,7 +59,7 @@
 		class="input-text w-full h-24"
 	/>
 </div>
-<div class="mb-3 text-2xl">
+<div class="mb-3 text-lg">
 	<div class="label mb-2">Word:</div>
 
 	<div class="flex flex-wrap gap-2">
@@ -214,8 +214,8 @@
 
 <style>
 	.letter-cont {
-		width: 56px;
-		height: 56px;
+		width: 46px;
+		height: 46px;
 	}
 	.letter {
 		--width: min(100vw, 40vh, 380px);

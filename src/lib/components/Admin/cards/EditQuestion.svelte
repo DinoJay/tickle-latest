@@ -26,6 +26,11 @@
 			})
 		};
 	};
+
+	$: createDisabled =
+		answers.length === 0 || textQ.trim().length === 0 || answers.every((a) => !a.correct);
+
+	$: addAnswerDisabled = nw.trim().length === 0 || answers.find((a) => a.text === nw);
 </script>
 
 <LightBox title={textQ} isOpen={open} close={onClose}>
@@ -49,7 +54,7 @@
 				on:change={(e) => onChange({ ...q, text: e.target.value })}
 			/>
 		</div>
-		<div class="flex-grow flex flex-col ">
+		<div class="flex-grow flex flex-col">
 			<h2 class="form-text">Answers:</h2>
 			<ul class="mb-2">
 				{#each answers as a}
@@ -94,6 +99,8 @@
 				<input class="border-2 p-1 w-full" bind:value={nw} placeholder="Please add Answer" />
 				<button
 					class="create-btn ml-2"
+					disabled={addAnswerDisabled}
+					class:disabled={addAnswerDisabled}
 					on:click={() => {
 						onChange({ ...q, answers: [...q.answers, { text: nw, correct: false }] });
 						nw = '';
@@ -102,7 +109,12 @@
 			</div>
 		</div>
 		{#if onCreate}
-			<button class="create-btn mt-3" on:click={onCreate}>Add Question</button>
+			<button
+				class="create-btn mt-3"
+				class:disabled={createDisabled}
+				disabled={createDisabled}
+				on:click={onCreate}>Add Question</button
+			>
 		{/if}
 		{#if onRemove}
 			<button class="del-btn mt-3" on:click={() => onRemove(q.id)}>Remove Question</button>

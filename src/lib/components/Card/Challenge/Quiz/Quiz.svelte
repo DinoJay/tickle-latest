@@ -12,8 +12,10 @@
 
 	// console.log('activity', activity);
 
-	const questions = activity[actValAcc];
-	const title = activity[actValAcc].title;
+	console.log('actValAcc', actValAcc, { activity });
+
+	const questions = activity.value;
+	const title = activity.value.title;
 
 	$: counter = 0;
 	$: curQ = questions[counter];
