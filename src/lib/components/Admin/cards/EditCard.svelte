@@ -21,7 +21,7 @@
 	import EditYoutube from './EditYoutube.svelte';
 
 	import Tabs from '$lib/components/ResponsiveTabs.svelte';
-	import TabItem from '$lib/components/ResponsiveTabItem.svelte';
+	import TabItem from '$lib/components/TabItem.svelte';
 
 	/**
 	 * @type {string[]}
@@ -156,13 +156,17 @@
 	close={() => (selectedField = null)}
 	height={null}
 >
-	<EditTitle
-		onClose={() => (selectedField = null)}
-		{selLang}
-		{langs}
-		card={currentCard}
-		onChange={(title) => onChange({ ...currentCard, ...title })}
-	/>
+	<Tabs selectedStartIndex={tabStartIndex}>
+		{#each langs as l (l)}
+			<TabItem title={l}>
+				<EditTitle
+					onClose={() => (selectedField = null)}
+					title={currentCard[titleLocales[l]]}
+					onChange={(title) => onChange({ ...currentCard, title })}
+				/>
+			</TabItem>
+		{/each}
+	</Tabs>
 </LightBox>
 
 <LightBox

@@ -1,30 +1,23 @@
 <script>
-	import Tabs from './Tabs.svelte';
-	import ExtTabs from './ExtTabs.svelte';
+	import ExtTabs from './Tabs.svelte';
 	import { onDestroy, onMount } from 'svelte';
 
 	let w;
-	function handleResize() {
+	function handleResizeX() {
 		console.log('resize');
 		w = window.innerWidth;
 	}
 
 	onMount(() => {
 		w = window.innerWidth;
-		window.window.addEventListener('resize', handleResize);
+		window.window.addEventListener('resize', handleResizeX);
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('resize', handleResize);
+		window.removeEventListener('resize', handleResizeX);
 	});
 </script>
 
-{#if w < 768}
-	<Tabs>
-		<slot />
-	</Tabs>
-{:else}
-	<ExtTabs>
-		<slot />
-	</ExtTabs>
-{/if}
+<ExtTabs single={w < 500}>
+	<slot />
+</ExtTabs>

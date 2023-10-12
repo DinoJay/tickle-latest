@@ -104,7 +104,7 @@
 	isOpen={newItemModalOpen}
 	close={() => (newItemModalOpen = false)}
 >
-	<div>
+	<div class="mb-3">
 		<div class="label">Name:</div>
 		<input
 			placeholder="Please enter the name of the item"

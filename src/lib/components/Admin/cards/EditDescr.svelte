@@ -1,6 +1,4 @@
 <script>
-	import TabItem from '$lib/components/TabItem.svelte';
-	import Tabs from '$lib/components/Tabs.svelte';
 	import { descriptionLocales } from '$lib/constants/locales';
 	import { select } from 'd3';
 

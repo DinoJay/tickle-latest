@@ -7,7 +7,7 @@
 	import EditDragDrop from './EditDragDrop.svelte';
 	import EditOrderList from './EditOrderList.svelte';
 	import { activityLocales } from '$lib/constants/locales';
-	import TabItem from '$lib/components/ResponsiveTabItem.svelte';
+	import TabItem from '$lib/components/TabItem.svelte';
 	import Tabs from '$lib/components/ResponsiveTabs.svelte';
 
 	/**

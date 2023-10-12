@@ -1,27 +1,57 @@
 <script>
+	import uniqBy from 'lodash.uniqBy';
 	import { slide } from 'svelte/transition';
-	import { getContext, onMount } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 
 	// get the tabs store from the context
 	const { tabs } = getContext('tabs');
 
 	export let title;
-	export let color = '';
 	let index;
 
 	// pull out current tab, updates whenever store changes
 	// ie, if tab.active changes, it will cause this to update
-	$: tab = $tabs[index];
 
 	onMount(() => {
 		// compute index
 		index = $tabs.length;
 
 		// add a record to the tabs store
-		$tabs = [...$tabs, { title, color }];
+		$tabs = [...$tabs, { title }];
 	});
+
+	// onDestroy(() => {
+	// 	$tabs = $tabs.filter((d, i) => i !== index);
+	// });
+
+	$: tab = $tabs[index];
 </script>
 
 {#if tab && tab.active}
-	<slot />
+	<div class="fl flex flex-col width height overflow-y-auto">
+		<slot />
+	</div>
 {/if}
+
+<style>
+	.fl {
+		@apply flex-none;
+	}
+	.width {
+		width: 100%;
+	}
+	.height {
+		/* height: 400px; */
+	}
+	@screen sm {
+		.fl {
+			@apply flex-1;
+		}
+		.width {
+			width: 450px;
+		}
+		.max-height {
+			height: 100%;
+		}
+	}
+</style>
