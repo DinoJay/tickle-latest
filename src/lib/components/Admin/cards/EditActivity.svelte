@@ -75,9 +75,10 @@
 				<EditQuiz
 					onClose={() => (selectedActivity = null)}
 					value={$$props[activityLocales(l)]?.value}
-					onChange={(/** @type {any} */ questions) => {
+					onChange={(/** @type {any} */ value) => {
+						console.log('questions', value);
 						const activityField = activityLocales(l);
-						onChange({ [activityField]: { type: QUIZ, value: questions } });
+						onChange({ [activityField]: { type: QUIZ, value } });
 					}}
 				/>
 			</TabItem>
@@ -170,6 +171,7 @@
 	isOpen={selectedActivity === ORDERLIST}
 	close={() => (selectedActivity = null)}
 	width="100%"
+	fullHeight={true}
 >
 	<Tabs>
 		{#each langs as l, i}

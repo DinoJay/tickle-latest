@@ -2,7 +2,6 @@
 	import { afterUpdate } from 'svelte';
 	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
-	import SimpleLightBox from '../utils/SimpleLightBox.svelte';
 	import { flip } from 'svelte/animate';
 	import { _ } from 'svelte-i18n';
 
@@ -20,15 +19,14 @@
 		console.log('elem', elems[i]);
 		setTimeout(() => {
 			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'start' });
-		}, 200);
+		}, 500);
 	}
 	// $: console.log('elems', elems);
 </script>
 
-<SimpleLightBox {isOpen} close={() => (isOpen = false)} {isMandatory} cls="flex-grow">
+<LightBox {isOpen} close={() => (isOpen = false)} {isMandatory}>
 	<h2 class="text-3xl mb-1 text-c-black">{$_('select_env.title')}</h2>
-
-	<div class="flex-grow flex flex-col overflow-y-auto">
+	<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}
 			<div bind:this={elems[i]}>
 				<EnvDetail
@@ -39,4 +37,4 @@
 			</div>
 		{/each}
 	</div>
-</SimpleLightBox>
+</LightBox>

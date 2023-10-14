@@ -2,10 +2,9 @@
 	import DropDown from '$lib/components/utils/DropDown.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
-	import { v4 as uuidv4 } from 'uuid';
 	import SelectColor from './SelectColor.svelte';
 	import { LANGS, titleLocales } from '$lib/constants/locales';
+	import Tabs from '$lib/components/Tabs.svelte';
 
 	export let currentTopic = {
 		title: null,
@@ -51,12 +50,17 @@
 	$: titleKey = titleLocales[lang];
 	$: console.log('titleKey', titleKey);
 
-	// const descrLocales = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
+	// const descrLocaleso = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
+	$: createDisabled = !currentTopic[titleKey] || !currentTopic.color;
 </script>
 
 <div class="flex gap-1 mb-3">
 	{#each langs as l}
-		<button class="flex-grow btn" class:sel-btn={lang === l} on:click={() => (lang = l)}>{l}</button
+		<button
+			class="flex-grow btn uppercase"
+			class:disabled={langs.length === 1}
+			class:sel-btn={lang === l || langs.length === 1}
+			on:click={() => (lang = l)}>{l}</button
 		>
 	{/each}
 </div>
@@ -109,7 +113,10 @@
 		{#if onCreate}
 			<button
 				class="create-btn w-full"
+				class:disabled={createDisabled}
+				aria-disabled={createDisabled}
 				on:click={() => {
+					if (createDisabled) return;
 					onCreate(currentTopic.id);
 				}}>Create</button
 			>

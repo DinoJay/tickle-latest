@@ -1,11 +1,7 @@
 <script>
-	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
-	import { v4 as uuid } from 'uuid';
 	import Img from '$lib/components/utils/Img.svelte';
-	import { store } from '/src/stores/index';
 	import TopicsPreview from './TopicsField.svelte';
 
-	import ImageArea from 'svelte-material-icons/imageArea.svelte';
 	import LinksField from './LinksField.svelte';
 	import Description from './Description.svelte';
 	import VideosField from './VideosField.svelte';

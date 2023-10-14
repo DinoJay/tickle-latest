@@ -92,7 +92,7 @@
 	 */
 	let selectedStackId = null;
 	let selectedItemId = null;
-	$: stack = value?.stack || exampleStack;
+	$: stack = value?.stack || [];
 	// $: console.log('value', stack);
 	// $: console.log('stack', stack);
 
@@ -111,7 +111,10 @@
 />
 <h2 class="text-lg mb-3 label">Categories:</h2>
 
-<div class="flex-auto overflow-auto h-64 mb-1">
+<div class="flex-auto flex flex-col overflow-auto h-64 mb-1">
+	{#if stack.length === 0}
+		<div class="m-auto text-xl placeholder-text">No Categories</div>
+	{/if}
 	{#each stack as s}
 		<div class="mb-3 border-2 p-3 relative">
 			<button class="flex items-center mb-3" on:click={() => (selectedStackId = s.id)}>

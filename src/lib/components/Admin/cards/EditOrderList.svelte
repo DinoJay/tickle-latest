@@ -35,7 +35,7 @@
 	 */
 	let selectedId = null;
 
-	$: itemList = value?.itemList || exampleList.map((d) => ({ ...d, id: uuidv4() }));
+	$: itemList = value?.itemList || [];
 	$: selectedItem = itemList.find((d) => d.id === selectedId);
 
 	const drop = (event, target) => {
@@ -67,7 +67,10 @@
 	/>
 </div>
 <div class="label">Reordable List:</div>
-<div class="drop-shadow-sm">
+<div class="drop-shadow-sm flex flex-auto h-12 flex-col overflow-y-auto">
+	{#if itemList.length === 0}
+		<div class="m-auto text-xl placeholder-text">No Items</div>
+	{/if}
 	{#each itemList as n, index (n.id)}
 		<div
 			class="border-2 mb-1 p-2 bg-white flex items-center"

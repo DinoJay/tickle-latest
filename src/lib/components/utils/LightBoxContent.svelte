@@ -19,6 +19,7 @@
 	export let backCls = '';
 	export let flipped = false;
 	export let flipCls = '';
+	export let fullHeight = false;
 
 	export let isDefaultSlot = false;
 	export let isFrontSlot = false;
@@ -37,7 +38,7 @@
 		{flipped}
 	>
 		<div
-			class="bg-white h-full w-full flex flex-col p-3"
+			class="bg-white h-full w-full flex flex-col p-3 max-h-full"
 			slot="front"
 			on:keydown={() => null}
 			on:click={(e) => e.stopPropagation()}
@@ -71,7 +72,7 @@
 				<slot />
 			{/if}
 		</div>
-		<div slot="back" class={`${backCls} bg-white flex flex-col h-full w-full p-3`}>
+		<div slot="back" class={`${backCls} bg-white flex flex-col h-full w-full p-3 max-h-full`}>
 			{#if isBackSlot && isFrontSlot}
 				<div class=" flex mb-3">
 					<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
@@ -92,7 +93,8 @@
 	</FlipCard>
 {:else if isDefaultSlot}
 	<div
-		class="bg-white flex flex-col p-3 m-auto width"
+		class="bg-white flex flex-col p-3 m-auto width max-h-full"
+		class:h-full={fullHeight}
 		on:keydown={() => null}
 		on:click={(e) => e.stopPropagation()}
 	>

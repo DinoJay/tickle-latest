@@ -49,7 +49,7 @@
 
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
 
-	let selectedCardId = null;
+	$: console.log('selectedEnv', selectedEnv.langs);
 	/**
 	 * @type {any[] | null}
 	 */
@@ -61,11 +61,13 @@
 				.map((d) => ({ ...d, logType: LOG_ACTIVITY_SUBTYPE }))
 		: null;
 
-	let selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
+	let selLang;
+
+	$: selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
 
 	$: langs = selectedEnv?.langs !== undefined ? selectedEnv.langs : [EN];
 
-	console.log({ langs });
+	$: console.log({ selLang });
 
 	// $: console.log({ selectedEnv });
 </script>

@@ -93,6 +93,8 @@
 	console.log('currentCard', currentCard);
 
 	$: tabStartIndex = langs.indexOf(selLang);
+
+	$: console.log('currentCard', currentCard);
 </script>
 
 <div class="mb-3 flex-shrink-0">
@@ -117,7 +119,12 @@
 		value={currentCard[descriptionLocales[selLang]]}
 		onClick={() => (selectedField = DESCR)}
 	/>
-	<TopicsThumb {allTopics} topicIds={currentCard.topics} onClick={() => (selectedField = TOPICS)} />
+	<TopicsThumb
+		{selLang}
+		{allTopics}
+		topicIds={currentCard.topics}
+		onClick={() => (selectedField = TOPICS)}
+	/>
 	<FieldThumb
 		type="array"
 		name="Links"
@@ -162,11 +169,12 @@
 				<EditTitle
 					onClose={() => (selectedField = null)}
 					title={currentCard[titleLocales[l]]}
-					onChange={(title) => onChange({ ...currentCard, title })}
+					onChange={(title) => onChange({ ...currentCard, [titleLocales[l]]: title })}
 				/>
 			</TabItem>
 		{/each}
 	</Tabs>
+	<button class="btn mt-3 w-full mx-auto" on:click={() => (selectedField = null)}>Close</button>
 </LightBox>
 
 <LightBox
@@ -220,15 +228,19 @@
 	<EditTopics
 		onClose={() => (selectedField = null)}
 		topicIds={currentCard.topics}
+		{selLang}
 		{allTopics}
 		onChange={(topics) => onChange({ ...currentCard, topics })}
 	/>
+
+	<button class="btn mt-3 w-full mx-auto" on:click={() => (selectedField = null)}>Close</button>
 </LightBox>
 
 <LightBox
 	isOpen={selectedField === VIDEOS}
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
+	fullHeight={true}
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
@@ -241,7 +253,6 @@
 			</TabItem>
 		{/each}
 	</Tabs>
-	<button class="btn mt-3 w-full mx-auto" on:click={() => (selectedField = null)}>Close</button>
 </LightBox>
 
 <LightBox

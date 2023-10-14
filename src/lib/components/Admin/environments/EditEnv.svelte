@@ -73,7 +73,7 @@
 		<div class="flex gap-1">
 			{#each [EN, FR, NL] as l}
 				<button
-					class="btn flex-grow"
+					class="small-btn flex-grow uppercase"
 					class:sel-btn={langs?.includes(l)}
 					on:click={() => {
 						let newLangs;
@@ -92,7 +92,7 @@
 			{/each}
 		</div>
 	</div>
-	<div>
+	<div class="mb-3">
 		<div><label class="form-text" for="description">Image:</label></div>
 		<UploadFile
 			url={env.img?.url}

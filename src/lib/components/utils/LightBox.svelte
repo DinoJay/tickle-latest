@@ -58,15 +58,7 @@
 		}}
 	>
 		<LightBoxContent
-			{height}
-			{width}
-			{title}
-			{backCls}
-			{flipped}
-			{flipCls}
-			{close}
-			{onFlip}
-			{isMandatory}
+			{...$$props}
 			isDefaultSlot={$$slots.default}
 			isFrontSlot={$$slots.front}
 			isBackSlot={$$slots.back}

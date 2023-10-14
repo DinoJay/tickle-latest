@@ -28,10 +28,13 @@
 <nav class="flex flex-wrap gap-1 mb-3">
 	{#each $tabs as tab, i}
 		<button
-			class="btn flex-1"
-			class:sel-btn={tab.active}
+			class="btn flex-1 uppercase"
+			class:disabled={$tabs.length === 1}
+			aria-disabled={$tabs.length === 1}
+			class:sel-btn={tab.active || $tabs.length === 1}
 			class:opacity-70={!tab.active}
 			on:click={() => {
+				if ($tabs.length === 1) return;
 				if (activeIndexes.includes(i)) {
 					if (activeIndexes.length > 1) activeIndexes = activeIndexes.filter((d) => d !== i);
 				} else {

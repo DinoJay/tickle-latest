@@ -1,6 +1,7 @@
 <script>
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
+	import { titleLocales } from '$lib/constants/locales';
 	/**
 	 * @type {string[]}
 	 */
@@ -12,12 +13,16 @@
 	/**
 	 * @type {(arg0: any[]) => any}
 	 */
+
+	export let selLang;
 	export let onChange;
 	export let onClose;
 
 	$: selectedTopics =
 		!!topicIds && !!allTopics ? topicIds.map((id) => allTopics.find((d) => d.id === id)) : [];
 	$: otherTopics = !!allTopics ? allTopics.filter((t) => !topicIds?.includes(t.id)) : [];
+
+	$: console.log({ selectedTopics, otherTopics });
 </script>
 
 {#if allTopics !== undefined}
@@ -27,12 +32,14 @@
 			<h2 class="text-lg mb-1 flex-shrink-0">All Topics</h2>
 
 			{#if otherTopics === undefined || otherTopics.length === 0}
-				<div class="text-center m-12 text-xl">No Topics</div>
+				<div class="text-center m-12 text-xl placeholder-text">
+					Please add a Topic first in the Topics tab!
+				</div>
 			{/if}
 			<div class="flex flex-wrap gap-3 flex-grow overflow-y-auto p-2">
 				{#each otherTopics as t}
 					<PreviewCard
-						title={t.title}
+						title={t[titleLocales[selLang]]}
 						img={t.img}
 						onClick={() => onChange([...(topicIds || []), t.id])}
 					/>
@@ -43,14 +50,14 @@
 			<h2 class="text-lg mb-1 flex-shrink-0">Selected Topics</h2>
 
 			{#if !selectedTopics || selectedTopics.length === 0}
-				<div class="text-center m-12 text-xl">No Topics added</div>
+				<div class="text-center m-12 placeholder-text">No Topics added</div>
 			{/if}
 			{#if selectedTopics || selectedTopics.length > 0}
 				<div class="flex flex-wrap gap-3 flex-grow overflow-y-auto p-2">
 					{#each selectedTopics as t}
 						<PreviewCard
 							highlighted={true}
-							title={t.title}
+							title={t[titleLocales[selLang]]}
 							img={t.img}
 							onClick={() => onChange(topicIds.filter((id) => id !== t.id))}
 						/>
@@ -59,8 +66,6 @@
 			{/if}
 		</div>
 	</div>
-
-	<button class="create-btn mt-auto" on:click={onClose}>Save & Close</button>
 {:else}
 	<div class="m-auto">
 		<Spinner />

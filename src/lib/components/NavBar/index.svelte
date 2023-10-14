@@ -109,17 +109,19 @@
 							{section.name}
 						</button>
 					{/each}
-					<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
-						<div class="m-auto flex gap-1">
-							{#each env?.langs as l}
-								<button
-									on:click={() => locale.set(l)}
-									class="border-2 p-1"
-									class:btn-selected={$locale === l}>{l.toUpperCase()}</button
-								>
-							{/each}
+					{#if env?.langs}
+						<div class="flex sm:text-xl text-xl border-b hover:underline p-2">
+							<div class="m-auto flex gap-1">
+								{#each env?.langs as l}
+									<button
+										on:click={() => locale.set(l)}
+										class="border-2 p-1"
+										class:btn-selected={$locale === l}>{l.toUpperCase()}</button
+									>
+								{/each}
+							</div>
 						</div>
-					</div>
+					{/if}
 				</div>
 			{/if}
 		{/await}

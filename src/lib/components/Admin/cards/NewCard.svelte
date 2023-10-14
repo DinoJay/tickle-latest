@@ -25,6 +25,7 @@
 	currentCard={newCard}
 	{selectedEnvId}
 	onChange={(c) => {
+		console.log('test');
 		newCard = c;
 	}}
 	onCreate={() => {

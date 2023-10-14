@@ -9,25 +9,29 @@
 	export let activity;
 	export let onSubmit;
 
-	const POOLTYPE = 'pool';
+	// const POOLTYPE = 'pool';
+	$: console.log('activity ORDER', activity);
 	let itemSlots = currentActSub?.response || [
 		...activity.value?.itemList?.map((d) => ({ id: uuid(), itemId: null }))
 	];
 
-	let pool = activity?.value?.itemList.filter(
+	let pool = activity?.value?.itemList?.filter(
 		(d) => itemSlots.find((e) => e.itemId === d.id) === undefined
 	);
 
 	$: description = activity.value?.description;
 
 	$: allItems = activity.value?.itemList;
+	$: console.log('allItems', allItems);
 
 	const isSuccess = (itemList, itemSlots) => {
 		const itemIds = itemList.map((d) => d.id);
 		const slotIds = itemSlots.map((d) => d.itemId);
 		return JSON.stringify(itemIds) === JSON.stringify(slotIds);
 	};
-	let succeeded = isSuccess(activity.value.itemList, itemSlots);
+	$: succeeded = isSuccess(activity.value.itemList, itemSlots);
+
+	let submitted = false;
 </script>
 
 {#if succeeded === true}
@@ -47,7 +51,7 @@
 	</div>
 	<Notification type="success" close={() => (succeeded = null)}>Yay, you did it!</Notification>
 {/if}
-{#if succeeded === false}
+{#if succeeded === false && submitted}
 	<Notification close={() => (succeeded = null)}>Nah, you failed!</Notification>
 {/if}
 <OrderList
@@ -57,7 +61,9 @@
 	{pool}
 	{description}
 	onSubmit={(newItemSlots, po) => {
+		submitted = false;
 		itemSlots = newItemSlots;
+		console.log('itemslots', itemSlots);
 		// console.log('st', st, 'po', po);
 		console.log('submit', activity);
 		pool = po;
@@ -66,7 +72,8 @@
 <button
 	class="btn"
 	on:click={() => {
+		submitted = true;
 		onSubmit({ response: itemSlots });
-		succeeded = isSuccess(activity.value?.itemList, itemSlots);
+		// succeeded = isSuccess(activity.value?.itemList, itemSlots);
 	}}>Submit</button
 >

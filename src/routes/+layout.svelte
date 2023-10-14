@@ -1,4 +1,6 @@
 <script>
+	import { EN } from '$lib/constants/locales.js';
+	import { locale } from 'svelte-i18n';
 	import '../app.css';
 	// import Dnd from 'svelte-drag-drop-touch';
 	import Dnd from '$lib/DragDropTouch.js';
@@ -7,11 +9,20 @@
 	import Localize from '$lib/components/Localize/index.svelte';
 
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
 	const w = 800;
 	$: route = $page.route?.id;
 
 	$: selectedEnvId = $page.params.envId;
+
+	$: console.log('locale', $locale);
+
+	onMount(() => {
+		// if (!$locale)
+
+		locale.set(EN);
+	});
 
 	// let width = null;
 	// let height = null;

@@ -18,6 +18,6 @@
 	});
 </script>
 
-<ExtTabs single={w < 500}>
+<ExtTabs {...$$props} single={w < 500}>
 	<slot />
 </ExtTabs>
