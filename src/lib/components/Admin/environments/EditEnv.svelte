@@ -1,6 +1,8 @@
 <script>
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
-	import { EN, FR, NL } from '$lib/constants/locales';
+	import { EN, FR, NL, descriptionLocales, titleLocales } from '$lib/constants/locales';
+	import ResponsiveTabs from '$lib/components/ResponsiveTabs.svelte';
+	import TabItem from '$lib/components/ResponsiveTabs.svelte';
 
 	export let env = {
 		id: null,
@@ -43,32 +45,6 @@
 
 <div class="flex-1 h-12 flex flex-col overflow-y-auto">
 	<div class="mb-3">
-		<div><label class="form-text" for="title">Title:</label></div>
-		<input
-			value={env.title}
-			on:input={(e) => {
-				const newEnv = { ...env, title: e.target.value };
-				onChange(newEnv);
-			}}
-			class="w-full"
-			name="title"
-			placeholder="Enter Title"
-		/>
-	</div>
-	<div>
-		<div><label class="form-text" for="description">Description:</label></div>
-		<textarea
-			value={env.description}
-			on:input={(e) => {
-				const newEnv = { ...env, description: e.target.value };
-				onChange(newEnv);
-			}}
-			class="border w-full"
-			name="description"
-			placeholder="Enter description"
-		/>
-	</div>
-	<div class="mb-3">
 		<div><label class="form-text" for="description">Lanuages:</label></div>
 		<div class="flex gap-1">
 			{#each [EN, FR, NL] as l}
@@ -92,6 +68,40 @@
 			{/each}
 		</div>
 	</div>
+
+	{#each langs as l}
+		<div class="mb-3">
+			<div><label class="form-text" for="title">Title {l.toUpperCase()}:</label></div>
+			<input
+				value={env[titleLocales[l]] || ''}
+				on:input={(e) => {
+					const newEnv = { ...env, [titleLocales[l]]: e.target.value };
+					onChange(newEnv);
+				}}
+				class="w-full"
+				name="title"
+				placeholder="Enter Title"
+			/>
+		</div>
+	{/each}
+
+	{#each langs as l}
+		<div class="w-full">
+			<div>
+				<label class="form-text" for="description">Description {l.toUpperCase()}:</label>
+			</div>
+			<textarea
+				value={env[descriptionLocales[l]] || ''}
+				on:input={(e) => {
+					const newEnv = { ...env, [descriptionLocales[l]]: e.target.value };
+					onChange(newEnv);
+				}}
+				class="border w-full"
+				name="description"
+				placeholder="Enter description"
+			/>
+		</div>
+	{/each}
 	<div class="mb-3">
 		<div><label class="form-text" for="description">Image:</label></div>
 		<UploadFile

@@ -12,6 +12,7 @@
 	import { doc, getDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { locale } from 'svelte-i18n';
+	import { titleLocales } from '$lib/constants/locales';
 
 	$: selectedEnvId = $page.params.envId || '';
 	$: console.log('page', $page);
@@ -85,7 +86,7 @@
 		<Logo onClick={() => logOut()} />
 
 		{#await envPromise then env}
-			<div class="mb-3">{env?.title || ''}</div>
+			<div class="mb-3">{env?.title[titleLocales[$locale]] || env?.title || ''}</div>
 
 			<div class="ml-auto relative mr-3 my-auto">
 				{#if $store?.currentUser}

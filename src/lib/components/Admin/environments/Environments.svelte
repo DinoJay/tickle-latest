@@ -1,4 +1,5 @@
 <script>
+	import { select } from 'd3';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import LightBox from '../../utils/LightBox.svelte';
 	import { doc, deleteDoc, setDoc } from 'firebase/firestore';
@@ -6,6 +7,7 @@
 	import CreateEnv from './CreateEnv.svelte';
 
 	import { v4 as uuidv4 } from 'uuid';
+	import { titleLocales } from '$lib/constants/locales';
 	export let toxinId = 'bnW56f62WWEJ0bwJwQ0m';
 
 	/**
@@ -27,6 +29,8 @@
 	 * @type {(arg0: any) => void}
 	 */
 	export let onSelectEnv;
+
+	export let selLang;
 
 	// /**
 	//  * @type {string}
@@ -54,7 +58,7 @@
 			>
 				<!-- <span> 🕯</span> -->
 				<span class={env.title === '' ? 'italic text-gray-500' : ''}>
-					{env.title || 'no-title'}
+					{env[titleLocales[selLang]] || env.title || 'no-title'}
 				</span>
 			</button>
 
@@ -77,7 +81,7 @@
 </div>
 
 <LightBox
-	title={selectedEnv?.title || 'Edit Environment'}
+	title={selectedEnv[titleLocales[selLang]] || selectedEnv?.title || 'Edit Environment'}
 	isOpen={lbOpen}
 	close={() => (lbOpen = false)}
 >

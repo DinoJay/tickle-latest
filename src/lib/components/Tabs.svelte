@@ -5,6 +5,8 @@
 
 	export let selectedStartIndex = 0;
 	export let single = false;
+	export let style = '';
+	export let flow = 'row';
 
 	// context is not reactive, so it's common to use stores together with context to get reactivity.
 	const tabs = writable([]);
@@ -49,9 +51,14 @@
 	{/each}
 </nav>
 
-<div class="flex flex-wrap dir gap-3 h-full w-full">
+{#if flow === 'row'}
+	<div class="flex flex-wrap dir gap-3 h-full w-full" {style}>
+		<slot />
+	</div>
+{/if}
+{#if flow === 'col'}
 	<slot />
-</div>
+{/if}
 
 <style>
 	.dir {
