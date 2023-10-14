@@ -25,6 +25,8 @@
 	export let isFrontSlot = false;
 	export let isBackSlot = false;
 
+	export let variableWidth = true;
+
 	$: flippable = isFrontSlot && isBackSlot;
 	let titleExpanded = false;
 

@@ -19,8 +19,7 @@
 <div
 	on:keydown={onClick}
 	on:click={onClick}
-	style="width:7rem"
-	class="border-2 py-1 px-2 text-xl flex flex-col cursor-pointer h-24"
+	class="border-2 py-1 px-2 text-xl flex flex-col cursor-pointer w-48"
 >
 	<div class="crop">{name}:</div>
 	<div class="italic flex-grow text-gray-500 crop overflow-hidden">

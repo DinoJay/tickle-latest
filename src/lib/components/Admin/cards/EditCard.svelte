@@ -106,7 +106,9 @@
 		}}
 	/>
 </div>
-<div class="flex flex-wrap gap-2 flex-shrink-1 overflow-y-auto mb-auto h-80 items-start">
+<div
+	class="grid grid-rows-4 grid-flow-col gap-2 place-items-stretch overflow-y-auto mb-auto items-start"
+>
 	<FieldThumb
 		type="string"
 		name="Title"
