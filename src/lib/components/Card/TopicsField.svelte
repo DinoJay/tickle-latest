@@ -1,5 +1,5 @@
 <script>
-	import { locale } from 'svelte-i18n';
+	import { locale } from '/src/stores/localizationStore';
 	import { titleLocales } from '$lib/constants/locales';
 
 	export let topics;

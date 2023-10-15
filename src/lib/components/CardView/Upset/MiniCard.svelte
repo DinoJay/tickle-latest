@@ -1,7 +1,7 @@
 <script>
 	import { titleLocales } from '$lib/constants/locales';
 
-	import { locale } from 'svelte-i18n';
+	import { locale } from '/src/stores/localizationStore';
 
 	export let img = { url: '' };
 	export let title = '';

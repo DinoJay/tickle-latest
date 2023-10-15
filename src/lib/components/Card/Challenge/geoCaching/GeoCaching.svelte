@@ -5,7 +5,6 @@
 
 	import Camera from 'svelte-material-icons/Camera.svelte';
 	import RadiusMap from '$lib/components/Map/RadiusMap.svelte';
-	import { locale } from 'svelte-i18n';
 
 	/**
 	 * @type {(arg0: { imgUrl?: string; answer?: any; }) => void}

@@ -5,7 +5,7 @@
 
 	import Img from '$lib/components/utils/Img.svelte';
 	import { descriptionLocales } from '$lib/constants/locales';
-	import { locale } from 'svelte-i18n';
+	import { locale } from '/src/stores/localizationStore';
 
 	/**
 	 * @type {any}

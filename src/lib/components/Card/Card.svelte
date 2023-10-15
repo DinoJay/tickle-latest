@@ -17,7 +17,7 @@
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
 	import CardBack from './CardBack.svelte';
-	import { locale } from 'svelte-i18n';
+	import { locale } from '/src/stores/localizationStore';
 
 	$: uid = $store.currentUser.uid;
 

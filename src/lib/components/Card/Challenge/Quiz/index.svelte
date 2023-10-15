@@ -1,5 +1,4 @@
 <script>
-	import { locale } from 'svelte-i18n';
 	import Question from './Question.svelte';
 	import Quiz from './Quiz.svelte';
 	/**

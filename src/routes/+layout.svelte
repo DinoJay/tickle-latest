@@ -1,13 +1,11 @@
 <script>
 	import { EN } from '$lib/constants/locales.js';
-	import { locale } from 'svelte-i18n';
 	import '../app.css';
 	// import Dnd from 'svelte-drag-drop-touch';
-	import Dnd from '$lib/DragDropTouch.js';
 	import Notifications from '$lib/components/Notifications/index.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
-	import Localize from '$lib/components/Localize/index.svelte';
 
+	import { locale } from '/src/stores/localizationStore';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	// import ListenAuth from '$lib/components/auth/WithAuth.svelte';
@@ -16,34 +14,9 @@
 
 	$: selectedEnvId = $page.params.envId;
 
-	$: console.log('locale', $locale);
-
-	onMount(() => {
-		// if (!$locale)
-
-		locale.set(EN);
-	});
-
-	// let width = null;
-	// let height = null;
-
-	// onMount(() => {
-	// 	const resizeObserver = new ResizeObserver((entries) => {
-	// 		// We're only watching one element
-	// 		const entry = entries.at(0);
-	// 		width = entry?.target.clientWidth;
-	// 		height = entry?.target.clientHeight;
-	// 		console.log('Body height changed:', height, width);
-	// 	});
-
-	// 	resizeObserver.observe(document.body);
-
-	// 	// This callback cleans up the observer
-	// 	return () => resizeObserver.unobserve(document.body);
-	// });
+	locale.set(EN);
 </script>
 
-<Localize />
 <Notifications />
 <div
 	class="flex flex-col w-full h-full sm:p-3 bg-cover bg-center"

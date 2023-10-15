@@ -1,5 +1,5 @@
 <script>
-	import { _ } from 'svelte-i18n';
+	import { langDict } from './../../../stores/localizationStore.js';
 
 	import { auth, db } from '$lib/firebaseConfig/firebase';
 	import {
@@ -161,7 +161,7 @@
 				{#if loading === true}
 					<Spinner width="20px" height="20px" />
 				{:else}
-					{$_('sign_in.title')}
+					{langDict()?.sign_in.title}
 				{/if}
 			</button>
 		</div>

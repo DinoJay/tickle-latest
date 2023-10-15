@@ -11,7 +11,7 @@
 	import Burger from './Burger.svelte';
 	import { doc, getDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import { locale } from 'svelte-i18n';
+	import { locale } from '/src/stores/localizationStore';
 	import { titleLocales } from '$lib/constants/locales';
 
 	$: selectedEnvId = $page.params.envId || '';
