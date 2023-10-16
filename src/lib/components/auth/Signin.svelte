@@ -159,9 +159,9 @@
 				type="submit"
 			>
 				{#if loading === true}
-					<Spinner width="20px" height="20px" />
+					<Spinner width="24px" height="24px" />
 				{:else}
-					{langDict()?.sign_in.title}
+					{$langDict.sign_in.title}
 				{/if}
 			</button>
 		</div>

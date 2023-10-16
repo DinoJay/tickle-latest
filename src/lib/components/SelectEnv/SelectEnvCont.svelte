@@ -1,5 +1,5 @@
 <script>
-	import { langDict, locale } from './../../../stores/localizationStore.js';
+	import { langDict } from './../../../stores/localizationStore.js';
 	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 
@@ -22,7 +22,7 @@
 </script>
 
 <LightBox {isOpen} close={() => (isOpen = false)} {isMandatory} fixedWidth={true}>
-	<h2 class="text-3xl mb-1 text-c-black">{langDict().select_env.title}</h2>
+	<h2 class="text-3xl mb-1 text-c-black">{$langDict.select_env.title}</h2>
 	<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}
 			<div bind:this={elems[i]}>

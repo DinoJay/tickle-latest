@@ -3,7 +3,10 @@
         "title": "TICKLE French"
     },
     "sign_in": {
-        "title": "TICKLE French - Sign In"
+        "title": "Connecter"
+    },
+    "sign_up": {
+        "title": "s'enscrire"
     },
     "select_env": {
         "title": "Bienvenue á TICKLE!"

@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../stores/localizationStore.js';
 	import { auth } from '$lib/firebaseConfig/firebase';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, setDoc } from 'firebase/firestore';
@@ -23,11 +24,14 @@
 	let pwdConfirmation = '';
 	let userAvatar = avatars[0];
 
+	let loading = false;
+
 	/**
 	 * Sign up the user if all the information are correct
 	 * @param e - event
 	 */
 	const submit = (e) => {
+		loading = true;
 		e.preventDefault();
 		if (!passwordIsValid()) {
 			addNotification({ text: errors['auth/password-confirmation'] });
@@ -51,7 +55,10 @@
 					avatar: userAvatar,
 					email: email,
 					admin: true
-				}).then(() => goto('/cardview/environment'));
+				}).then(() => {
+					loading = false;
+					goto('/cardview/environment');
+				});
 			})
 			.catch((error) => {
 				addNotification({ text: errors[error.code] });
@@ -68,7 +75,7 @@
 
 <img src="/tickle.svg" alt="tickle-logo" class="flex-grow m-auto my-3 sm:max-h-72 p-12 sm:p-0" />
 
-<form class="flex flex-col  p-3 w-full" action="" method="post" on:submit={(e) => submit(e)}>
+<form class="flex flex-col p-3 w-full" action="" method="post" on:submit={(e) => submit(e)}>
 	<input
 		class="w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray border-black border-2 custom-shadow"
 		bind:value={email}
@@ -96,10 +103,16 @@
 	</div>
 
 	<button
-		class="w-full m-auto mb-3 px-3 py-3 font-bold uppercase btn border-2 border-black custom-shadow 
+		class="w-full m-auto mb-3 px-3 py-3 font-bold uppercase btn border-2 border-black custom-shadow
 				bg-white hover:bg-c-light-gray"
-		type="submit">Sign up</button
+		type="submit"
 	>
+		{#if loading === true}
+			<Spinner width="24px" height="24px" />
+		{:else}
+			{$langDict.sign_up.title}
+		{/if}
+	</button>
 	<p class="mx-auto">
 		Already have an account ?
 		<a href="/" class="underline">Sign In</a>
