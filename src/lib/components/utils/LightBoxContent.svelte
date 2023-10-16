@@ -25,7 +25,7 @@
 	export let isFrontSlot = false;
 	export let isBackSlot = false;
 
-	export let variableWidth = true;
+	export let fixedWidth = false;
 
 	$: flippable = isFrontSlot && isBackSlot;
 	let titleExpanded = false;
@@ -97,6 +97,7 @@
 	<div
 		class="bg-white flex flex-col p-3 m-auto width max-h-full"
 		class:h-full={fullHeight}
+		style:width={fixedWidth ? width : 'auto'}
 		on:keydown={() => null}
 		on:click={(e) => e.stopPropagation()}
 	>

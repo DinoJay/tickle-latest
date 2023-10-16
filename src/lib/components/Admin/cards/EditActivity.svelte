@@ -9,6 +9,7 @@
 	import { activityLocales } from '$lib/constants/locales';
 	import TabItem from '$lib/components/TabItem.svelte';
 	import Tabs from '$lib/components/ResponsiveTabs.svelte';
+	import { EN, FR, NL } from '$lib/constants/locales.js';
 
 	/**
 	 * @type {string[]}
@@ -54,8 +55,16 @@
 			].includes(a)
 				? 'bg-gray-700 text-white'
 				: ''}"
-			on:click={() => (selectedActivity = a)}>{a}</button
-		>
+			on:click={() => (selectedActivity = a)}
+			>{a}
+			{#if activity_en?.type === a}
+				({EN})
+			{:else if activity_fr?.type === a}
+				({FR})
+			{:else if activity_nl?.type === a}
+				({NL})
+			{/if}
+		</button>
 	{/each}
 	{#if !!activity_en || !!activity_fr || !!activity_nl}
 		<button class="del-btn" on:click={onRemove}>Remove Activity</button>
