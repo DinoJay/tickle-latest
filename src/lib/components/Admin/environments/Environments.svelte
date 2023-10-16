@@ -54,10 +54,11 @@
 		<div class="flex mb-2">
 			<button
 				on:click={() => onEnvClick(env)}
-				class="p-1 flex-grow border-2 {selectedEnv?.id === env.id && 'bg-gray-300'}"
+				class="p-1 flex-grow border-2"
+				class:sel-small-btn={selectedEnv?.id === env.id}
 			>
 				<!-- <span> 🕯</span> -->
-				<span class={env.title === '' ? 'italic text-gray-500' : ''}>
+				<span>
 					{env[titleLocales[selLang]] || env.title || 'no-title'}
 				</span>
 			</button>

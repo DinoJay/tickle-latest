@@ -1,5 +1,5 @@
 <script>
-	import { EN } from '$lib/constants/locales.js';
+	import { EN, NL, FR } from '$lib/constants/locales.js';
 	import '../app.css';
 	// import Dnd from 'svelte-drag-drop-touch';
 	import Notifications from '$lib/components/Notifications/index.svelte';
@@ -14,7 +14,11 @@
 
 	$: selectedEnvId = $page.params.envId;
 
-	locale.set(EN);
+	const lang = navigator.language || navigator.userLanguage;
+	if (lang.includes('en')) locale.set(EN);
+	else if (lang.includes('fr')) locale.set(FR);
+	else if (lang.includes('nl')) locale.set(NL);
+	else locale.set(EN);
 </script>
 
 <Notifications />

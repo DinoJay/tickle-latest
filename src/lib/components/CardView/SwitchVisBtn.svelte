@@ -7,12 +7,9 @@
 	export let all;
 	export let onClick;
 	import { fly } from 'svelte/transition';
+	import { GEOMAP, TOPICMAP, UPSET } from '../../constants/visTypes';
 
 	let extended = false;
-
-	const GEOMAP = 'map';
-	const TOPICMAP = 'topicmap';
-	const UPSET = 'upset';
 </script>
 
 <div class="absolute bottom-8 right-5">
@@ -27,13 +24,13 @@
 					class=" z-20 flex items-center p-2 mb-1 border-2 border-black rounded-full"
 				>
 					{#if t === GEOMAP}
-						<span class="m-auto spinner "> <CompassOutline size={32} /></span>
+						<span class="m-auto spinner"> <CompassOutline size={32} /></span>
 					{/if}
 					{#if t === TOPICMAP}
-						<span class="m-auto "> <Dots size={32} /></span>
+						<span class="m-auto"> <Dots size={32} /></span>
 					{/if}
 					{#if t === UPSET}
-						<span class="m-auto "> <Poll size={32} /></span>
+						<span class="m-auto"> <Poll size={32} /></span>
 					{/if}
 				</button>
 			{/each}
@@ -45,13 +42,13 @@
 		class=" z-20 flex items-center p-2 border-2 border-black rounded-full"
 	>
 		{#if selected === GEOMAP}
-			<span class="m-auto "> <CompassOutline size={32} /></span>
+			<span class="m-auto"> <CompassOutline size={32} /></span>
 		{/if}
 		{#if selected === TOPICMAP}
-			<span class="m-auto "> <Dots size={32} /></span>
+			<span class="m-auto"> <Dots size={32} /></span>
 		{/if}
 		{#if selected === UPSET}
-			<span class="m-auto "> <Poll size={32} /></span>
+			<span class="m-auto"> <Poll size={32} /></span>
 		{/if}
 	</button>
 </div>

@@ -49,7 +49,6 @@
 
 	$: selectedEnv = envs.find((d) => d.id === selectedEnvId);
 
-	$: console.log('selectedEnv', selectedEnv.langs);
 	/**
 	 * @type {any[] | null}
 	 */
@@ -66,8 +65,6 @@
 	$: selLang = selectedEnv?.langs !== undefined ? selectedEnv.langs[0] : LANGS[0];
 
 	$: langs = selectedEnv?.langs !== undefined ? selectedEnv.langs : [EN];
-
-	$: console.log({ selLang });
 
 	// $: console.log({ selectedEnv });
 </script>
@@ -96,7 +93,7 @@
 				{selectedEnvId}
 				{topics}
 				onChange={onTopicsChange}
-				langs={selectedEnv.langs}
+				langs={selectedEnv?.langs}
 				{selLang}
 				onSelLangChange={(/** @type {string} */ l) => (selLang = l)}
 			/>
@@ -105,7 +102,13 @@
 
 	<div>
 		<Panel title={'Cards'}>
-			<Cards {cards} {selectedEnvId} onChange={onCardsChange} langs={selectedEnv.langs} {selLang} />
+			<Cards
+				{cards}
+				{selectedEnvId}
+				onChange={onCardsChange}
+				langs={selectedEnv?.langs}
+				{selLang}
+			/>
 		</Panel>
 	</div>
 

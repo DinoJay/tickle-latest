@@ -1,8 +1,12 @@
 <script>
+	import CompassOutline from 'svelte-material-icons/CompassOutline.svelte';
+	import Poll from 'svelte-material-icons/Poll.svelte';
+	import Dots from 'svelte-material-icons/DotsHexagon.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { EN, FR, NL, descriptionLocales, titleLocales } from '$lib/constants/locales';
 	import ResponsiveTabs from '$lib/components/ResponsiveTabs.svelte';
 	import TabItem from '$lib/components/ResponsiveTabs.svelte';
+	import { VISTYPES, GEOMAP, UPSET, TOPICMAP } from '$lib/constants/visTypes';
 
 	export let env = {
 		id: null,
@@ -15,14 +19,15 @@
 		/**
 		 * @type {string[]}
 		 */
-		langs: []
+		langs: [],
+		userViews: []
 	};
 	/**
 	 * @type {(arg0: { title: any; id: null; description: any; img: { name: string; url: string; } | { name: string; url: string; }; langs: Array<string>; }) => void}
 	 */
 	export let onChange;
 	/**
-	 * @type {(arg0: null) => any} | null
+	 * @type {(arg0: any) => any | undefined}
 	 */
 	export let onRemove;
 	/**
@@ -41,6 +46,7 @@
 	// export let selLang
 
 	$: langs = env.langs || [EN];
+	$: userViews = env.userViews || VISTYPES;
 </script>
 
 <div class="flex-1 h-12 flex flex-col overflow-y-auto">
@@ -65,6 +71,42 @@
 						onChange(newEnv);
 					}}>{l}</button
 				>
+			{/each}
+		</div>
+	</div>
+	<div class="mb-3">
+		<div><label class="form-text" for="description">User Views:</label></div>
+		<div class="flex gap-1">
+			{#each VISTYPES as v}
+				<button
+					class="small-btn flex-grow uppercase flex items-center"
+					class:sel-btn={userViews?.includes(v)}
+					on:click={() => {
+						let newViews;
+						if (userViews.includes(v)) {
+							if (userViews.length === 1) {
+								return;
+							}
+							newViews = userViews.filter((view) => view !== v);
+						} else {
+							newViews = [...userViews, v];
+						}
+						const newEnv = { ...env, userViews: newViews };
+						onChange(newEnv);
+					}}
+				>
+					<span>{v}</span>
+
+					{#if v === GEOMAP}
+						<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+					{/if}
+					{#if v === TOPICMAP}
+						<span class="m-auto"> <Dots size={32} /></span>
+					{/if}
+					{#if v === UPSET}
+						<span class="m-auto"> <Poll size={32} /></span>
+					{/if}
+				</button>
 			{/each}
 		</div>
 	</div>

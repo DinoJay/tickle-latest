@@ -6,10 +6,11 @@
 	import Card from '../Card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import SwitchVisBtn from './SwitchVisBtn.svelte';
+	import { GEOMAP, TOPICMAP, UPSET, VISTYPES } from '$lib/constants/visTypes';
 
 	export let selectedEnvId = 'undefined';
 	/**
-	 * @type {{ langs: string[]; }}
+	 * @type {{ langs: string[]; userViews: string[]; }}
 	 */
 	export let selectedEnv;
 	/**
@@ -30,11 +31,6 @@
 	 */
 	export let selectedCardId = null;
 
-	const GEOMAP = 'map';
-	const TOPICMAP = 'topicmap';
-	const UPSET = 'upset';
-	const VISTYPES = [GEOMAP, TOPICMAP, UPSET];
-
 	let centerLocation = '';
 
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
@@ -42,14 +38,14 @@
 
 	const topicIds = topics.map((t) => t.id);
 
-	let selVisType = GEOMAP;
+	let selVisType = selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
 
 	const onCardClick = (id) => {
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
 		else goto(`/cardview/environment/${selectedEnvId}/${id}/extended`);
 	};
 
-	console.log('Cards', cards);
+	$: console.log({ selectedEnv, selVisType });
 </script>
 
 <div class="flex-grow flex flex-col w-full relative overflow-y-auto">
@@ -76,7 +72,11 @@
 			/>
 		{/if}
 
-		<SwitchVisBtn selected={selVisType} all={VISTYPES} onClick={(t) => (selVisType = t)} />
+		<SwitchVisBtn
+			selected={selVisType}
+			all={selectedEnv.userViews || VISTYPES}
+			onClick={(t) => (selVisType = t)}
+		/>
 	{:else}
 		<div class="m-auto text-2xl">No content in this Environment!</div>
 	{/if}
