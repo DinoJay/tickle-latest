@@ -150,40 +150,66 @@
 	</p>
 </div>
 
-<div bind:this={cont} class="flex-grow flex flex-col overflow-visible">
+<div bind:this={cont} class="flex-grow flex flex-col overflow-y-auto">
 	{#if stack !== undefined}
-		{#each poolStack as s, i (s.name)}
-			<div class="mb-3 dragzone" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
-				<h2 class="mb-2 text-lg">{s.name}</h2>
-				<div
-					class:pool={s.type === POOLTYPE}
-					class:stack={s.type !== POOLTYPE}
-					class="overflow-auto mb-3 flex border-2 mx-2 items-center gap-2 p-2"
-					class:flex-wrap={s.type === POOLTYPE}
-					class:stack-hover={stackHover === s.name &&
-						s.type !== POOLTYPE &&
-						!s.items.find((d) => d.id === draggingItem?.id)}
-					use:dropZone={{ stackTargetId: s.id, name: s.name }}
-				>
-					{#if s.items.length === 0}
-						<div class="placeholder-text">Empty</div>
-					{/if}
-					{#each s.items as item, j (item.id)}
-						<div
-							use:dragItem={{ stackSrcId: s.id, itemSrcId: item.id, item }}
-							in:receive={{ key: j }}
-							out:send={{ key: j }}
-							animate:flip={{ duration: 500 }}
-							class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
-						>
-							<div>
-								{item.name}
+		<div class="flex-grow overflow-y-auto">
+			{#each stack as s, i (s.name)}
+				<div class="mb-3 dragzone" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
+					<h2 class="mb-2 text-lg">{s.name}</h2>
+					<div
+						class="stack overflow-auto mb-3 flex border-2 mx-2 items-center gap-2 p-2"
+						class:flex-wrap={s.type === POOLTYPE}
+						class:stack-hover={stackHover === s.name &&
+							!s.items.find((d) => d.id === draggingItem?.id)}
+						use:dropZone={{ stackTargetId: s.id, name: s.name }}
+					>
+						{#if s.items.length === 0}
+							<div class="placeholder-text">Empty</div>
+						{/if}
+						{#each s.items as item, j (item.id)}
+							<div
+								use:dragItem={{ stackSrcId: s.id, itemSrcId: item.id, item }}
+								in:receive={{ key: j }}
+								out:send={{ key: j }}
+								animate:flip={{ duration: 500 }}
+								class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
+							>
+								<div>
+									{item.name}
+								</div>
 							</div>
-						</div>
-					{/each}
+						{/each}
+					</div>
 				</div>
+			{/each}
+		</div>
+
+		<div class="mb-3 dragzone">
+			<h2 class="mb-2 text-lg">{pool.name}</h2>
+			<div
+				class="pool flex-wrap overflow-auto mb-3 flex border-2 mx-2 items-center gap-2 p-2"
+				class:stack-hover={stackHover === pool.name &&
+					!pool.items.find((d) => d.id === draggingItem?.id)}
+				use:dropZone={{ stackTargetId: pool.id, name: pool.name }}
+			>
+				{#if pool.items.length === 0}
+					<div class="placeholder-text">Empty</div>
+				{/if}
+				{#each pool.items as item, j (item.id)}
+					<div
+						use:dragItem={{ stackSrcId: pool.id, itemSrcId: item.id, item }}
+						in:receive={{ key: j }}
+						out:send={{ key: j }}
+						animate:flip={{ duration: 500 }}
+						class="border-2 shrink-0 p-2 h-12 flex items-center justify-center"
+					>
+						<div>
+							{item.name}
+						</div>
+					</div>
+				{/each}
 			</div>
-		{/each}
+		</div>
 	{/if}
 </div>
 
