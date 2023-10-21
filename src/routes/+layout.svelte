@@ -2,6 +2,7 @@
 	import { EN, NL, FR } from '$lib/constants/locales.js';
 	import '../app.css';
 	// import Dnd from 'svelte-drag-drop-touch';
+	// import '$lib/DragDropTouch';
 	import Notifications from '$lib/components/Notifications/index.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
 

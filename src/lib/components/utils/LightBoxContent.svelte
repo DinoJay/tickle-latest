@@ -2,6 +2,7 @@
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import FlipCard from '../Card/FlipCard.svelte';
+	import { onMount, onDestroy } from 'svelte';
 
 	/**
 	 * @type {(arg0: any) => void}
@@ -29,8 +30,6 @@
 
 	$: flippable = isFrontSlot && isBackSlot;
 	let titleExpanded = false;
-
-	// console.log('$$slots', $$slots);
 </script>
 
 {#if isFrontSlot && isBackSlot}
@@ -95,9 +94,9 @@
 	</FlipCard>
 {:else if isDefaultSlot}
 	<div
-		class="bg-white flex flex-col p-3 m-auto width max-h-full"
+		class="bg-white flex flex-col p-3 m-auto card-width max-h-full"
 		class:h-full={fullHeight}
-		style:width={fixedWidth ? width : 'auto'}
+		style:width={fixedWidth ? width : null}
 		on:keydown={() => null}
 		on:click={(e) => e.stopPropagation()}
 	>

@@ -1,5 +1,5 @@
 <script>
-	import { locale } from '/src/stores/localizationStore';
+	import { titleLocale } from '/src/stores/localizationStore';
 	import { titleLocales } from '$lib/constants/locales';
 
 	export let topics;
@@ -9,7 +9,7 @@
 <div class="flex flex-wrap gap-1 {cls}">
 	{#if !!topics}
 		{#each topics as t}
-			<div class="text-white px-1" style="background:{t.color}">{t[titleLocales[$locale]]}</div>
+			<div class="text-white px-1" style="background:{t.color}">{t[$titleLocale]}</div>
 		{/each}
 	{:else}
 		<div class="ph-col-6 big" />

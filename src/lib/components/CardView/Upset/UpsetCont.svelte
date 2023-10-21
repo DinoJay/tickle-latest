@@ -5,7 +5,7 @@
 	import { flip } from 'svelte/animate';
 	import { fly, fade, blur } from 'svelte/transition';
 	import Check from 'svelte-material-icons/Check.svelte';
-	import { sort } from 'd3';
+	import { titleLocale } from '/src/stores/localizationStore';
 
 	export let cards;
 	export let onCardClick;
@@ -118,7 +118,9 @@
 						style:height={topic.norm * 100 + '%'}
 					/>
 					<div class="absolute left-0 top-0 h-full z-10 crop pt-2 {legendBarWidth}">
-						<div class="w-full h-full flex items-center"><div class="crop">{topic.title}</div></div>
+						<div class="w-full h-full flex items-center">
+							<div class="crop">{topic[$titleLocale]}</div>
+						</div>
 					</div>
 					<div
 						class="absolute outline left-0 top-0 h-full z-10 crop {legendBarWidth}"

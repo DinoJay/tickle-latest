@@ -1,7 +1,7 @@
 <script>
-	import { titleLocales } from '$lib/constants/locales';
+	import { TotpMultiFactorGenerator } from 'firebase/auth';
 
-	import { locale } from '/src/stores/localizationStore';
+	import { titleLocale } from '/src/stores/localizationStore';
 
 	export let img = { url: '' };
 	export let title;
@@ -15,9 +15,9 @@
 	on:keydown={onClick}
 	class="flex flex-col h-32 w-24 sm:h-36 sm:w-28 p-2 relative bg-white drop-shadow-md cursor-pointer hover:scale-105 transition-all overflow-visible {className}"
 >
-	{#if !!title || $$props[titleLocales[$locale]]}
+	{#if !!title || $$props[$titleLocale]}
 		<h1 class="shrink-0 title">
-			{$$props[titleLocales[$locale]] || title || 'No Title'}
+			{$$props[$titleLocale] || title || 'No Title'}
 		</h1>
 	{:else}
 		<div class="ph-row">

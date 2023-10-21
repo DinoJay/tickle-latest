@@ -75,25 +75,6 @@
 	}
 
 	let draggingItem = null;
-
-	// onMount(() => {
-	// 	function handleTouchStart(event) {
-	// 		const touch = event.touches[0];
-	// 		const offsetY = window.pageYOffset || window.scrollY;
-	// 		const clientY = touch.clientY - offsetY;
-
-	// 		// Create the drag image element and position it based on the adjusted touch coordinates
-	// 		const dragImage = document.createElement('div');
-	// 		dragImage.style.position = 'absolute';
-	// 		dragImage.style.top = `${clientY}px`;
-	// 		// ...
-
-	// 		// Start the drag operation with the custom drag image
-	// 		event.dataTransfer.setDragImage(dragImage, 0, 0);
-	// 	}
-	// 	document.addEventListener('dragstart', handleTouchStart);
-	// });
-	// $: console.log('poolStack', poolStack);
 </script>
 
 <div class="mb-3">
@@ -106,14 +87,14 @@
 </div>
 
 <div class="flex-grow flex flex-col relative overflow-y-auto">
-	{#if !!stack}
+	{#if stack !== undefined}
 		{#each poolStack as s, i (s.name)}
 			<div class="mb-3" animate:flip in:receive={{ key: i }} out:send={{ key: i }}>
 				<h2 class="mb-2 text-lg">{s.name}</h2>
 				<div
 					class:pool={s.type === POOLTYPE}
 					class:stack={s.type !== POOLTYPE}
-					class="overflow-auto mb-3 flex  border-2 mx-2 z-50 items-center gap-2 p-2 "
+					class="overflow-auto mb-3 flex border-2 mx-2 z-50 items-center gap-2 p-2"
 					class:flex-wrap={s.type === POOLTYPE}
 					class:stack-hover={stackHover === s.name &&
 						s.type !== POOLTYPE &&

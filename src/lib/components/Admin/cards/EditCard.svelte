@@ -22,6 +22,7 @@
 
 	import Tabs from '$lib/components/ResponsiveTabs.svelte';
 	import TabItem from '$lib/components/TabItem.svelte';
+	import { onMount } from 'svelte';
 
 	/**
 	 * @type {string[]}
@@ -86,8 +87,10 @@
 	 */
 	let selectedField = null;
 
-	$: getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
-		allTopics = snap.docs.map((doc) => doc.data());
+	onMount(() => {
+		getDocs(collection(db, 'card-envs', selectedEnvId, 'topics')).then((snap) => {
+			allTopics = snap.docs.map((doc) => doc.data());
+		});
 	});
 
 	console.log('currentCard', currentCard);
@@ -107,7 +110,7 @@
 	/>
 </div>
 <div
-	class="grid grid-rows-4 grid-flow-col gap-2 place-items-stretch overflow-y-auto mb-auto items-start"
+	class="flex flex-wrap grid-flow-col gap-2 place-items-stretch overflow-y-auto mb-auto items-start"
 >
 	<FieldThumb
 		type="string"
@@ -163,6 +166,7 @@
 	isOpen={selectedField === TITLE}
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
+	fixedWidth={true}
 	height={null}
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
@@ -184,6 +188,7 @@
 	title={selectedField || undefined}
 	height={null}
 	close={() => (selectedField = null)}
+	fixedWidth={true}
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
@@ -204,6 +209,7 @@
 	isOpen={selectedField === LINKS}
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
+	fixedWidth={true}
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}

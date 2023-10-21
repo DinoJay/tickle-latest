@@ -4,8 +4,7 @@
 	import { goto } from '$app/navigation';
 
 	import Img from '$lib/components/utils/Img.svelte';
-	import { descriptionLocales } from '$lib/constants/locales';
-	import { locale } from '/src/stores/localizationStore';
+	import { titleLocale, descriptionLocale } from '/src/stores/localizationStore';
 
 	/**
 	 * @type {any}
@@ -39,7 +38,7 @@
 	>
 		<p class="flex items-center text-2xl">
 			<span class="mr-1">{visible ? '🤯' : '🙂'}</span>
-			<span>{$$props[titleLocales[$locale]] || title}</span>
+			<span>{$$props[$titleLocale] || title}</span>
 		</p>
 	</button>
 </h2>
@@ -48,7 +47,7 @@
 		<div class="my-2" transition:slide>
 			<Img url={img?.url} style="height:20rem" cls="w-full object-contain" />
 			<p class="my-3 overflow-y-hidden" style="max-height:8rem">
-				{$$props[descriptionLocales[$locale]] || description}
+				{$$props[$descriptionLocale] || description}
 			</p>
 			<button
 				class="w-full p-2 text-xl

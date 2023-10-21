@@ -23,25 +23,6 @@
 	export let backCls = '';
 	export let flipped = false;
 	export let flipCls = '';
-
-	afterUpdate(() => {
-		const body = document.body.style;
-
-		// const modalDivs = document.querySelector('#modals');
-
-		// if (isOpen) {
-		// 	body.setProperty('touch-action', 'none');
-		// 	body.setProperty('overscroll-behavior', 'none');
-		// 	body.setProperty('overflow', 'hidden');
-
-		// 	return;
-		// } else {
-		// 	body.setProperty('touch-action', 'auto');
-		// 	body.setProperty('overscroll-behavior', 'auto');
-		// 	body.setProperty('overflow', 'auto');
-		// }
-	});
-	$: console.log('$$slots', $$slots);
 </script>
 
 {#if isOpen}

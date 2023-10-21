@@ -1,18 +1,15 @@
 <script>
-	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { store } from '/src/stores/index';
 	import { getAuth, signOut } from 'firebase/auth';
-	import { afterNavigate } from '$app/navigation';
 	import { goto } from '$app/navigation';
 	import { clickOutside } from '$lib/components/utils/clickOutside';
 	import Logo from './Logo.svelte';
 	import Burger from './Burger.svelte';
 	import { doc, getDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import { locale } from '/src/stores/localizationStore';
-	import { titleLocales } from '$lib/constants/locales';
+	import { locale, titleLocale } from '/src/stores/localizationStore';
 
 	$: selectedEnvId = $page.params.envId || '';
 	$: console.log('page', $page);
@@ -86,7 +83,7 @@
 		<Logo onClick={() => logOut()} />
 
 		{#await envPromise then env}
-			<div class="mb-3">{env?.title[titleLocales[$locale]] || env?.title || ''}</div>
+			<div class="mb-3">{env?.[$titleLocale] || env?.title || ''}</div>
 
 			<div class="ml-auto relative mr-3 my-auto">
 				{#if $store?.currentUser}

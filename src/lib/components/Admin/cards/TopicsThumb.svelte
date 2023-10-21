@@ -22,8 +22,8 @@
 	$: topics =
 		!!allTopics && !!topicIds ? topicIds.map((id) => allTopics.find((at) => id === at.id)) : [];
 
-	console.log('alltopics', { allTopics }, { topicIds });
-	console.log('topics', topics);
+	$: console.log('alltopics', { allTopics }, { topicIds });
+	$: console.log('topics', topics);
 </script>
 
 {#if allTopics && topics}

@@ -1,7 +1,5 @@
 <script>
-	import DragDropCont from './DragDropCont.svelte';
-	import { v4 as uuid } from 'uuid';
-	import { addNotification } from '/src/stores/notificationStore';
+	import DragDropCont from './InteractDragDropCont.svelte';
 
 	import Confetti from 'svelte-confetti/src/Confetti.svelte';
 	import Notification from '$lib/components/Notifications/Notification.svelte';
@@ -35,6 +33,7 @@
 
 	let pool = {
 		name: 'All Items',
+		id: 'pool',
 		type: POOLTYPE,
 		items: activity.value?.stack.flatMap((d) =>
 			d.items.filter((e) => !allSetItems.find((f) => f.id === e.id))

@@ -1,7 +1,5 @@
 <script>
-	import { titleLocales } from '$lib/constants/locales';
-
-	import { locale } from '/src/stores/localizationStore';
+	import { titleLocale } from '/src/stores/localizationStore';
 
 	export let img = { url: '' };
 	export let title = '';
@@ -20,7 +18,7 @@
 >
 	{#if !!title}
 		<p class="shrink-0 title sm:block hidden">
-			{$$props[titleLocales[$locale]] || 'No Title'}
+			{$$props[$titleLocale] || 'No Title'}
 		</p>
 	{:else}
 		<div class="ph-row">

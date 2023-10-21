@@ -14,13 +14,17 @@
 
 	export let errors;
 	export let succeeded;
+
+	$: console.log('errors', errors);
 </script>
 
-<p class="text-xl">{hint}</p>
+<p class="text-lg">{hint || ''}</p>
 
 {#if !succeeded}
 	{#if errors < 5}
-		<div class="text-7xl flex flex-wrap gap-4 m-auto text-gray-600">
+		<div
+			class="text-7xl flex flex-wrap gap-4 m-auto text-gray-600 h-64 items-center overflow-y-auto"
+		>
 			{#each wordList as l}
 				{#if l.visible}
 					<div>{l.letter}</div>
@@ -29,16 +33,17 @@
 				{/if}
 			{/each}
 		</div>
-		{#if errors > 0}
-			<div class="text-xl mb-1">Errors:</div>
-			<div class="flex gap-2">
-				{#each Array.from(Array(errors)) as _, i}
-					<div class="w-6 h-6 bg-red-400" />
-				{/each}
-			</div>
-		{/if}
+		<div class="mb-1 label text-xl">Errors:</div>
+		<div class="flex gap-2 mb-3">
+			{#if errors === 0}
+				No errors
+			{/if}
+			{#each Array.from(Array(errors)) as _, i}
+				<div class="w-6 h-6 bg-red-400" />
+			{/each}
+		</div>
 	{:else}
-		<div class="text-7xl text-red-400 m-auto">You lost!</div>
+		<div class="text-7xl text-red-400 m-auto h-64 flex items-center"><div>You lost!</div></div>
 	{/if}
 {:else}
 	<div class="flex flex-col text-7xl text-green-400 m-auto overflow-visible">

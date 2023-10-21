@@ -7,6 +7,9 @@
 	import { goto } from '$app/navigation';
 	import SwitchVisBtn from './SwitchVisBtn.svelte';
 	import { GEOMAP, TOPICMAP, UPSET, VISTYPES } from '$lib/constants/visTypes';
+	import { titleLocale } from '/src/stores/localizationStore';
+	import Swipeable from './SwipableCards/Swipeable.svelte';
+	import SwipeCard from './SwipableCards/SwipeCard.svelte';
 
 	export let selectedEnvId = 'undefined';
 	/**
@@ -38,7 +41,7 @@
 
 	const topicIds = topics.map((t) => t.id);
 
-	let selVisType = selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
+	let selVisType = 'SwipeCards'; //selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
 
 	const onCardClick = (id) => {
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
@@ -65,11 +68,18 @@
 			<TopicMap
 				visible={selVisType === TOPICMAP}
 				{cards}
-				{topics}
+				topics={topics.map((d) => ({ ...d, title: d[$titleLocale] || d.title }))}
 				selectedCardId={curCard?.id}
 				selectedEnvironment={selectedEnvId}
 				onClick={onCardClick}
 			/>
+		{/if}
+		{#if selVisType === 'SwipeCards'}
+			<Swipeable>
+				{#each cards as c, i}
+					<SwipeCard cardContent={`${c[$titleLocale]} + ${i}`} isCurrent={i === 0} />
+				{/each}
+			</Swipeable>
 		{/if}
 
 		<SwitchVisBtn

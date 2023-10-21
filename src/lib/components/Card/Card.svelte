@@ -1,5 +1,12 @@
 <script>
 	import {
+		activityLocale,
+		linksLocale,
+		titleLocale,
+		descriptionLocale,
+		videosLocale
+	} from './../../../stores/localizationStore.js';
+	import {
 		activityLocales,
 		descriptionLocales,
 		linksLocales,
@@ -8,16 +15,15 @@
 	} from './../../constants/locales.js';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
-	import { collection, doc, getDocs, setDoc, getDoc } from 'firebase/firestore';
 	// @ts-ignore
 	import { store } from '/src/stores/index';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
-	import Quiz from '$lib/components/Card/Challenge/Quiz/index.svelte';
 	// import Hangman from '$lib/components/Card/Challenge/Hangman/Hangman.svelte';
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
 	import CardBack from './CardBack.svelte';
 	import { locale } from '/src/stores/localizationStore';
+	import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 	$: uid = $store.currentUser.uid;
 
@@ -90,7 +96,7 @@
 
 	let flipped = false;
 
-	$: activity = $$props[activityLocales($locale)];
+	$: activity = $$props[$activityLocale];
 
 	$: console.log('acti', activity);
 	$: activityInformation = {
@@ -117,7 +123,7 @@
 </script>
 
 <LightBox
-	title={$$props[titleLocales[$locale]] || 'No Title'}
+	title={$$props[titleLocale] || 'No Title'}
 	{flipped}
 	isOpen={open}
 	close={() => {
@@ -129,24 +135,24 @@
 	<!-- <div class=" flex flex-col" slot="front"> -->
 	<div slot="front" class=" flex-grow flex flex-col overflow-y-auto">
 		<CardFront
-			description={$$props[descriptionLocales[$locale]] || 'No Description'}
+			description={$$props[$descriptionLocale] || 'No Description'}
 			{description_en}
 			{description_fr}
 			{description_nl}
 			{img}
 			{activity}
 			{topics}
-			links={$$props[linksLocales[$locale]]}
+			links={$$props[$linksLocale]}
 			{id}
 			{open}
 			{onClose}
 			{onChange}
 			{selectedEnvId}
-			videos={$$props[videosLocales[$locale]]}
+			videos={$$props[$videosLocale]}
 			{langs}
 			actSub={curActSub}
 			onSubmit={() => {
-				if ($$props[activityLocales($locale)] !== undefined) activityOpen = true;
+				if ($$props[$activityLocale] !== undefined) activityOpen = true;
 				if (!activity) {
 					const docRef = doc(
 						db,
@@ -182,7 +188,7 @@
 	onClose={() => {
 		activityOpen = false;
 	}}
-	activity={$$props[activityLocales($locale)]}
+	activity={$$props[$activityLocale]}
 	currentActSub={curActSub}
 	onSubmit={(/** @type {any} */ respObj) => {
 		const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', id, 'activitySubmissions', uid);

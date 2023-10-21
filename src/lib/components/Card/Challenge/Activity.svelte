@@ -35,10 +35,11 @@
 		if (activity?.type === GEOCACHING) return activity?.value?.title;
 		if (activity?.type === DRAGDROP) return 'Drag and Drop';
 		if (activity?.type === ORDERLIST) return 'Reorder List';
+		if (activity?.type === HANGMAN) return 'Hangman';
 	};
 </script>
 
-<LightBox title={setTitle()} isOpen={open} close={onClose}>
+<LightBox fixedWidth={true} title={setTitle()} isOpen={open} close={onClose}>
 	{#if activity?.type === QUIZ}
 		<Quiz {...$$props} onResult={(res) => (isResult = res)} />
 	{:else if activity?.type === GEOCACHING}

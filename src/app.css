@@ -38,6 +38,19 @@ body {
 	}
 }
 
+
+.card-width {
+	width: 450px;
+}
+
+
+@screen sm {
+	.card-width {
+		width: auto;
+		min-width: 450px;
+	}
+}
+
 .layout-container {
 	width: 100vw;
 	height: 100vh;

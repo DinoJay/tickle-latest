@@ -1,5 +1,5 @@
 
-import { EN, FR, NL } from '$lib/constants/locales';
+import { EN, FR, NL, activityLocales, descriptionLocales, linksLocales, titleLocales, videosLocales } from '$lib/constants/locales';
 import { writable, get } from 'svelte/store';
 import en from './en.json'
 import fr from './fr.json'
@@ -17,4 +17,10 @@ export const langDict = derived(
         if ($a === NL) return set(nl);
 
     }
-); 
+);
+
+export const titleLocale = derived(locale, ($a) => titleLocales[$a]);
+export const descriptionLocale = derived(locale, ($a) => descriptionLocales[$a]);
+export const activityLocale = derived(locale, ($a) => activityLocales($a));
+export const linksLocale = derived(locale, ($a) => linksLocales[$a]);
+export const videosLocale = derived(locale, ($a) => videosLocales[$a]); 
