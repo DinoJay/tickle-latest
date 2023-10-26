@@ -3,6 +3,8 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
+	import Check from 'svelte-material-icons/CheckBold.svelte';
+
 	export let selectedStartIndex = 0;
 	export let single = false;
 	export let style = '';
@@ -30,7 +32,7 @@
 <nav class="flex flex-wrap gap-1 mb-3">
 	{#each $tabs as tab, i}
 		<button
-			class="btn flex-1 uppercase"
+			class="btn flex-1 uppercase flex items-center"
 			class:disabled={$tabs.length === 1}
 			aria-disabled={$tabs.length === 1}
 			class:sel-btn={tab.active || $tabs.length === 1}
@@ -46,7 +48,16 @@
 			}}
 			style:background={tab.color}
 		>
-			{tab.title}
+			<div class="m-auto flex items-center">
+				<div>
+					{tab.title}
+				</div>
+				{#if tab.checked === true}
+					<div class="ml-1">
+						<Check />
+					</div>
+				{/if}
+			</div>
 		</button>
 	{/each}
 </nav>

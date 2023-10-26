@@ -167,10 +167,11 @@
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
-			<TabItem title={l}>
+			{@const ts = currentCard[titleLocales[l]]}
+			<TabItem title={l} checked={!!ts}>
 				<EditTitle
 					onClose={() => (selectedField = null)}
-					title={currentCard[titleLocales[l]]}
+					title={ts}
 					onChange={(title) => onChange({ ...currentCard, [titleLocales[l]]: title })}
 				/>
 			</TabItem>
@@ -187,9 +188,10 @@
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
-			<TabItem title={l}>
+			{@const ds = currentCard[descriptionLocales[l]]}
+			<TabItem title={l} checked={!!ds}>
 				<EditDescr
-					description={currentCard[descriptionLocales[l]]}
+					description={ds}
 					onClose={() => (selectedField = null)}
 					onChange={(description) =>
 						onChange({ ...currentCard, [descriptionLocales[l]]: description })}
@@ -207,7 +209,8 @@
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
-			<TabItem title={l}>
+			{@const vs = currentCard[linksLocales[l]]}
+			<TabItem title={l} checked={!!vs && vs.length > 0}>
 				<EditLinks
 					onClose={() => (selectedField = null)}
 					links={currentCard[linksLocales[l]]}
@@ -244,13 +247,14 @@
 	isOpen={selectedField === VIDEOS}
 	title={selectedField || undefined}
 	close={() => (selectedField = null)}
-	fullHeight={true}
+	fixedHeight={true}
 >
 	<Tabs selectedStartIndex={tabStartIndex}>
 		{#each langs as l (l)}
-			<TabItem title={l}>
+			{@const vs = currentCard[videosLocales[l]]}
+			<TabItem title={l} checked={!!vs && vs.length !== 0}>
 				<EditYoutube
-					videos={currentCard[videosLocales[l]]}
+					videos={vs}
 					onClose={() => (selectedField = null)}
 					onChange={(videos) => onChange({ ...currentCard, [videosLocales[l]]: videos })}
 				/>

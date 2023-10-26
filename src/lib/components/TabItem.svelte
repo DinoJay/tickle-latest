@@ -1,12 +1,13 @@
 <script>
 	import uniqBy from 'lodash.uniqBy';
 	import { slide } from 'svelte/transition';
-	import { getContext, onDestroy, onMount } from 'svelte';
+	import { getContext, onDestroy, onMount, afterUpdate } from 'svelte';
 
 	// get the tabs store from the context
 	const { tabs } = getContext('tabs');
 
 	export let title;
+	export let checked;
 	let index;
 
 	// pull out current tab, updates whenever store changes
@@ -20,9 +21,15 @@
 		$tabs = [...$tabs, { title }];
 	});
 
-	// onDestroy(() => {
-	// 	$tabs = $tabs.filter((d, i) => i !== index);
-	// });
+	afterUpdate(() => {
+		$tabs = $tabs.map((t) => {
+			if (t.title === title) {
+				return { ...t, checked, title };
+			}
+
+			return { ...t };
+		});
+	});
 
 	$: tab = $tabs[index];
 </script>

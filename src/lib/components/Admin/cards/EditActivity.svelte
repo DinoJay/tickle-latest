@@ -180,7 +180,7 @@
 	isOpen={selectedActivity === ORDERLIST}
 	close={() => (selectedActivity = null)}
 	width="100%"
-	fullHeight={true}
+	fixedHeight={true}
 >
 	<Tabs>
 		{#each langs as l, i}

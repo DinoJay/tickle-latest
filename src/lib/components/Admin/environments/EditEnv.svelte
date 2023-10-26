@@ -1,4 +1,5 @@
 <script>
+	import CardsOutline from 'svelte-material-icons/CardsOutline.svelte';
 	import CompassOutline from 'svelte-material-icons/CompassOutline.svelte';
 	import Poll from 'svelte-material-icons/Poll.svelte';
 	import Dots from 'svelte-material-icons/DotsHexagon.svelte';
@@ -6,7 +7,7 @@
 	import { EN, FR, NL, descriptionLocales, titleLocales } from '$lib/constants/locales';
 	import ResponsiveTabs from '$lib/components/ResponsiveTabs.svelte';
 	import TabItem from '$lib/components/ResponsiveTabs.svelte';
-	import { VISTYPES, GEOMAP, UPSET, TOPICMAP } from '$lib/constants/visTypes';
+	import { VISTYPES, GEOMAP, UPSET, TOPICMAP, SWIPECARDS } from '$lib/constants/visTypes';
 
 	export let env = {
 		id: null,
@@ -76,10 +77,10 @@
 	</div>
 	<div class="mb-3">
 		<div><label class="form-text" for="description">User Views:</label></div>
-		<div class="flex gap-1">
+		<div class="flex gap-1 flex-wrap">
 			{#each VISTYPES as v}
 				<button
-					class="small-btn flex-grow uppercase flex items-center"
+					class="small-btn w-52 flex-none flex-grow uppercase flex items-center"
 					class:sel-btn={userViews?.includes(v)}
 					on:click={() => {
 						let newViews;
@@ -98,13 +99,16 @@
 					<span>{v}</span>
 
 					{#if v === GEOMAP}
-						<span class="m-auto spinner"> <CompassOutline size={32} /></span>
+						<span class="ml-auto spinner"> <CompassOutline size={32} /></span>
 					{/if}
 					{#if v === TOPICMAP}
-						<span class="m-auto"> <Dots size={32} /></span>
+						<span class="ml-auto"> <Dots size={32} /></span>
 					{/if}
 					{#if v === UPSET}
-						<span class="m-auto"> <Poll size={32} /></span>
+						<span class="ml-auto"> <Poll size={32} /></span>
+					{/if}
+					{#if v === SWIPECARDS}
+						<span class="ml-auto"> <CardsOutline size={32} /></span>
 					{/if}
 				</button>
 			{/each}
