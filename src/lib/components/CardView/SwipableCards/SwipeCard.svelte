@@ -1,12 +1,21 @@
 <script>
-	export let isCurrent;
-	export let cardContent;
+	import { getContext, onMount } from 'svelte';
+
+	const { cards } = getContext('swipeableCards');
+
+	let index;
+	onMount(() => {
+		// compute index
+		index = $cards.length;
+
+		// add a record to the tabs store
+		$cards = [...$cards, { index }];
+	});
+
+	$: card = $cards[index];
+	$: console.log('card', card);
 </script>
 
-<div
-	class="card w-48 h-48 absolute bg-white"
-	data-dragging="false"
-	data-status={isCurrent === true ? 'current' : 'waiting'}
->
-	<span class="card_content">{cardContent}</span>
+<div>
+	<slot />
 </div>

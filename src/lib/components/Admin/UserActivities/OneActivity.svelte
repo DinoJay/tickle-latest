@@ -1,5 +1,5 @@
 <script>
-	import Card from '$lib/components/Card/Card.svelte';
+	import Card from '$lib/components/Card/CardLightBox.svelte';
 	import ActivitySubLog from './ActivitySubLog.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, getDoc } from 'firebase/firestore';

@@ -1,4 +1,5 @@
 <script>
+	import { activityLocale } from './../../../stores/localizationStore.js';
 	import Img from '$lib/components/utils/Img.svelte';
 	import TopicsPreview from './TopicsField.svelte';
 
@@ -14,10 +15,6 @@
 	 * @type {string | undefined}
 	 */
 	export let img = '';
-	/**
-	 * @type {{ type: string | undefined; }}
-	 */
-	export let activity;
 	/**
 	 * @type {any}
 	 */
@@ -35,13 +32,15 @@
 	 */
 	export let onSubmit;
 	/**
-	 * @type {{ succeeded: boolean; }}
+	 * @type {object}
 	 */
 	export let actSub;
 
 	$: console.log('actSub', actSub);
 
 	$: console.log('activity', activity);
+
+	$: activity = $$props[$activityLocale];
 </script>
 
 <div class="flex-grow overflow-auto">
@@ -61,10 +60,10 @@
 </div>
 <button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
 	{#if actSub?.succeeded}
-		Collected {#if activity?.type !== undefined}
+		Collected {#if !!activity?.type}
 			{activity.type}
 		{/if}
-	{:else if activity !== undefined}
+	{:else if !!activity}
 		Challenge: {activity.type}
 	{:else if !activity}
 		Collect

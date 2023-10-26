@@ -45,91 +45,93 @@
 	 * @type {string }
 	 */
 
-	let lang = selLang || LANGS[0];
-	$: console.log('lang', lang);
-	$: titleKey = titleLocales[lang];
-	$: console.log('titleKey', titleKey);
+	let ls = [selLang || LANGS[0]];
 
 	// const descrLocaleso = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
-	$: createDisabled = !currentTopic[titleKey] || !currentTopic.color;
+	$: createDisabled =
+		langs.map((l) => currentTopic[titleLocales[l]]).find((t) => !t) || !currentTopic.color;
 </script>
 
-<div class="flex gap-1 mb-3">
-	{#each langs as l}
-		<button
-			class="flex-grow btn uppercase"
-			class:disabled={langs.length === 1}
-			class:sel-btn={lang === l || langs.length === 1}
-			on:click={() => (lang = l)}>{l}</button
-		>
-	{/each}
-</div>
-<form
-	class="flex-initial flex flex-grow flex-col overlflow-y-auto"
-	on:submit={(e) => e.preventDefault()}
->
-	<div class="mb-3">
-		<div class="label">
-			<label for="title">Title:</label>
-		</div>
-		<input
-			placeholder="Enter your title"
-			value={currentTopic[titleKey] || ''}
-			class="border-2 p-2 w-full"
-			on:input={(e) => {
-				onChange({ ...currentTopic, [titleKey]: e.target.value });
-			}}
-		/>
-		<abs />
+<div class="overflow-y-auto">
+	<div class="flex gap-1 mb-3">
+		{#each langs as l}
+			<button
+				class="flex-grow btn uppercase"
+				class:disabled={langs.length === 1}
+				class:sel-btn={ls.includes(l)}
+				on:click={() => (ls = ls.includes(l) ? ls.filter((d) => d !== l) : [...ls, l])}>{l}</button
+			>
+		{/each}
 	</div>
-	<div class="mb-3">
-		<div class="label">
-			<label for="image">Image:</label>
+	<form
+		class="flex-initial flex flex-grow flex-col overlflow-y-auto"
+		on:submit={(e) => e.preventDefault()}
+	>
+		{#each ls as l}
+			<div class="mb-3">
+				<div class="label">
+					<label for="title">Title <span class="uppercase">{l}</span>:</label>
+				</div>
+				<input
+					placeholder="Enter your title"
+					value={currentTopic[titleLocales[l]] || ''}
+					class="border-2 p-2 w-full"
+					on:input={(e) => {
+						onChange({ ...currentTopic, [titleLocales[l]]: e.target.value });
+					}}
+				/>
+				<abs />
+			</div>
+		{/each}
+		<div class="mb-3">
+			<div class="label">
+				<label for="image">Image:</label>
+			</div>
+			<UploadFile
+				url={currentTopic.img?.url}
+				onChange={(url, name) => {
+					const newTopic = { ...currentTopic, img: { name, url } };
+					console.log('new topic', newTopic);
+					onChange(newTopic);
+				}}
+			/>
 		</div>
-		<UploadFile
-			url={currentTopic.img?.url}
-			onChange={(url, name) => {
-				const newTopic = { ...currentTopic, img: { name, url } };
-				console.log('new topic', newTopic);
-				onChange(newTopic);
-			}}
-		/>
-	</div>
-	<div class="mb-3">
-		<div class="label">
-			<label for="color">Color:</label>
+		<div class="mb-3">
+			<div class="label">
+				<label for="color">Color:</label>
+			</div>
+			<SelectColor
+				color={currentTopic.color}
+				onChange={(color) => {
+					console.log('new color', color);
+					const newTopic = { ...currentTopic, color };
+					onChange(newTopic);
+				}}
+			/>
 		</div>
-		<SelectColor
-			color={currentTopic.color}
-			onChange={(color) => {
-				console.log('new color', color);
-				const newTopic = { ...currentTopic, color };
-				onChange(newTopic);
-			}}
-		/>
-	</div>
 
-	<div class="mt-auto">
-		{#if onCreate}
-			<button
-				class="create-btn w-full"
-				class:disabled={createDisabled}
-				aria-disabled={createDisabled}
-				on:click={() => {
-					if (createDisabled) return;
-					onCreate(currentTopic.id);
-				}}>Create</button
-			>
-		{:else}
-			<button
-				class="del-btn w-full"
-				on:click={() => {
-					onRemove(currentTopic.id);
-				}}>Delete</button
-			>
-		{/if}
-	</div>
-</form>
+		<div class="mt-auto">
+			{#if onCreate}
+				<button
+					class="create-btn w-full"
+					class:disabled={createDisabled}
+					aria-disabled={createDisabled}
+					on:click={() => {
+						if (createDisabled) return;
+						onCreate(currentTopic.id);
+					}}>Create</button
+				>
+			{:else}
+				<button
+					class="del-btn w-full"
+					on:click={() => {
+						onRemove(currentTopic.id);
+					}}>Delete</button
+				>
+			{/if}
+		</div>
+	</form>
+</div>
 
 <style>
 	input {

@@ -1,6 +1,5 @@
 <script>
 	import { titleLocale } from '/src/stores/localizationStore';
-	import { titleLocales } from '$lib/constants/locales';
 
 	export let topics;
 	export let cls = '';

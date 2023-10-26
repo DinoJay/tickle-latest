@@ -2,7 +2,6 @@
 	import { modalPortal } from '$lib/portalAction';
 	import { blur, fly, fade } from 'svelte/transition';
 	import LightBoxContent from './LightBoxContent.svelte';
-	import Modal from './Modal.svelte';
 	// import { v4 as uuidv4 } from 'uuid';
 
 	export let isOpen = false;
@@ -12,11 +11,22 @@
 	export let isMandatory = false;
 </script>
 
-<Modal {...$$props}>
-	<LightBoxContent {...$$props}>
+{#if isOpen}
+	<div
+		on:keydown={() => null}
+		use:modalPortal
+		class="fixed modal cont w-full h-full flex z-50"
+		transition:blur
+		on:click={(/** @type {{ stopPropagation: () => void; }} */ e) => {
+			if (!isMandatory) {
+				e.stopPropagation();
+				// close();
+			}
+		}}
+	>
 		<slot />
-	</LightBoxContent>
-</Modal>
+	</div>
+{/if}
 
 <style>
 	.modal {

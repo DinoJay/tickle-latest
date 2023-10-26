@@ -6,10 +6,10 @@
 	import Card from '../Card/Card.svelte';
 	import { goto } from '$app/navigation';
 	import SwitchVisBtn from './SwitchVisBtn.svelte';
-	import { GEOMAP, TOPICMAP, UPSET, VISTYPES } from '$lib/constants/visTypes';
+	import { GEOMAP, TOPICMAP, UPSET, SWIPECARDS, VISTYPES } from '$lib/constants/visTypes';
 	import { titleLocale } from '/src/stores/localizationStore';
 	import Swipeable from './SwipableCards/Swipeable.svelte';
-	import SwipeCard from './SwipableCards/SwipeCard.svelte';
+	import CardLightBox from '../Card/CardLightBox.svelte';
 
 	export let selectedEnvId = 'undefined';
 	/**
@@ -39,9 +39,7 @@
 	$: curCard = cards?.find((card) => card.id === selectedCardId);
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
 
-	const topicIds = topics.map((t) => t.id);
-
-	let selVisType = 'SwipeCards'; //selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
+	let selVisType = selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
 
 	const onCardClick = (id) => {
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
@@ -74,10 +72,19 @@
 				onClick={onCardClick}
 			/>
 		{/if}
-		{#if selVisType === 'SwipeCards'}
+		{#if selVisType === SWIPECARDS}
 			<Swipeable>
 				{#each cards as c, i}
-					<SwipeCard cardContent={`${c[$titleLocale]} + ${i}`} isCurrent={i === 0} />
+					<Card
+						{...c}
+						open={selectedCardId !== undefined}
+						langs={selectedEnv.langs}
+						{selectedEnvId}
+						onClose={() => {
+							//TODO: wrong fix that
+							selectedCardId = null;
+						}}
+					/>
 				{/each}
 			</Swipeable>
 		{/if}
@@ -93,7 +100,7 @@
 </div>
 {#if !!selectedCardId && !!extended}
 	{#key selectedCardId}
-		<Card
+		<CardLightBox
 			open={!!selectedCardId}
 			langs={selectedEnv.langs}
 			{selectedEnvId}
@@ -101,7 +108,6 @@
 				//TODO: wrong fix that
 				selectedCardId = null;
 			}}
-			onActivitySubmit={(sub) => {}}
 			{...curCard}
 		/>
 	{/key}

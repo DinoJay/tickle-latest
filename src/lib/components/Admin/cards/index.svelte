@@ -10,6 +10,7 @@
 	import EditCardBack from './EditCardBack.svelte';
 	import Spinner from '$lib/components/utils/Spinner.svelte';
 	import { titleLocales, LANGS, EN } from '$lib/constants/locales.js';
+	import Modal from '$lib/components/utils/Modal.svelte';
 
 	/**
 	 * @type {any[]}
@@ -35,8 +36,6 @@
 	 */
 	export let selLang;
 
-	$: titleKey = titleLocales[selLang];
-
 	/**
 	 * @type {string | null}
 	 */
@@ -46,6 +45,8 @@
 	let flipped = false;
 
 	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
+
+	$: titleKey = titleLocales[selLang];
 </script>
 
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
@@ -71,22 +72,15 @@
 	<button class="flex-grow create-btn" on:click={() => (slOpen = true)}>Load Cards</button>
 </div>
 
-<LightBox
-	isOpen={!!selectedCardId}
-	title={selectedCard?.[titleKey] || 'No Title'}
-	close={() => {
-		selectedCardId = null;
-		flipped = false;
-	}}
-	{flipped}
-	onFlip={() => (flipped = !flipped)}
->
+<Modal isOpen={!!selectedCardId}>
 	<EditCard
-		slot="front"
 		currentCard={selectedCard}
 		{langs}
 		{selLang}
 		{selectedEnvId}
+		onClose={() => {
+			selectedCardId = null;
+		}}
 		onRemove={(d) => {
 			console.log('d', d);
 			const newCards = cards.filter((oc) => oc.id !== d.id);
@@ -106,13 +100,15 @@
 			onChange(newCards);
 		}}
 	/>
-	<EditCardBack slot="back" cardId={selectedCardId} {selectedEnvId} uid={$store.currentUser.uid} />
-</LightBox>
-<LightBox isOpen={!!lbNcOpen} title={'New Card'} close={() => (lbNcOpen = false)}>
+</Modal>
+<Modal isOpen={!!lbNcOpen} close={() => (lbNcOpen = false)}>
 	<NewCard
 		{selectedEnvId}
 		{langs}
 		{selLang}
+		onClose={() => {
+			lbNcOpen = false;
+		}}
 		onCreate={(c) => {
 			lbNcOpen = false;
 			const docRef = doc(db, 'card-envs', selectedEnvId, 'cards', c.id);
@@ -120,7 +116,7 @@
 			onChange([c, ...cards]);
 		}}
 	/>
-</LightBox>
+</Modal>
 
 <LightBox cls="overflow-y-auto" title="Load Cards" isOpen={slOpen} close={() => (slOpen = false)}
 	><StaticLoader

@@ -6,7 +6,7 @@
 	// import { fly } from 'svelte/transition';
 
 	export let cls = '';
-	export let style;
+	export let style = '';
 	export let flipped = false;
 
 	const duration = 500;

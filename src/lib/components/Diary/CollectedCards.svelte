@@ -1,7 +1,7 @@
 <script>
 	import CollectedCards from './../home/cards/CollectedCards.svelte';
 	import SelectColor from './../Admin/Topics/SelectColor.svelte';
-	import Card from '../Card/Card.svelte';
+	import Card from '../Card/CardLightBox.svelte';
 	import uniqBy from 'lodash.uniqBy';
 	import group from '$lib/group';
 

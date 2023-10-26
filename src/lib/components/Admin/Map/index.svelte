@@ -1,7 +1,7 @@
 <script>
 	import Mapbox from '$lib/components/map/Mapbox.svelte';
 	import DraggableMarker from '$lib/components/map/markers/DraggableMarker.svelte';
-	import LightBox from '$lib/components/utils/LightBox.svelte';
+	import Modal from '$lib/components/utils/Modal.svelte';
 	import EditCard from '../cards/EditCard.svelte';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { doc, getDoc, deleteDoc, setDoc } from 'firebase/firestore';
@@ -22,6 +22,9 @@
 	 * @type {(arg0: any[]) => void}
 	 */
 	export let onChange;
+
+	export let langs;
+	export let selLang;
 	/**
 	 * @type {string | null}
 	 */
@@ -70,14 +73,13 @@
 			/>
 		{/each}
 	</Mapbox>
-	<LightBox
-		title={selectedCard?.title}
-		isOpen={!!selectedCardId}
-		close={() => (selectedCardId = null)}
-	>
+	<Modal isOpen={!!selectedCardId}>
 		<EditCard
 			{selectedEnvId}
 			currentCard={selectedCard}
+			onClose={() => (selectedCardId = null)}
+			{langs}
+			{selLang}
 			onRemove={(d) => {
 				console.log('d', d);
 				const newCards = cards.filter((oc) => oc.id !== d.id);
@@ -90,5 +92,5 @@
 				setCard(c);
 			}}
 		/>
-	</LightBox>
+	</Modal>
 </div>

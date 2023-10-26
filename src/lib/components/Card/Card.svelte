@@ -5,14 +5,17 @@
 		titleLocale,
 		descriptionLocale,
 		videosLocale
-	} from './../../../stores/localizationStore.js';
+	} from '../../../stores/localizationStore.js';
+
+	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
+	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
 	import {
 		activityLocales,
 		descriptionLocales,
 		linksLocales,
 		titleLocales,
 		videosLocales
-	} from './../../constants/locales.js';
+	} from '../../constants/locales.js';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	// @ts-ignore
@@ -24,10 +27,10 @@
 	import CardBack from './CardBack.svelte';
 	import { locale } from '/src/stores/localizationStore';
 	import { doc, getDoc, setDoc } from 'firebase/firestore';
+	import FlipCard from './FlipCard.svelte';
 
 	$: uid = $store.currentUser.uid;
 
-	export let title = '';
 	/**
 	 * @type {any}
 	 */
@@ -40,7 +43,7 @@
 	 * @type {any}
 	 */
 	export let activity_nl;
-	export let id = '';
+	export let id;
 	export let open = false;
 	/**
 	 * @type {any}
@@ -92,9 +95,16 @@
 
 	export let onActivitySubmit = (d) => d;
 
+	export let height;
+	export let width;
+	export let backCls;
+	export let cls;
+
 	let activityOpen = false;
 
 	let flipped = false;
+
+	let titleExpanded = false;
 
 	$: activity = $$props[$activityLocale];
 
@@ -120,39 +130,51 @@
 		}
 	}
 	$: console.log('curActSub ', curActSub);
+	const maxCardWidth = 450;
+	const maxCardHeight = 700;
+
+	const onFlip = () => {
+		flipped = !flipped;
+	};
+	$: title = $$props[$titleLocale];
 </script>
 
-<LightBox
-	title={$$props[titleLocale] || 'No Title'}
+<FlipCard
+	style="max-width:{maxCardWidth}px;max-height:{maxCardHeight}px"
+	cls="drop-shadow-xl w-full h-full {cls}"
 	{flipped}
-	isOpen={open}
-	close={() => {
-		onClose();
-		flipped = false;
-	}}
-	onFlip={() => (flipped = !flipped)}
 >
-	<!-- <div class=" flex flex-col" slot="front"> -->
-	<div slot="front" class=" flex-grow flex flex-col overflow-y-auto">
+	<div
+		slot="front"
+		class="bg-white h-full w-full flex flex-col p-3 max-h-full"
+		on:keydown={() => null}
+		on:click={(e) => e.stopPropagation()}
+	>
+		<div class=" flex mb-3 items-start">
+			<div
+				class="text-xl flex transition uppercase cursor-pointer"
+				class:crop={!titleExpanded}
+				on:click={() => (titleExpanded = !titleExpanded)}
+				on:keydown={() => (titleExpanded = !titleExpanded)}
+				style="max-width:90%"
+			>
+				<h1>
+					{title}
+				</h1>
+			</div>
+			<button on:click={onFlip} class=" ml-auto">
+				<TurnIcon size="1.5em" />
+			</button>
+			<button on:click={onClose} class="ml-3">
+				<WindowClose size="1.5em" />
+			</button>
+		</div>
 		<CardFront
-			description={$$props[$descriptionLocale] || 'No Description'}
-			{description_en}
-			{description_fr}
-			{description_nl}
-			{img}
-			{activity}
-			{topics}
-			links={$$props[$linksLocale]}
-			{id}
-			{open}
-			{onClose}
-			{onChange}
-			{selectedEnvId}
-			videos={$$props[$videosLocale]}
-			{langs}
+			{...$$props}
 			actSub={curActSub}
 			onSubmit={() => {
 				if ($$props[$activityLocale] !== undefined) activityOpen = true;
+				console.log('yeah');
 				if (!activity) {
 					const docRef = doc(
 						db,
@@ -173,15 +195,23 @@
 					setDoc(docRef, actSub);
 					// console.log('submit', actSub);
 					curActSub = actSub;
-					onActivitySubmit(actSub);
 				}
 			}}
 		/>
 	</div>
-	<div slot="back" class="w-full h-full flex flex-col">
-		<CardBack {selectedEnvId} cardId={id} {uid} />
+	<div slot="back" class={`${backCls} bg-white flex flex-col h-full w-full p-3 max-h-full`}>
+		<div class=" flex mb-3">
+			<div class="text-xl crop uppercase" style="max-width:90%">{title}</div>
+			<button on:click={onFlip} class=" ml-auto">
+				<TurnIcon size="1.5em" />
+			</button>
+			<button on:click={onClose} class="ml-3">
+				<WindowClose size="1.5em" />
+			</button>
+		</div>
+		<CardBack {...$$props} cardId={id} />
 	</div>
-</LightBox>
+</FlipCard>
 
 <Activity
 	open={activityOpen}

@@ -12,7 +12,7 @@
 	import { store } from '/src/stores/index';
 
 	import { LOG_ACTIVITY_SUBTYPE } from './UserActivities/logTypes';
-	import { LANGS, EN } from '$lib/constants/locales';
+	import { LANGS, EN, titleLocales } from '$lib/constants/locales';
 
 	/**
 	 * @type {any[]}
@@ -71,7 +71,7 @@
 
 <!-- {#if $store?.currentUser?.admin} -->
 <div class="grid grid-cols-1 gap-3 m-2">
-	<Panel title={selectedEnv.title}>
+	<Panel title={selectedEnv[titleLocales[selLang]]}>
 		<Environments {envs} {selectedEnv} {selLang} {onSelectEnv} onChange={onEnvsChange} />
 		<div slot="header" class="flex gap-1">
 			{#each langs as l}
@@ -114,7 +114,7 @@
 
 	<div>
 		<Panel title={`Map`} height={'40rem'}>
-			<Map {cards} {selectedEnvId} onChange={onCardsChange} {selLang} />
+			<Map {cards} {selectedEnvId} onChange={onCardsChange} {selLang} langs={selectedEnv?.langs} />
 		</Panel>
 	</div>
 	<div>

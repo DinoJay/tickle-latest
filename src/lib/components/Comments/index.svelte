@@ -22,10 +22,15 @@
 	 */
 	let comments = [];
 
+	$: console.log('card-envs', selectedEnvId, 'cards', cardId, 'comments');
 	$: commentsPromise = getDocs(
 		collection(db, 'card-envs', selectedEnvId, 'cards', cardId, 'comments')
 	).then((snap) => {
-		comments = snap.docs.map((doc) => doc.data());
+		console.log('snap', snap);
+		comments = snap.docs.map((doc) => {
+			console.log('doc', doc);
+			return doc.data();
+		});
 	});
 </script>
 
