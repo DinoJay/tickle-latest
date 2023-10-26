@@ -6,6 +6,7 @@
 	import { LANGS, titleLocales } from '$lib/constants/locales';
 	import Tabs from '$lib/components/Tabs.svelte';
 
+	import Check from 'svelte-material-icons/CheckBold.svelte';
 	export let currentTopic = {
 		title: null,
 		title_en: null,
@@ -50,24 +51,16 @@
 	// const descrLocaleso = { [EN]: 'description_en', [FR]: 'description_fr', [NL]: 'description_nl' };
 	$: createDisabled =
 		langs.map((l) => currentTopic[titleLocales[l]]).find((t) => !t) || !currentTopic.color;
+
+	$: console.log('currentTopic', currentTopic);
 </script>
 
 <div class="overflow-y-auto">
-	<div class="flex gap-1 mb-3">
-		{#each langs as l}
-			<button
-				class="flex-grow btn uppercase"
-				class:disabled={langs.length === 1}
-				class:sel-btn={ls.includes(l)}
-				on:click={() => (ls = ls.includes(l) ? ls.filter((d) => d !== l) : [...ls, l])}>{l}</button
-			>
-		{/each}
-	</div>
 	<form
 		class="flex-initial flex flex-grow flex-col overlflow-y-auto"
 		on:submit={(e) => e.preventDefault()}
 	>
-		{#each ls as l}
+		{#each langs as l}
 			<div class="mb-3">
 				<div class="label">
 					<label for="title">Title <span class="uppercase">{l}</span>:</label>
@@ -76,7 +69,7 @@
 					placeholder="Enter your title"
 					value={currentTopic[titleLocales[l]] || ''}
 					class="border-2 p-2 w-full"
-					on:input={(e) => {
+					on:change={(e) => {
 						onChange({ ...currentTopic, [titleLocales[l]]: e.target.value });
 					}}
 				/>
