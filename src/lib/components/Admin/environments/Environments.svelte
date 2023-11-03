@@ -85,7 +85,6 @@
 	title={selectedEnv[titleLocales[selLang]] || selectedEnv?.title || 'Edit Environment'}
 	isOpen={lbOpen}
 	close={() => (lbOpen = false)}
-	fixedWidth={true}
 >
 	<EditEnvironment
 		env={selectedEnv}

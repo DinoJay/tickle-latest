@@ -3,11 +3,12 @@
 	import CompassOutline from 'svelte-material-icons/CompassOutline.svelte';
 	import Poll from 'svelte-material-icons/Poll.svelte';
 	import Dots from 'svelte-material-icons/DotsHexagon.svelte';
+	import CardsOutline from 'svelte-material-icons/CardsOutline.svelte';
 	export let selected;
 	export let all;
 	export let onClick;
 	import { fly } from 'svelte/transition';
-	import { GEOMAP, TOPICMAP, UPSET } from '../../constants/visTypes';
+	import { GEOMAP, SWIPECARDS, TOPICMAP, UPSET } from '../../constants/visTypes';
 
 	let extended = false;
 </script>
@@ -31,6 +32,11 @@
 					{/if}
 					{#if t === UPSET}
 						<span class="m-auto"> <Poll size={32} /></span>
+					{/if}
+					{#if t === SWIPECARDS}
+						<span class="m-auto">
+							<CardsOutline size={32} />
+						</span>
 					{/if}
 				</button>
 			{/each}

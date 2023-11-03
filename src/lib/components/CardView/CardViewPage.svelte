@@ -73,20 +73,14 @@
 			/>
 		{/if}
 		{#if selVisType === SWIPECARDS}
-			<Swipeable>
-				{#each cards as c, i}
-					<Card
-						{...c}
-						open={selectedCardId !== undefined}
-						langs={selectedEnv.langs}
-						{selectedEnvId}
-						onClose={() => {
-							//TODO: wrong fix that
-							selectedCardId = null;
-						}}
-					/>
-				{/each}
-			</Swipeable>
+			<Swipeable
+				{cards}
+				{selectedEnv}
+				onClose={() => {
+					//TODO: wrong fix that
+					selectedCardId = null;
+				}}
+			/>
 		{/if}
 
 		<SwitchVisBtn

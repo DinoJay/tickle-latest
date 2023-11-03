@@ -5,8 +5,6 @@
 	import Dots from 'svelte-material-icons/DotsHexagon.svelte';
 	import UploadFile from '$lib/components/utils/UploadFile.svelte';
 	import { EN, FR, NL, descriptionLocales, titleLocales } from '$lib/constants/locales';
-	import ResponsiveTabs from '$lib/components/ResponsiveTabs.svelte';
-	import TabItem from '$lib/components/ResponsiveTabs.svelte';
 	import { VISTYPES, GEOMAP, UPSET, TOPICMAP, SWIPECARDS } from '$lib/constants/visTypes';
 
 	export let env = {

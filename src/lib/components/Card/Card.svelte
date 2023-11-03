@@ -99,6 +99,7 @@
 	export let width;
 	export let backCls;
 	export let cls;
+	export let style = '';
 
 	let activityOpen = false;
 
@@ -140,7 +141,7 @@
 </script>
 
 <FlipCard
-	style="max-width:{maxCardWidth}px;max-height:{maxCardHeight}px"
+	style="max-width:{maxCardWidth}px;max-height:{maxCardHeight}px;{style}"
 	cls="drop-shadow-xl w-full h-full {cls}"
 	{flipped}
 >
