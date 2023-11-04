@@ -27,7 +27,7 @@
 
 	$: sections = [
 		{
-			name: $langDict.user_view,
+			name: 'Select environments/User View',
 			go: () => {
 				goto(`/cardview/environment/${currentRoute === adminRoute ? selectedEnvId : ''}`);
 			}
@@ -94,7 +94,7 @@
 			{#if !collapsed}
 				<div
 					transition:fly={{ x: 400, duration: 500, opacity: 1 }}
-					class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-20 bg-gray-700"
+					class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-50 bg-gray-700"
 				>
 					{#each sections as section}
 						<button

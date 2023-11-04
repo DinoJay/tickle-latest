@@ -11,9 +11,10 @@
 	import { GEOMAP, SWIPECARDS, TOPICMAP, UPSET } from '../../constants/visTypes';
 
 	let extended = false;
+	export let cls;
 </script>
 
-<div class="absolute bottom-8 right-5">
+<div class={cls}>
 	{#if extended}
 		<div transition:fly>
 			{#each all.filter((d) => d !== selected) as t}
@@ -22,7 +23,7 @@
 						onClick(t);
 						extended = false;
 					}}
-					class=" z-20 flex items-center p-2 mb-1 border-2 border-black rounded-full"
+					class="z-10 flex items-center p-2 mb-1 border-2 border-black rounded-full"
 				>
 					{#if t === GEOMAP}
 						<span class="m-auto spinner"> <CompassOutline size={32} /></span>
@@ -45,7 +46,7 @@
 
 	<button
 		on:click={() => (extended = !extended)}
-		class=" z-20 flex items-center p-2 border-2 border-black rounded-full"
+		class=" z-10 flex items-center p-2 border-2 border-black rounded-full"
 	>
 		{#if selected === GEOMAP}
 			<span class="m-auto"> <CompassOutline size={32} /></span>

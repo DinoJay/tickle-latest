@@ -12,6 +12,7 @@
 
 	// const POOLTYPE = 'pool';
 	$: console.log('activity ORDER', activity);
+
 	let itemSlots = currentActSub?.response || [
 		...activity.value?.itemList?.map((d) => ({ id: uuid(), itemId: null }))
 	];
@@ -20,17 +21,15 @@
 		(d) => itemSlots.find((e) => e.itemId === d.id) === undefined
 	);
 
-	$: description = activity.value?.description;
-
-	$: allItems = activity.value?.itemList;
-	$: console.log('allItems', allItems);
+	const description = activity.value?.description;
+	const allItems = activity.value?.itemList;
 
 	const isSuccess = (itemList, itemSlots) => {
 		const itemIds = itemList.map((d) => d.id);
 		const slotIds = itemSlots.map((d) => d.itemId);
 		return JSON.stringify(itemIds) === JSON.stringify(slotIds);
 	};
-	$: succeeded = isSuccess(activity.value.itemList, itemSlots);
+	let succeeded = false;
 
 	let submitted = false;
 </script>
@@ -66,14 +65,14 @@
 	onSubmit={(newItemSlots, po) => {
 		submitted = false;
 		itemSlots = newItemSlots;
-		console.log('itemslots', itemSlots);
+		// console.log('itemslots', itemSlots);
 		// console.log('st', st, 'po', po);
-		console.log('submit', activity);
+		// console.log('submit', activity);
 		pool = po;
 	}}
 />
 <button
-	class="btn"
+	class="btn mt-3"
 	on:click={() => {
 		submitted = true;
 		succeeded = isSuccess(activity.value?.itemList, itemSlots);

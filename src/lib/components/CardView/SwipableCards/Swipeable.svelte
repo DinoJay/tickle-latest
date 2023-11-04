@@ -9,9 +9,16 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import OrderList from '$lib/components/Card/Challenge/OrderList/OrderList.svelte';
+	import SwitchVisBtn from '../SwitchVisBtn.svelte';
 
 	export let cards;
 	export let selectedEnv;
+
+	export let onUserViewChange;
+	export let selVisType;
+
+	export let onClose;
+
 	const interactThreshold = 100;
 	const interactMaxRotation = 15;
 	let rotation = 0;
@@ -164,21 +171,22 @@
 				{#key selIndex}
 					<div
 						class="absolute w-full h-full flex flex-col"
-						in:fly={{ x: oldIndex < selIndex ? -400 : 400, delay: 400 }}
-						out:fly={{ x: oldIndex < selIndex ? 400 : -400, delay: 0 }}
+						in:fly={{ x: oldIndex < selIndex ? 400 : -400, delay: 400 }}
+						out:fly={{ x: oldIndex < selIndex ? -400 : 400, delay: 0 }}
 					>
 						<Card
 							cls="flex-grow my-auto"
 							{...selCard}
 							langs={selectedEnv.langs}
 							selectedEnvId={selectedEnv.id}
+							{onClose}
 						/>
 					</div>
 				{/key}
 			</div>
 			<div class="flex mt-3 mb-2 px-2">
 				<button
-					class="btn flex-grow mr-1 bg-white z-50"
+					class="btn flex-grow mr-1 bg-white"
 					class:disabled={selIndex === 0}
 					on:click={() => {
 						oldIndex = selIndex;
@@ -187,7 +195,7 @@
 					}}>prev</button
 				>
 				<button
-					class="btn flex-grow bg-white z-50"
+					class="btn flex-grow bg-white"
 					class:disabled={selIndex === cards.length - 1}
 					on:click={() => {
 						oldIndex = selIndex;

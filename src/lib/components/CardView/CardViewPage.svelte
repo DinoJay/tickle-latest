@@ -10,6 +10,7 @@
 	import { titleLocale } from '/src/stores/localizationStore';
 	import Swipeable from './SwipableCards/Swipeable.svelte';
 	import CardLightBox from '../Card/CardLightBox.svelte';
+	import Modal from '../utils/Modal.svelte';
 
 	export let selectedEnvId = 'undefined';
 	/**
@@ -40,6 +41,7 @@
 	$: if (cards) centerLocation = cards.find((card) => card.id === selectedCardId)?.loc;
 
 	let selVisType = selectedEnv.userViews ? selectedEnv.userViews[0] : GEOMAP;
+	let oldSelVisType = selVisType;
 
 	const onCardClick = (id) => {
 		if (selectedCardId !== id) goto(`/cardview/environment/${selectedEnvId}/${id}`);
@@ -76,21 +78,28 @@
 				onClick={onCardClick}
 			/>
 		{/if}
-		{#if selVisType === SWIPECARDS}
+		<Modal isOpen={selVisType === SWIPECARDS}>
 			<Swipeable
 				{cards}
+				{selVisType}
 				{selectedEnv}
+				userViews={selectedEnv.userViews || VISTYPES}
+				onUserViewChange={(t) => (selVisType = t)}
 				onClose={() => {
 					//TODO: wrong fix that
-					selectedCardId = null;
+					selVisType = oldSelVisType;
 				}}
 			/>
-		{/if}
+		</Modal>
 
 		<SwitchVisBtn
+			cls="absolute bottom-8 right-5"
 			selected={selVisType}
 			all={selectedEnv.userViews || VISTYPES}
-			onClick={(t) => (selVisType = t)}
+			onClick={(t) => {
+				oldSelVisType = selVisType;
+				selVisType = t;
+			}}
 		/>
 	{:else}
 		<div class="m-auto text-2xl">No content in this Environment!</div>

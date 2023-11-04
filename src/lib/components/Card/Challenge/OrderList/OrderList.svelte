@@ -108,7 +108,7 @@
 			<div>{i + 1}:</div>
 			{#key s.itemId}
 				<div>
-					{#if s.itemId !== null}
+					{#if allItems.find((d) => d.id === s.itemId)}
 						<div class="flex border-2 p-2">
 							<div>{allItems.find((d) => d.id === s.itemId).name}</div>
 						</div>
