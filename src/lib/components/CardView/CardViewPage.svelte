@@ -54,7 +54,11 @@
 		{#if [TOPICMAP, GEOMAP].includes(selVisType)}
 			<Slider {cards} selectedEnvironment={selectedEnvId} {selectedCardId} onClick={onCardClick} />
 		{/if}
-		<div class="absolute h-full w-full {selVisType === GEOMAP ? 'visible' : 'invisible'}">
+		<div
+			class="absolute h-full w-full {[GEOMAP, SWIPECARDS].includes(selVisType)
+				? 'visible'
+				: 'invisible'}"
+		>
 			<Map {cards} {centerLocation} onClick={onCardClick} />
 		</div>
 

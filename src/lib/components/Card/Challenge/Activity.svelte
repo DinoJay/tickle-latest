@@ -31,7 +31,7 @@
 	$: console.log('activity ACT', $$props);
 
 	$: setTitle = () => {
-		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title;
+		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title || 'Quiz';
 		if (activity?.type === GEOCACHING) return activity?.value?.title;
 		if (activity?.type === DRAGDROP) return 'Drag and Drop';
 		if (activity?.type === ORDERLIST) return 'Reorder List';

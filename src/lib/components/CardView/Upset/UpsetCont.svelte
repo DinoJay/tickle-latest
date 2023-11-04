@@ -34,6 +34,8 @@
 	const marginRight = usedTopics.length === 1 ? '3.5rem' : '0.8rem';
 	let scrollBefore = null;
 
+	$: console.log('cards', cards);
+
 	$: {
 		// if (beforeLegendStraight === legendStraight) return;
 		setTimeout(() => {
@@ -176,7 +178,12 @@
 						class="flex flex-col w-16 h-20 z-10 sm:h-28 sm:w-24 py-1"
 						style:margin-right={marginRight}
 					>
-						<MiniCard {...c} cls="flex-grow  my-auto " highlighted={c.id === selectedCardId} />
+						<MiniCard
+							title={c[$titleLocale]}
+							img={c.img}
+							cls="flex-grow  my-auto "
+							highlighted={c.id === selectedCardId}
+						/>
 					</div>
 				{/key}
 				{#each sortedTopics as t, i (t.id + '' + c.id)}

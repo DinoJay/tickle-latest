@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from '../../../../../stores/localizationStore';
 	import Question from './Question.svelte';
 	import Result from './Result.svelte';
 	import { fade } from 'svelte/transition';
@@ -52,9 +53,9 @@
 				}}
 			>
 				{#if counter < questions.length - 1}
-					Next Question
+					{$langDict.quiz.next_question}
 				{:else}
-					See Result
+					{$langDict.quiz.see_result}
 				{/if}
 			</button>
 		</div>

@@ -1,4 +1,5 @@
 <script>
+	import { titleLocale } from './../../../../stores/localizationStore.js';
 	import { afterUpdate } from 'svelte';
 	import PreviewCard from '$lib/components/PreviewCard.svelte';
 	import { titleLocales } from '$lib/constants/locales.js';
@@ -46,7 +47,11 @@
 				onClick(card.id);
 			}}
 		>
-			<PreviewCard {...card} highlighted={card.id === selectedCardId} />
+			<PreviewCard
+				title={card[$titleLocale]}
+				img={card.img}
+				highlighted={card.id === selectedCardId}
+			/>
 		</div>
 	{/each}
 </div>

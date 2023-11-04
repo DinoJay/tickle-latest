@@ -3,9 +3,34 @@
         "title": "TICKLE English"
     },
     "sign_in": {
-        "title": "Sign In!"
+        "title": "Sign In!",
+        "do_not_have_acc": "You don't have an account?"
     },
     "select_env": {
         "title": "Welcome to TICKLE!"
-    }
+    },
+    "quiz": {
+        "next_question": "Next Question",
+        "see_result": "See result",
+        "succeeded": "You succeeded the quiz and collected the card!"
+    },
+    "comments": {
+        "add": "add comment"
+    },
+    "card": {
+        "collected": "Collected",
+        "collect": "Collect"
+    },
+    "reorder_list": {
+        "submit": "submit",
+        "you_succeeded": "You succeeded!",
+        "you_failed": "You failed!",
+        "reset": "reset"
+    },
+    "dragdrop": {
+        "description": "Please drag and drop items to the corresponding categories",
+        "empty": "Empty"
+    },
+    "sign_out": "Sign Out",
+    "user_view": "User view"
 }

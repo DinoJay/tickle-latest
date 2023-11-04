@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../stores/localizationStore.js';
 	import { fly } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import { store } from '/src/stores/index';
@@ -26,7 +27,7 @@
 
 	$: sections = [
 		{
-			name: 'Select environments/User View',
+			name: $langDict.user_view,
 			go: () => {
 				goto(`/cardview/environment/${currentRoute === adminRoute ? selectedEnvId : ''}`);
 			}
@@ -36,7 +37,7 @@
 		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId}`) },
 		{ name: 'Admin', go: () => goto(`/admin/${selectedEnvId}`) },
 
-		{ name: 'Sign out', go: () => logOut() }
+		{ name: $langDict.sign_out, go: () => logOut() }
 	];
 
 	/**

@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../../../stores/localizationStore.js';
 	import { transition } from 'd3-transition';
 	import { flip } from 'svelte/animate';
 	import { slide, blur, fly, fade, crossfade } from 'svelte/transition';
@@ -81,7 +82,7 @@
 			animate:flip
 			in:receive={{ key: s.itemId }}
 			out:send={{ key: s.itemId }}
-			class=" mb-3 flex border-2 border-dashed mx-2 z-50 items-center gap-2 p-2 "
+			class=" mb-3 flex border-2 border-dashed mx-2 z-50 items-center gap-2 p-2"
 			style:height="60px"
 			class:list-item-hover={itemHover === s.id}
 			on:dragenter={(event) => {
@@ -123,7 +124,7 @@
 	<div class="flex flex-wrap border-2 border-dashed gap-2 p-2">
 		{#each pool as p, i (p.id)}
 			<div
-				class="flex border-2 border-2  items-center  p-2 "
+				class="flex border-2 border-2 items-center p-2"
 				style:height="44px"
 				draggable={true}
 				on:dragstart={(event) => {
@@ -144,7 +145,7 @@
 					const newPool = [...allItems];
 
 					onSubmit(newItemSlots, newPool);
-				}}>Reset Items</button
+				}}>{$langDict.reorder_list.reset} Items</button
 			>
 		{/if}
 	</div>

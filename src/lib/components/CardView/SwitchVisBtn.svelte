@@ -56,6 +56,11 @@
 		{#if selected === UPSET}
 			<span class="m-auto"> <Poll size={32} /></span>
 		{/if}
+		{#if selected === SWIPECARDS}
+			<span class="m-auto">
+				<CardsOutline size={32} />
+			</span>
+		{/if}
 	</button>
 </div>
 

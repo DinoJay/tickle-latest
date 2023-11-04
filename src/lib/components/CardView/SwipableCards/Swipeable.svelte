@@ -4,10 +4,11 @@
 	import { onMount } from 'svelte';
 	import Card from '$lib/components/Card/Card.svelte';
 
-	import { fade, fly } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
+	import OrderList from '$lib/components/Card/Challenge/OrderList/OrderList.svelte';
 
 	export let cards;
 	export let selectedEnv;
@@ -152,29 +153,48 @@
 	// 	});
 	// });
 	let selIndex = 0;
+	let oldIndex = 0;
 	$: selCard = cards[selIndex];
 </script>
 
 <div class="w-full h-full flex flex-col relative">
 	<div class="mx-auto h-full w-full flex flex-col" style:max-width="450px">
 		<div class="flex-none w-full h-full flex flex-col">
-			{#key selIndex}
-				<div class="flex-grow flex" in:fly={{ x: -600, y: 0 }} out:fly={{ x: 600, y: 0 }}>
-					<Card
-						cls="flex-grow"
-						{...selCard}
-						langs={selectedEnv.langs}
-						selectedEnvId={selectedEnv.id}
-						onClose={() => {
-							//TODO: wrong fix that
-							// selectedCardId = null;
-						}}
-					/>
-				</div>
-			{/key}
-			<div class="flex">
-				<button class="btn" on:click={() => (selIndex = selIndex - 1)}>prev</button>
-				<button class="btn" on:click={() => (selIndex = selIndex + 1)}>next</button>
+			<div class="w-full h-full relative">
+				{#key selIndex}
+					<div
+						class="absolute w-full h-full flex flex-col"
+						in:fly={{ x: oldIndex < selIndex ? -400 : 400, delay: 400 }}
+						out:fly={{ x: oldIndex < selIndex ? 400 : -400, delay: 0 }}
+					>
+						<Card
+							cls="flex-grow my-auto"
+							{...selCard}
+							langs={selectedEnv.langs}
+							selectedEnvId={selectedEnv.id}
+						/>
+					</div>
+				{/key}
+			</div>
+			<div class="flex mt-3 mb-2 px-2">
+				<button
+					class="btn flex-grow mr-1 bg-white z-50"
+					class:disabled={selIndex === 0}
+					on:click={() => {
+						oldIndex = selIndex;
+
+						selIndex = selIndex - 1 < 0 ? 0 : selIndex - 1;
+					}}>prev</button
+				>
+				<button
+					class="btn flex-grow bg-white z-50"
+					class:disabled={selIndex === cards.length - 1}
+					on:click={() => {
+						oldIndex = selIndex;
+
+						selIndex = selIndex + 1 > cards.length - 1 ? cards.length - 1 : selIndex + 1;
+					}}>next</button
+				>
 			</div>
 		</div>
 	</div>

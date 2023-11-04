@@ -1,5 +1,9 @@
 <script>
-	import { activityLocale } from './../../../stores/localizationStore.js';
+	import {
+		activityLocale,
+		langDict,
+		descriptionLocale
+	} from './../../../stores/localizationStore.js';
 	import Img from '$lib/components/utils/Img.svelte';
 	import TopicsPreview from './TopicsField.svelte';
 
@@ -55,17 +59,18 @@
 		<VideosField cls="mb-2" {videos} />
 	{/if}
 	<div class="mb-3 flex flex-1">
-		<Description cls="flex-initial h-64" {description} />
+		<Description cls="flex-initial h-64" description={$$props[$descriptionLocale]} />
 	</div>
 </div>
-<button on:click={onSubmit} class="mt-auto w-full bg-black text-white text-xl p-2">
+<button on:click={onSubmit} class="mt-auto w-full bg-gray-700 text-white text-xl p-2">
 	{#if actSub?.succeeded}
-		Collected {#if !!activity?.type}
+		{$langDict.card.collected}
+		{#if !!activity?.type}
 			{activity.type}
 		{/if}
 	{:else if !!activity}
 		Challenge: {activity.type}
 	{:else if !activity}
-		Collect
+		{$langDict.card.collect}
 	{/if}
 </button>

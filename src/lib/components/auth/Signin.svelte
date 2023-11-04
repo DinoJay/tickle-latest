@@ -103,6 +103,8 @@
 		);
 		google.accounts.id.prompt(); // also display the One Tap dialog
 	});
+
+	$: console.log('langDict', $langDict);
 </script>
 
 <svelte:head>
@@ -169,7 +171,7 @@
 			<div class="mx-auto" id="buttonDiv" />
 		</div>
 		<div class="mt-3 mx-auto mb-3">
-			Do not have an account ?
+			{$langDict.sign_in.do_not_have_acc}
 			<a href="/register-user" class="underline">Sign Up</a>
 		</div>
 	</form>

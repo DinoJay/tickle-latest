@@ -21,13 +21,7 @@
 	// $: console.log('elems', elems);
 </script>
 
-<LightBox
-	{isOpen}
-	close={() => (isOpen = false)}
-	{isMandatory}
-	fixedWidth={true}
-	fixedHeight={true}
->
+<LightBox {isOpen} close={() => (isOpen = false)} {isMandatory} fixedWidth={true}>
 	<h2 class="text-3xl mb-1 text-c-black">{$langDict.select_env.title}</h2>
 	<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}

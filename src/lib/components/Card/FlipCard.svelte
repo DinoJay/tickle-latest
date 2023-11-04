@@ -8,6 +8,7 @@
 	export let cls = '';
 	export let style = '';
 	export let flipped = false;
+	export let animate = false;
 
 	const duration = 500;
 	const rotateY = (degrees) => `rotateY(${degrees}deg)`;
@@ -52,19 +53,30 @@
 	}
 </script>
 
-<div
-	in:fly={{ y: 800 }}
-	out:fly={{ y: 800, duration: 600 }}
-	class="card {cls} {flipped ? 'flipped' : ''}"
-	{style}
->
-	<div class="front" style="transform: {rotateY($frontRotation)};">
-		<slot name="front" />
+{#if animate}
+	<div
+		in:fly={{ x: -400, delay: 400 }}
+		out:fly={{ x: 400, delay: 0 }}
+		class="card {cls} {flipped ? 'flipped' : ''}"
+		{style}
+	>
+		<div class="front" style="transform: {rotateY($frontRotation)};">
+			<slot name="front" />
+		</div>
+		<div class="back" style="transform: {rotateY($backRotation)};">
+			<slot name="back" />
+		</div>
 	</div>
-	<div class="back" style="transform: {rotateY($backRotation)};">
-		<slot name="back" />
+{:else}
+	<div class="card {cls} {flipped ? 'flipped' : ''}" {style}>
+		<div class="front" style="transform: {rotateY($frontRotation)};">
+			<slot name="front" />
+		</div>
+		<div class="back" style="transform: {rotateY($backRotation)};">
+			<slot name="back" />
+		</div>
 	</div>
-</div>
+{/if}
 
 <style>
 	.card {

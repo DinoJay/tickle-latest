@@ -59,9 +59,11 @@
 			>{a}
 			{#if activity_en?.type === a}
 				({EN})
-			{:else if activity_fr?.type === a}
+			{/if}
+			{#if activity_fr?.type === a}
 				({FR})
-			{:else if activity_nl?.type === a}
+			{/if}
+			{#if activity_nl?.type === a}
 				({NL})
 			{/if}
 		</button>

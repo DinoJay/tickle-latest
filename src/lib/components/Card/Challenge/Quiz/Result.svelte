@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../../../stores/localizationStore.js';
 	export let questions = [];
 	export let title = '';
 
@@ -6,7 +7,7 @@
 	export let succeeded;
 </script>
 
-<div class=" p-3  overflow-y-auto bg-white">
+<div class=" p-3 overflow-y-auto bg-white">
 	{#each questions as q, i}
 		<div class={i < questions.length ? 'mb-3' : ''}>
 			<p class="text-lg">{q.text}</p>
@@ -24,8 +25,9 @@
 	{/each}
 	<div class="text-lg">
 		{#if succeeded}
-			You succeeded the quiz and collected the card!
+			{$langDict.quiz.succeeded}
 		{:else}
+			{$langDict.quiz.failed}
 			You failed the quiz and did not collect the card!
 		{/if}
 	</div>

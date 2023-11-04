@@ -1,6 +1,7 @@
 <script>
 	import { flip } from 'svelte/animate';
 	import { send, receive } from './transition.js';
+	import { langDict } from '../../../../../stores/localizationStore.js';
 
 	export let activity = { value: { stack: [], description: '' } };
 	export let currentActSub = null; //{ response: { stack: [] } };
@@ -80,9 +81,7 @@
 <div class="mb-3">
 	<div class="label text-xl">Description:</div>
 	<p class="text-lg">
-		{activity?.description
-			? value.description
-			: 'Please drag and drop items to the corresponding categories'}
+		{activity?.description ? value.description : $langDict.dragdrop.description}
 	</p>
 </div>
 

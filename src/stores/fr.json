@@ -3,12 +3,37 @@
         "title": "TICKLE French"
     },
     "sign_in": {
-        "title": "Connecter"
+        "title": "Connecter",
+        "do_not_have_acc": "Si vous n'avez pas encore de compte, créez-en un."
     },
     "sign_up": {
         "title": "s'enscrire"
     },
     "select_env": {
         "title": "Bienvenue á TICKLE!"
-    }
+    },
+    "quiz": {
+        "next_question": "prochaine question",
+        "see_result": "voir le résultat",
+        "succeeded": "Vous avez réussi le quiz et récupéré la carte !"
+    },
+    "comments": {
+        "add": "ajouter commentaire"
+    },
+    "card": {
+        "collected": "Carte collectée!",
+        "collect": "Collecter"
+    },
+    "reorder_list": {
+        "submit": "soumettre",
+        "you_succeeded": "Vous avez réussi!",
+        "you_failed": "Vous avez échoué!",
+        "reset": "réinitialiser"
+    },
+    "dragdrop": {
+        "description": "Faites glisser les éléments dans l'ordre correct.",
+        "empty": "Vide"
+    },
+    "sign_out": "Déconnexion",
+    "user_view": "Vue utilisateur"
 }

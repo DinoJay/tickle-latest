@@ -17,7 +17,7 @@
 >
 	{#if !!title || $$props[$titleLocale]}
 		<h1 class="shrink-0 title">
-			{$$props[$titleLocale] || title || 'No Title'}
+			{title || 'No Title'}
 		</h1>
 	{:else}
 		<div class="ph-row">

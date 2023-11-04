@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../../../stores/localizationStore.js';
 	import { flip } from 'svelte/animate';
 	import { send, receive } from './transition.js';
 	import { onMount } from 'svelte';
@@ -193,7 +194,7 @@
 				use:dropZone={{ stackTargetId: pool.id, name: pool.name }}
 			>
 				{#if pool.items.length === 0}
-					<div class="placeholder-text">Empty</div>
+					<div class="placeholder-text">{$langDict.dragdrop.empty}</div>
 				{/if}
 				{#each pool.items as item, j (item.id)}
 					<div

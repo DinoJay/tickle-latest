@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../../../stores/localizationStore.js';
 	import OrderList from './OrderList.svelte';
 	import { v4 as uuid } from 'uuid';
 	import Confetti from 'svelte-confetti/src/Confetti.svelte';
@@ -49,10 +50,12 @@
 			fallDistance="100vh"
 		/>
 	</div>
-	<Notification type="success" close={() => (succeeded = null)}>Yay, you did it!</Notification>
+	<Notification type="success" close={() => (succeeded = null)}
+		>{$langDict.reorder_list.you_succeeded}</Notification
+	>
 {/if}
 {#if succeeded === false && submitted}
-	<Notification close={() => (succeeded = null)}>Nah, you failed!</Notification>
+	<Notification close={() => (succeeded = null)}>{$langDict.reorder_list.you_failed}</Notification>
 {/if}
 <OrderList
 	{...$$props}
@@ -73,7 +76,7 @@
 	class="btn"
 	on:click={() => {
 		submitted = true;
-		onSubmit({ response: itemSlots });
-		// succeeded = isSuccess(activity.value?.itemList, itemSlots);
-	}}>Submit</button
+		succeeded = isSuccess(activity.value?.itemList, itemSlots);
+		onSubmit({ response: itemSlots, succeeded });
+	}}>{$langDict.reorder_list.submit}</button
 >

@@ -3,9 +3,34 @@
         "title": "TICKLE Dutch"
     },
     "sign_in": {
-        "title": "TICKLE Dutch - Sign In"
+        "title": "TICKLE Dutch - Sign In",
+        "do_not_have_acc": "Als u nog geen account hebt, dient u er een aan te maken."
     },
     "select_env": {
         "title": "Welkom bij TICKLE!"
-    }
+    },
+    "quiz": {
+        "next_question": "volgende vraag",
+        "see_result": "zien resultaat",
+        "succeeded": "Je bent geslaagd voor de quiz en hebt de kaart opgehaald!"
+    },
+    "comments": {
+        "add": "commentaar toevoegen"
+    },
+    "card": {
+        "collected": "Verzameld",
+        "collect": "Verzamelen"
+    },
+    "reorder_list": {
+        "submit": "Verzenden",
+        "you_succeeded": "Je bent geslaagd!",
+        "you_failed": "Je bent niet geslaagd!",
+        "reset": "Reset"
+    },
+    "dragdrop": {
+        "description": "Sleep de items naar de juiste positie.",
+        "empty": "Er zijn geen items om te slepen."
+    },
+    "sign_out": "Afmelden",
+    "user_view": "Gebruikersweergave"
 }

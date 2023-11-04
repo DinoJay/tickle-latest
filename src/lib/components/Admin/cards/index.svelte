@@ -47,6 +47,8 @@
 	$: selectedCard = cards?.find((c) => c.id === selectedCardId) || {};
 
 	$: titleKey = titleLocales[selLang];
+
+	$: console.log('titlekey', titleKey);
 </script>
 
 <div class="flex flex-wrap gap-2 p-1 flex-grow overflow-y-auto justify-items-center">
@@ -57,7 +59,7 @@
 		{#each cards as c}
 			<PreviewCard
 				{...c}
-				title={c[titleKey] || (selLang === EN ? c.title : 'no-title')}
+				title={c[titleKey] || 'no-title'}
 				highlighted={selectedCardId === c.id}
 				onClick={() => (selectedCardId = c.id)}
 			/>

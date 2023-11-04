@@ -1,21 +1,8 @@
 <script>
-	import {
-		activityLocale,
-		linksLocale,
-		titleLocale,
-		descriptionLocale,
-		videosLocale
-	} from '../../../stores/localizationStore.js';
+	import { activityLocale, titleLocale } from '../../../stores/localizationStore.js';
 
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
 	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
-	import {
-		activityLocales,
-		descriptionLocales,
-		linksLocales,
-		titleLocales,
-		videosLocales
-	} from '../../constants/locales.js';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { v4 as uuid } from 'uuid';
 	// @ts-ignore
@@ -25,7 +12,6 @@
 	import Activity from './Challenge/Activity.svelte';
 	import CardFront from './CardFront.svelte';
 	import CardBack from './CardBack.svelte';
-	import { locale } from '/src/stores/localizationStore';
 	import { doc, getDoc, setDoc } from 'firebase/firestore';
 	import FlipCard from './FlipCard.svelte';
 
@@ -101,6 +87,8 @@
 	export let cls;
 	export let style = '';
 
+	export let animate = false;
+
 	let activityOpen = false;
 
 	let flipped = false;
@@ -138,9 +126,12 @@
 		flipped = !flipped;
 	};
 	$: title = $$props[$titleLocale];
+
+	$: console.log('onclose', onClose);
 </script>
 
 <FlipCard
+	{animate}
 	style="max-width:{maxCardWidth}px;max-height:{maxCardHeight}px;{style}"
 	cls="drop-shadow-xl w-full h-full {cls}"
 	{flipped}
@@ -166,16 +157,17 @@
 			<button on:click={onFlip} class=" ml-auto">
 				<TurnIcon size="1.5em" />
 			</button>
-			<button on:click={onClose} class="ml-3">
-				<WindowClose size="1.5em" />
-			</button>
+			{#if onClose}
+				<button on:click={onClose} class="ml-3">
+					<WindowClose size="1.5em" />
+				</button>
+			{/if}
 		</div>
 		<CardFront
 			{...$$props}
 			actSub={curActSub}
 			onSubmit={() => {
 				if ($$props[$activityLocale] !== undefined) activityOpen = true;
-				console.log('yeah');
 				if (!activity) {
 					const docRef = doc(
 						db,
@@ -206,9 +198,11 @@
 			<button on:click={onFlip} class=" ml-auto">
 				<TurnIcon size="1.5em" />
 			</button>
-			<button on:click={onClose} class="ml-3">
-				<WindowClose size="1.5em" />
-			</button>
+			{#if onClose}
+				<button on:click={onClose} class="ml-3">
+					<WindowClose size="1.5em" />
+				</button>
+			{/if}
 		</div>
 		<CardBack {...$$props} cardId={id} />
 	</div>

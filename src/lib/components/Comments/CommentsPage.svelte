@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../stores/localizationStore.js';
 	import OneComment from './OneComment.svelte';
 	export let comments;
 	/**
@@ -33,5 +34,5 @@
 		inputTxt = null;
 	}}
 >
-	Add
+	{$langDict.comments.add}
 </button>
