@@ -171,7 +171,7 @@
 				{#key selIndex}
 					<div
 						class="absolute w-full h-full flex flex-col"
-						in:fly={{ x: oldIndex < selIndex ? 400 : -400, delay: 400 }}
+						in:fly={{ x: oldIndex < selIndex ? 400 : -400, delay: 200 }}
 						out:fly={{ x: oldIndex < selIndex ? -400 : 400, delay: 0 }}
 					>
 						<Card
@@ -180,29 +180,21 @@
 							langs={selectedEnv.langs}
 							selectedEnvId={selectedEnv.id}
 							{onClose}
+							onNextClickDisabled={selIndex === cards.length - 1}
+							onPrevClickDisabled={selIndex === 0}
+							onNextClick={() => {
+								oldIndex = selIndex;
+
+								selIndex = selIndex + 1 > cards.length - 1 ? cards.length - 1 : selIndex + 1;
+							}}
+							onPrevClick={() => {
+								oldIndex = selIndex;
+
+								selIndex = selIndex - 1 < 0 ? 0 : selIndex - 1;
+							}}
 						/>
 					</div>
 				{/key}
-			</div>
-			<div class="flex mt-3 mb-2 px-2">
-				<button
-					class="btn flex-grow mr-1 bg-white"
-					class:disabled={selIndex === 0}
-					on:click={() => {
-						oldIndex = selIndex;
-
-						selIndex = selIndex - 1 < 0 ? 0 : selIndex - 1;
-					}}>prev</button
-				>
-				<button
-					class="btn flex-grow bg-white"
-					class:disabled={selIndex === cards.length - 1}
-					on:click={() => {
-						oldIndex = selIndex;
-
-						selIndex = selIndex + 1 > cards.length - 1 ? cards.length - 1 : selIndex + 1;
-					}}>next</button
-				>
 			</div>
 		</div>
 	</div>

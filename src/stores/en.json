@@ -10,27 +10,42 @@
         "title": "Welcome to TICKLE!"
     },
     "quiz": {
+        "result": "Result",
         "next_question": "Next Question",
         "see_result": "See result",
         "succeeded": "You succeeded the quiz and collected the card!"
     },
     "comments": {
-        "add": "add comment"
+        "add": "add comment",
+        "no_comments": "No comments yet"
     },
     "card": {
         "collected": "Collected",
         "collect": "Collect"
     },
     "reorder_list": {
+        "title": "Reorder List",
         "submit": "submit",
         "you_succeeded": "You succeeded!",
         "you_failed": "You failed!",
-        "reset": "reset"
+        "reset": "reset",
+        "all_items": "All items"
     },
     "dragdrop": {
+        "title": "Drag and Drop",
+        "descr_title": "Description",
         "description": "Please drag and drop items to the corresponding categories",
         "empty": "Empty"
     },
+    "hangman": {
+        "title": "Hangman",
+        "errors": "Errors",
+        "no_errors": "No errors",
+        "you_won": "You won!",
+        "you_failed": "You failed!"
+    },
     "sign_out": "Sign Out",
-    "user_view": "User view"
+    "user_view": "User view",
+    "challenge": "Challenge",
+    "submit": "Submit"
 }

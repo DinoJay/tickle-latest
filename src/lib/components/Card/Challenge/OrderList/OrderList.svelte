@@ -4,6 +4,8 @@
 	import { flip } from 'svelte/animate';
 	import { slide, blur, fly, fade, crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
+	import interact from 'interactjs';
+
 	const [send, receive] = crossfade({
 		duration: (d) => Math.sqrt(d * 200),
 
@@ -28,19 +30,18 @@
 	export let description;
 	export let allItems;
 
-	let itemHover = null;
-	function dragStart(event, srcItemId) {
-		event.dataTransfer.setData('text/plain', srcItemId);
-	}
+	let dropZoneHoverId = null;
+	let srcItemId = null;
+	let isHovering = false;
+	// function dragStart(event, srcItemId) {
+	// 	event.dataTransfer.setData('text/plain', srcItemId);
+	// }
 
-	console.log('itemSlots', itemSlots);
-	console.log('allItems', allItems);
+	// console.log('itemSlots', itemSlots);
+	// console.log('allItems', allItems);
 
-	function drop(event, targetSlotIndex) {
-		event.preventDefault();
-		const srcItemId = event.dataTransfer.getData('text/plain');
-		console.log('srcItemId', srcItemId);
-		if (srcItemId === 'null' || !srcItemId) return;
+	function drop(targetSlotIndex) {
+		if (!srcItemId) return;
 
 		const srcItemSlotId = itemSlots.find((d) => d.itemId === srcItemId)?.id;
 		let tmpId = null;
@@ -63,10 +64,67 @@
 
 		onSubmit(newItemSlots, newPool);
 
-		itemHover = null;
+		dropZoneHoverId = null;
 	}
 
+	function dragMoveListener(event) {
+		var target = event.target;
+		var x = parseFloat(target.getAttribute('data-x')) + event.dx;
+		var y = parseFloat(target.getAttribute('data-y')) + event.dy;
+
+		target.style.top = y + 'px';
+		target.style.left = x + 'px';
+		target.style.position = 'absolute';
+
+		target.setAttribute('data-x', x);
+		target.setAttribute('data-y', y);
+	}
 	// let draggingItem = null;
+
+	const dragItem = (node, { itemSrcId, isHovering: hover }) => {
+		interact(node).draggable({
+			inertia: true,
+			listeners: {
+				move: dragMoveListener,
+				end(event) {
+					event.target.style.position = null;
+					event.target.style.left = null;
+					event.target.style.top = null;
+
+					event.target.setAttribute('data-x', null);
+					event.target.setAttribute('data-y', null);
+				},
+				start() {
+					srcItemId = itemSrcId;
+					isHovering = hover;
+				}
+			},
+			onstart(event) {
+				let target = event.target;
+				let rect = target.getBoundingClientRect();
+				target.setAttribute('data-x', rect.x);
+				target.setAttribute('data-y', rect.y);
+			},
+			autoScroll: true,
+			maxPerElement: 1
+			// dragMoveListener from the dragging demo above
+		});
+	};
+
+	const dropZone = (node, { targetIndex, dropZoneId }) => {
+		interact(node).dropzone({
+			overlap: 0.75,
+			ondragenter: function (event) {
+				dropZoneHoverId = dropZoneId;
+			},
+			ondragleave: function (event) {
+				dropZoneHoverId = null;
+			},
+			ondrop: function (event) {
+				drop(targetIndex);
+			}
+		});
+	};
 </script>
 
 <div class="mb-3">
@@ -82,28 +140,11 @@
 			animate:flip
 			in:receive={{ key: s.itemId }}
 			out:send={{ key: s.itemId }}
-			class=" mb-3 flex border-2 border-dashed mx-2 z-50 items-center gap-2 p-2"
+			class="mb-3 flex border-2 border-dashed z-50 items-center gap-2 p-2"
 			style:height="60px"
-			class:list-item-hover={itemHover === s.id}
-			on:dragenter={(event) => {
-				event?.preventDefault();
-			}}
-			on:dragleave={(event) => {
-				event?.preventDefault();
-				itemHover = null;
-			}}
-			on:dragover={(event) => {
-				event.preventDefault();
-			}}
-			on:drop={(event) => {
-				console.log('drop', event);
-				drop(event, i);
-			}}
-			draggable={true}
-			on:dragstart={(event) => {
-				dragStart(event, s.itemId);
-			}}
-			ondragover="return false"
+			class:list-item-hover={dropZoneHoverId === s.id && isHovering}
+			use:dropZone={{ targetIndex: i, dropZoneId: s.id }}
+			use:dragItem={{ itemSrcId: s.itemId, isHovering: false }}
 		>
 			<div>{i + 1}:</div>
 			{#key s.itemId}
@@ -121,24 +162,20 @@
 	{/each}
 </div>
 <div class="flex-grow flex-col overflow-y-auto" style:min-height="150px" style:max-height="230px">
+	<p class="label text-xl">{$langDict.reorder_list.all_items}:</p>
 	<div class="flex flex-wrap border-2 border-dashed gap-2 p-2">
 		{#each pool as p, i (p.id)}
 			<div
-				class="flex border-2 border-2 items-center p-2"
+				class="flex border-2 items-center p-2"
 				style:height="44px"
-				draggable={true}
-				on:dragstart={(event) => {
-					dragStart(event, p.id);
-				}}
-				ondragover="return false"
+				use:dragItem={{ itemSrcId: p.id, isHovering: true }}
 			>
-				<div>{i + 1}:</div>
 				<div>{p.name}</div>
 			</div>
 		{/each}
 		{#if pool.length === 0}
 			<button
-				class="p-2 border-2 my-12 mx-auto"
+				class="p-2 border-2 mx-auto"
 				on:click={() => {
 					const newItemSlots = itemSlots.map((d) => ({ ...d, itemId: null }));
 

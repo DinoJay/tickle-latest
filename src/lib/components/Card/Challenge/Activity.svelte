@@ -1,4 +1,5 @@
 <script>
+	import { langDict } from './../../../../stores/localizationStore.js';
 	import {
 		QUIZ,
 		GEOCACHING,
@@ -31,15 +32,16 @@
 	$: console.log('activity ACT', $$props);
 
 	$: setTitle = () => {
-		if (activity?.type === QUIZ) return isResult ? 'Quiz Result' : activity?.value?.title || 'Quiz';
+		if (activity?.type === QUIZ)
+			return isResult ? $langDict.quiz.result : activity?.value?.title || 'Quiz';
 		if (activity?.type === GEOCACHING) return activity?.value?.title;
-		if (activity?.type === DRAGDROP) return 'Drag and Drop';
-		if (activity?.type === ORDERLIST) return 'Reorder List';
-		if (activity?.type === HANGMAN) return 'Hangman';
+		if (activity?.type === DRAGDROP) return $langDict.dragdrop.title;
+		if (activity?.type === ORDERLIST) return $langDict.reorder_list.title;
+		if (activity?.type === HANGMAN) return $langDict.hangman.title;
 	};
 </script>
 
-<LightBox fixedWidth={true} title={setTitle()} isOpen={open} close={onClose}>
+<LightBox fixedWidth={true} fixedHeight={true} title={setTitle()} isOpen={open} close={onClose}>
 	{#if activity?.type === QUIZ}
 		<Quiz {...$$props} onResult={(res) => (isResult = res)} />
 	{:else if activity?.type === GEOCACHING}

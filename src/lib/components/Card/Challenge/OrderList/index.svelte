@@ -77,5 +77,5 @@
 		submitted = true;
 		succeeded = isSuccess(activity.value?.itemList, itemSlots);
 		onSubmit({ response: itemSlots, succeeded });
-	}}>{$langDict.reorder_list.submit}</button
+	}}>{$langDict.submit}</button
 >

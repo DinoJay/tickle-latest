@@ -6,7 +6,8 @@
 	// export let className;
 	// export let alt;
 	// export let open = false;
-	export let close;
+	let open = true;
+	export let close = () => (open = false);
 	export let type = 'warning';
 
 	const types = { info: '', warning: 'bg-red-500 text-white', success: 'bg-green-500 text-white' };
@@ -14,36 +15,37 @@
 	$: console.log('type', type);
 </script>
 
-<!-- {#if open} -->
-<div
-	transition:blur
-	use:portal={'#notifications'}
-	role="button"
-	class="fixed noti-pos cont w-full h-full flex drop-shadow-2xl"
-	on:click={(e) => {
-		console.log('e', e);
-		e.stopPropagation();
-		close();
-	}}
-	on:keydown={(e) => {
-		console.log('e', e);
-		e.stopPropagation();
-		close();
-	}}
->
-	<div class="m-auto  flex p-4 items-center {types[type]}">
-		<!-- <button on:click={close} class="absolute right-0 p-3"><WindowClose size="1.5em" /> </button> -->
-		<slot />
-		<button
-			on:click={close}
-			class="ml-2 border-l-2 "
-			class:border-white={type !== 'info'}
-			class:border-black={type === 'info'}><WindowClose size="1.5em" /></button
-		>
+{#if open}
+	<div
+		transition:blur
+		use:portal={'#notifications'}
+		role="button"
+		tabindex="0"
+		class="fixed noti-pos cont w-full h-full flex drop-shadow-2xl"
+		on:click={(e) => {
+			console.log('e', e);
+			e.stopPropagation();
+			close();
+		}}
+		on:keydown={(e) => {
+			console.log('e', e);
+			e.stopPropagation();
+			close();
+		}}
+	>
+		<div class="m-auto flex p-4 items-center {types[type]}">
+			<!-- <button on:click={close} class="absolute right-0 p-3"><WindowClose size="1.5em" /> </button> -->
+			<slot />
+			<button
+				on:click={close}
+				class="ml-2 border-l-2"
+				class:border-white={type !== 'info'}
+				class:border-black={type === 'info'}><WindowClose size="1.5em" /></button
+			>
+		</div>
 	</div>
-</div>
+{/if}
 
-<!-- {/if} -->
 <style>
 	.noti-pos {
 		left: 50%;

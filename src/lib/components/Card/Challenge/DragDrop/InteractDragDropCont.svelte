@@ -143,11 +143,9 @@
 </script>
 
 <div class="mb-3">
-	<div class="label text-xl">Description:</div>
+	<div class="label text-xl">{$langDict.descr_title}:</div>
 	<p class="text-lg">
-		{activity?.description
-			? value.description
-			: 'Please drag and drop items to the corresponding categories'}
+		{activity?.description ? value.description : $langDict.dragdrop.description}
 	</p>
 </div>
 
@@ -165,7 +163,7 @@
 						use:dropZone={{ stackTargetId: s.id, name: s.name }}
 					>
 						{#if s.items.length === 0}
-							<div class="placeholder-text">Empty</div>
+							<div class="placeholder-text">{$langDict.dragdrop.empty}</div>
 						{/if}
 						{#each s.items as item, j (item.id)}
 							<div
@@ -186,9 +184,9 @@
 		</div>
 
 		<div class="mb-3 dragzone">
-			<h2 class="mb-2 text-lg">{pool.name}</h2>
+			<h2 class="mb-2 text-xl label">{pool.name}</h2>
 			<div
-				class="pool flex-wrap overflow-auto mb-3 flex border-2 mx-2 items-center gap-2 p-2"
+				class="pool flex-wrap overflow-auto mb-3 flex border-2 items-center gap-2 p-2"
 				class:stack-hover={stackHover === pool.name &&
 					!pool.items.find((d) => d.id === draggingItem?.id)}
 				use:dropZone={{ stackTargetId: pool.id, name: pool.name }}

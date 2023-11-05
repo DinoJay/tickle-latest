@@ -13,27 +13,42 @@
         "title": "Bienvenue á TICKLE!"
     },
     "quiz": {
+        "result": "Résultat",
         "next_question": "prochaine question",
         "see_result": "voir le résultat",
         "succeeded": "Vous avez réussi le quiz et récupéré la carte !"
     },
     "comments": {
-        "add": "ajouter commentaire"
+        "enter_comment": "ajouter commentaire",
+        "no_comments": "Pas de commentaires"
     },
     "card": {
         "collected": "Carte collectée!",
         "collect": "Collecter"
     },
     "reorder_list": {
+        "title": "Réorganiser la liste",
         "submit": "soumettre",
         "you_succeeded": "Vous avez réussi!",
         "you_failed": "Vous avez échoué!",
-        "reset": "réinitialiser"
+        "reset": "réinitialiser",
+        "all_items": "Tous les éléments"
     },
     "dragdrop": {
+        "title": "Glisser-Déposer",
+        "descr_title": "description",
         "description": "Faites glisser les éléments dans l'ordre correct.",
         "empty": "Vide"
     },
+    "hangman": {
+        "title": "Pendu",
+        "errors": "Erreurs",
+        "no_errors": "Pas d'erreurs",
+        "you_won": "Vous avez gagné!",
+        "you_failed": "Vous avez échoué!"
+    },
     "sign_out": "Déconnexion",
-    "user_view": "Vue utilisateur"
+    "user_view": "Vue utilisateur",
+    "challenge": "Défi",
+    "submit": "soumettre"
 }

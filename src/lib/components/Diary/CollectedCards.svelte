@@ -7,6 +7,7 @@
 
 	import CardsByTopic from './CardsByTopic.svelte';
 	import { goto } from '$app/navigation';
+	import { titleLocale } from '../../../stores/localizationStore';
 
 	/**
 	 * @type {any[]}
@@ -67,7 +68,7 @@
 <div class="flex flex-wrap gap-1 mt-2">
 	{#each collectedTags as t}
 		<div class="text-white px-1" style="background:{t.color}">
-			{t.title}
+			{t[$titleLocale]}
 			{t.collectedNum} / {t.allNum}
 		</div>
 	{/each}

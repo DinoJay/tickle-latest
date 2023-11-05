@@ -10,27 +10,41 @@
         "title": "Welkom bij TICKLE!"
     },
     "quiz": {
+        "result": "Resultaat",
         "next_question": "volgende vraag",
-        "see_result": "zien resultaat",
+        "see_result": "resultaat zien",
         "succeeded": "Je bent geslaagd voor de quiz en hebt de kaart opgehaald!"
     },
     "comments": {
-        "add": "commentaar toevoegen"
+        "enter_comment": "Voer reactie in",
+        "no_comments": "Geen reacties"
     },
     "card": {
         "collected": "Verzameld",
         "collect": "Verzamelen"
     },
     "reorder_list": {
-        "submit": "Verzenden",
+        "title": "De lijst ordenen",
         "you_succeeded": "Je bent geslaagd!",
         "you_failed": "Je bent niet geslaagd!",
-        "reset": "Reset"
+        "reset": "Reset",
+        "all_items": "Alle items"
     },
     "dragdrop": {
+        "title": "slepen en neerzetten",
+        "descr_title": "Beschrijving",
         "description": "Sleep de items naar de juiste positie.",
         "empty": "Er zijn geen items om te slepen."
     },
+    "hangman": {
+        "title": "Galgje",
+        "errors": "Fouten",
+        "no_errors": "Geen Fouten",
+        "you_won": "Je hebt gewonnen!",
+        "you_failed": "Je bent niet geslaagd!"
+    },
     "sign_out": "Afmelden",
-    "user_view": "Gebruikersweergave"
+    "user_view": "Gebruikersweergave",
+    "challenge": "Uitdaging",
+    "submit": "Indienen"
 }

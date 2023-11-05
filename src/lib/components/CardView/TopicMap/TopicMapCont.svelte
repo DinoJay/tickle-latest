@@ -31,7 +31,7 @@
 	$: getTopic = (title) => topics.find((d) => d.title === title);
 </script>
 
-<div class="flex w-full ">
+<div class="flex w-full">
 	<div class="m-auto relative overflow-auto" style="height:{height}px;width:{width}px;">
 		{#each layout.circleVals as c}
 			<div

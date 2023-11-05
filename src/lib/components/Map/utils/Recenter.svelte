@@ -24,8 +24,8 @@
 		recenter();
 		onClick();
 	}}
-	class="flex h-16 w-16 
-		absolute bottom-8 left-5 rounded-full 
+	class="flex h-14 w-14
+		absolute bottom-8 left-5 rounded-full
 		bg-c-light-green hover:bg-c-green border-2 border-black"
 >
 	<img class="m-auto" src={'/avatars/' + userAvatar + '.svg'} alt={userAvatar} />

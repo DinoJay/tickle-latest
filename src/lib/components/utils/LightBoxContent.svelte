@@ -35,6 +35,7 @@
 <div
 	class="bg-white flex flex-col p-3 m-auto card-width w-auto max-h-full"
 	class:h-full={fixedHeight}
+	style:max-height={height}
 	style:width={fixedWidth ? width : null}
 	on:keydown={() => null}
 	on:click={(e) => e.stopPropagation()}

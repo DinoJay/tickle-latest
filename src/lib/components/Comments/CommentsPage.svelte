@@ -21,11 +21,17 @@
 		<OneComment {...c} {edit} {onRemove} />
 	{/each}
 {:else}
-	<div class="flex-grow flex"><div class="m-auto placeholder-text">No Comments</div></div>
+	<div class="flex-grow flex">
+		<div class="m-auto placeholder-text">{$langDict.comments.no_comments}</div>
+	</div>
 {/if}
 
 <div class=" mt-2 mb-2">
-	<textarea class="form-text border-2 w-full" placeholder="Enter Comment" bind:value={inputTxt} />
+	<textarea
+		class="form-text border-2 w-full"
+		placeholder={$langDict.comments.enter_comment}
+		bind:value={inputTxt}
+	/>
 </div>
 <button
 	class="mt-auto create-btn w-full {!!!inputTxt ? 'disabled' : ''}"
@@ -34,5 +40,5 @@
 		inputTxt = null;
 	}}
 >
-	{$langDict.comments.add}
+	{$langDict.comments.enter_comment}
 </button>

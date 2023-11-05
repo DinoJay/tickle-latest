@@ -11,6 +11,9 @@
 	import Description from './Description.svelte';
 	import VideosField from './VideosField.svelte';
 
+	import ChevronLeft from 'svelte-material-icons/ChevronLeft.svelte';
+	import ChevronRight from 'svelte-material-icons/ChevronRight.svelte';
+
 	/**
 	 * @type {string}
 	 */
@@ -40,6 +43,12 @@
 	 */
 	export let actSub;
 
+	export let onPrevClick;
+	export let onPrevClickDisabled = false;
+
+	export let onNextClick;
+	export let onNextClickDisabled = false;
+
 	$: console.log('actSub', actSub);
 
 	$: console.log('activity', activity);
@@ -62,15 +71,27 @@
 		<Description cls="flex-initial h-64" description={$$props[$descriptionLocale]} />
 	</div>
 </div>
-<button on:click={onSubmit} class="mt-auto w-full bg-gray-700 text-white text-xl p-2">
-	{#if actSub?.succeeded}
-		{$langDict.card.collected}
-		{#if !!activity?.type}
-			{activity.type}
-		{/if}
-	{:else if !!activity}
-		Challenge: {activity.type}
-	{:else if !activity}
-		{$langDict.card.collect}
+<div class="mt-auto flex">
+	{#if onPrevClick}
+		<button class:disabled={onPrevClickDisabled} on:click={onPrevClick} class="sel-btn mr-1"
+			><ChevronLeft size={30} /></button
+		>
 	{/if}
-</button>
+	<button on:click={onSubmit} class="w-full bg-gray-700 text-white text-xl p-2">
+		{#if actSub?.succeeded}
+			{$langDict.card.collected}
+			{#if !!activity?.type}
+				{activity.type}
+			{/if}
+		{:else if !!activity}
+			{$langDict.challenge}: {activity.type}
+		{:else if !activity}
+			{$langDict.card.collect}
+		{/if}
+	</button>
+	{#if onNextClick}
+		<button class:disabled={onNextClickDisabled} on:click={onNextClick} class="sel-btn ml-1"
+			><ChevronRight size={30} /></button
+		>
+	{/if}
+</div>
