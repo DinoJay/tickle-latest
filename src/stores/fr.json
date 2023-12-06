@@ -6,9 +6,6 @@
         "title": "Connecter",
         "do_not_have_acc": "Si vous n'avez pas encore de compte, créez-en un."
     },
-    "sign_up": {
-        "title": "s'enscrire"
-    },
     "select_env": {
         "title": "Bienvenue á TICKLE!"
     },
@@ -48,6 +45,11 @@
         "you_failed": "Vous avez échoué!"
     },
     "sign_out": "Déconnexion",
+    "sign_up": {
+        "title": "S'inscrire",
+        "confirm_pw": "Confirmez le mot de passe",
+        "choose_pw": "Choisissez un mot de passe"
+    },
     "user_view": "Vue utilisateur",
     "challenge": "Défi",
     "submit": "soumettre"

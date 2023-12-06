@@ -43,6 +43,11 @@
         "you_won": "Je hebt gewonnen!",
         "you_failed": "Je bent niet geslaagd!"
     },
+    "sign_up": {
+        "title": "aanmelden",
+        "confirm_pw": "Bevestig wachtwoord",
+        "choose_pw": "Kies een wachtwoord"
+    },
     "sign_out": "Afmelden",
     "user_view": "Gebruikersweergave",
     "challenge": "Uitdaging",

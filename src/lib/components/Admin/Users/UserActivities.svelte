@@ -12,8 +12,8 @@
 	export let cls = '';
 </script>
 
-<h2 class="label text-lg">User Activities</h2>
-<div class="flex flex-none flex-col max-h-96 overflow-y-auto {cls}">
+<h2 class="label text-lg">Latest User Activities</h2>
+<div class="flex flex-none flex-col max-h-48 overflow-y-auto {cls}">
 	{#if userLogs === undefined}
 		<Spinner cls="mx-auto my-12" />
 	{:else if userLogs.length === 0}

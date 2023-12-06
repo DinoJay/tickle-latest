@@ -23,9 +23,7 @@
 		: undefined;
 
 	getDocs(collection(db, 'users')).then((snap) => {
-		users = snap.docs
-			.map((doc) => doc.data())
-			.filter((d) => !!d.uid && d.uid !== $store.currentUser.uid);
+		users = snap.docs.map((doc) => doc.data()).filter((d) => !!d.uid);
 	});
 </script>
 

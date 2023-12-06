@@ -45,6 +45,11 @@
         "you_failed": "You failed!"
     },
     "sign_out": "Sign Out",
+    "sign_up": {
+        "title": "Sign Up!",
+        "confirm_pw": "Confirm Password",
+        "choose_pw": "Choose a password"
+    },
     "user_view": "User view",
     "challenge": "Challenge",
     "submit": "Submit"

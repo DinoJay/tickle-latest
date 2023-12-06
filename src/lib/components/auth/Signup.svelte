@@ -25,6 +25,9 @@
 	let pwdConfirmation = '';
 	let userAvatar = avatars[0];
 
+	let teacher = false;
+	let admin = false;
+
 	let loading = false;
 
 	/**
@@ -74,7 +77,11 @@
 	};
 </script>
 
-<img src="/tickle.svg" alt="tickle-logo" class="flex-grow m-auto my-3 sm:max-h-72 p-12 sm:p-0" />
+<img
+	src="/tickle.svg"
+	alt="tickle-logo"
+	class="flex-grow m-auto my-3 h-96 sm:max-h-72 p-12 sm:p-0"
+/>
 
 <form class="flex flex-col p-3 w-full" action="" method="post" on:submit={(e) => submit(e)}>
 	<input
@@ -89,17 +96,26 @@
 		bind:value={pwd}
 		type="password"
 		id="password"
-		placeholder="Choose password"
+		placeholder={$langDict.sign_up.choose_pw}
 	/>
 	<input
 		class="w-full m-auto py-2 px-3 mb-3 outline-c-dark-gray border-black border-2 custom-shadow"
 		bind:value={pwdConfirmation}
 		type="password"
 		id="passwordConfirmation"
-		placeholder="Confirm password"
+		placeholder={$langDict.sign_up.confirm_pw}
 	/>
 
-	<div class="w-auto mx-auto my-2">
+	<div class="w-full mx-auto my-2 flex text-lg">
+		<div>Administrator</div>
+		<input class="ml-auto" type="checkbox" bind:value={admin} />
+	</div>
+	<div class=" mx-auto w-full my-2 flex text-lg">
+		<div>Teacher</div>
+		<input class="ml-auto" type="checkbox" bind:value={teacher} />
+	</div>
+	<div class="w-full mx-auto my-2 flex flex-col">
+		<h2 class="text-lg mb-1">Choose your Avatar:</h2>
 		<AvatarManager {userAvatar} onChange={(av) => (userAvatar = av)} />
 	</div>
 
@@ -109,10 +125,9 @@
 		type="submit"
 	>
 		{#if loading === true}
-			<Spinner width="24px" height="24px" />
+			<Spinner width="22px" height="22px" />
 		{:else}
-			<!-- {$langDict.sign_up} -->
-			Sign up
+			{$langDict.sign_up.title}
 		{/if}
 	</button>
 	<p class="mx-auto">
