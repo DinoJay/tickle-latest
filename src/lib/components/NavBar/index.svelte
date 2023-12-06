@@ -13,7 +13,7 @@
 	import { locale, titleLocale } from '/src/stores/localizationStore';
 
 	$: selectedEnvId = $page.params.envId || '';
-	$: console.log('page', $page);
+	// $: console.log('page', $page);
 	// $: adminEnvId = $store.currentUser?.adminEnvId;
 
 	$: currentRoute = $page?.route?.id;

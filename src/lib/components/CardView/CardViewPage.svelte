@@ -11,6 +11,7 @@
 	import Swipeable from './SwipableCards/Swipeable.svelte';
 	import CardLightBox from '../Card/CardLightBox.svelte';
 	import Modal from '../utils/Modal.svelte';
+	import Radial from './Pathfinder/index.svelte';
 
 	export let selectedEnvId = 'undefined';
 	/**
@@ -53,7 +54,7 @@
 
 <div class="flex-grow flex flex-col w-full relative overflow-y-auto">
 	{#if cards?.length > 0}
-		{#if [TOPICMAP, GEOMAP].includes(selVisType)}
+		{#if [TOPICMAP, GEOMAP, 'x'].includes(selVisType)}
 			<Slider {cards} selectedEnvironment={selectedEnvId} {selectedCardId} onClick={onCardClick} />
 		{/if}
 		<div
@@ -91,6 +92,10 @@
 				}}
 			/>
 		</Modal>
+
+		{#if selVisType === 'x'}
+			<Radial {cards} selectedCardId={selectedCardId || cards[0]?.id} />
+		{/if}
 
 		<SwitchVisBtn
 			cls="absolute bottom-8 right-5"

@@ -9,6 +9,7 @@
 	import AvatarManager from '$lib/components/AvatarManager/AvatarSelector.svelte';
 
 	import avatars from '$lib/components/avatarManager/avatars';
+	import Spinner from '../utils/Spinner.svelte';
 
 	const errors = {
 		'auth/email-already-in-use': 'The email address is already in use by another account.',
@@ -110,7 +111,8 @@
 		{#if loading === true}
 			<Spinner width="24px" height="24px" />
 		{:else}
-			{$langDict.sign_up.title}
+			<!-- {$langDict.sign_up} -->
+			Sign up
 		{/if}
 	</button>
 	<p class="mx-auto">

@@ -17,7 +17,7 @@
 	afterUpdate(() => {
 		setTimeout(() => {
 			const i = cards.findIndex((card) => card.id === selectedCardId);
-			console.log('scroll', elems[i], selectedCardId);
+			// console.log('scroll', elems[i], selectedCardId);
 
 			elems[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'center' });
 		}, 100);

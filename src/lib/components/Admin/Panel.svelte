@@ -11,6 +11,7 @@
 	export let height = null;
 	export let anim = true;
 
+	export let style = '';
 	let expanded = false;
 
 	let el;
@@ -30,7 +31,8 @@
 <!-- Main block -->
 <div
 	class="{expanded ? 'expanded ' : ''} p-2 flex flex-col border-2 border-black custom-shadow"
-	style={height !== null && expanded ? `height:${height}` : ''}
+	{style}
+	style:height={height !== null && expanded ? height : undefined}
 	bind:this={el}
 >
 	<div

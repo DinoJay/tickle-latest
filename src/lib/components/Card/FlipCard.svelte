@@ -1,6 +1,4 @@
 <script>
-	import { transition } from 'd3-transition';
-	import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 	import { cubicOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	// import { fly } from 'svelte/transition';

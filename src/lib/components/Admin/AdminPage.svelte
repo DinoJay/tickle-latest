@@ -6,12 +6,10 @@
 	import Topics from '$lib/components/Admin/Topics/index.svelte';
 	import Cards from '$lib/components/Admin/cards/index.svelte';
 	import Map from '$lib/components/Admin/Map/index.svelte';
-	import GeoCatchingValidation from '$lib/components/Admin/geoCaching/GeoCachingValidation.svelte';
-	import UserActivities from './UserActivities/index.svelte';
+	import Users from './Users/index.svelte';
 	// @ts-ignore
 	import { store } from '/src/stores/index';
 
-	import { LOG_ACTIVITY_SUBTYPE } from './UserActivities/logTypes';
 	import { LANGS, EN, titleLocales } from '$lib/constants/locales';
 
 	/**
@@ -52,13 +50,6 @@
 	/**
 	 * @type {any[] | null}
 	 */
-	let userLogs = null;
-
-	$: userLogs = !!cards
-		? cards
-				.flatMap((d) => d.activitySubmissions)
-				.map((d) => ({ ...d, logType: LOG_ACTIVITY_SUBTYPE }))
-		: null;
 
 	let selLang;
 
@@ -118,15 +109,8 @@
 		</Panel>
 	</div>
 	<div>
-		<Panel title={`User Activities`}>
-			<UserActivities
-				{cards}
-				{userLogs}
-				{selectedEnvId}
-				onDelete={(logId) => {
-					userLogs = userLogs.filter((d) => d.id !== logId);
-				}}
-			/>
+		<Panel title={`Users`} style="max-height:max-content">
+			<Users {cards} {selectedEnvId} {envs} />
 		</Panel>
 	</div>
 </div>

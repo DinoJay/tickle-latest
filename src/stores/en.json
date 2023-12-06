@@ -16,7 +16,7 @@
         "succeeded": "You succeeded the quiz and collected the card!"
     },
     "comments": {
-        "add": "add comment",
+        "enter_comment": "Add comment",
         "no_comments": "No comments yet"
     },
     "card": {
@@ -25,7 +25,7 @@
     },
     "reorder_list": {
         "title": "Reorder List",
-        "submit": "submit",
+        "submit": "Submit",
         "you_succeeded": "You succeeded!",
         "you_failed": "You failed!",
         "reset": "reset",
