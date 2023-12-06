@@ -26,7 +26,7 @@
 	<ul class="flex-grow overflow-auto mb-auto">
 		{#each restUsers as u}
 			<li
-				class="flex cursor-pointer mb-1 border-b-2"
+				class="flex cursor-pointer mb-1 border-b-2 p-1"
 				class:bg-gray-700={uids.includes(u.uid)}
 				class:text-white={uids.includes(u.uid)}
 				on:click={() => modifyUsers(u)}
