@@ -2,12 +2,14 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, getDocs } from 'firebase/firestore';
 	import { goto } from '$app/navigation';
-	import SlideIn from '../utils/SlideIn.svelte';
+	import SlideIn from './SlideIn.svelte';
 
 	/**
 	 * @type {string}
 	 */
 	export let selectedEnvId;
+
+	export let linkPrefix = '/diary';
 
 	$: promise = getDocs(collection(db, 'card-envs')).then((sn) => {
 		// console.log(
@@ -36,7 +38,7 @@
 			{#each envs as e}
 				<li class="text-lg">
 					<button
-						on:click={() => goto(`/diary/${e.id}`)}
+						on:click={() => goto(`${linkPrefix}/${e.id}`)}
 						class="border-b-2 mb-1 cursor-pointer w-full text-left">{e.title}</button
 					>
 				</li>

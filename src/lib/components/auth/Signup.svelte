@@ -59,9 +59,11 @@
 			.then((data) => {
 				console.log('userAvatar', userAvatar);
 				setDoc(doc(db, 'users', data.user.uid), {
+					uid: data.user.uid,
 					avatar: userAvatar,
 					email: email,
-					admin: true
+					teacher,
+					admin
 				}).then(() => {
 					loading = false;
 					goto('/cardview/environment/null/null/false/true');

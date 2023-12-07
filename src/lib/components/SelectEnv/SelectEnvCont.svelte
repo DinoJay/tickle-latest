@@ -4,9 +4,16 @@
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import { goto } from '$app/navigation';
 
-	export let isMandatory = false;
 	export let envs;
 	export let selectEnvOpen = false;
+	export let linkPrefix = '/cardview/environment';
+	export let onClose = () => {
+		goto(`/cardview/environment/null/null/false/false`);
+	};
+	export let onEnvOpen = (id) => {
+		goto(`/cardview/environment/${id}`);
+	};
+	export let isMandatory = false;
 
 	let selectedEnvId = null;
 
@@ -24,14 +31,17 @@
 
 <LightBox
 	isOpen={selectEnvOpen}
-	close={() => goto(`/cardview/environment/null/null/false/false`)}
+	close={onClose}
 	fixedWidth={true}
 	title={$langDict.select_env.title}
+	{isMandatory}
 >
 	<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}
 			<div bind:this={elems[i]}>
 				<EnvDetail
+					{linkPrefix}
+					{onEnvOpen}
 					{...env}
 					visible={selectedEnvId === env.id}
 					onClick={(id) => (selectedEnvId = id)}

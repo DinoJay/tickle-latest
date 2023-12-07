@@ -25,6 +25,8 @@
 		? getDoc(doc(db, 'card-envs', selectedEnvId)).then((d) => d.data())
 		: null;
 
+	$: console.log('current', $store.currentUser);
+
 	$: sections = [
 		{
 			name: 'Select environments/User View',
@@ -32,27 +34,23 @@
 				if (currentRoute === adminRoute && selectedEnvId)
 					goto(`/cardview/environment/${selectedEnvId}/null/false/true`);
 				else goto(`/cardview/environment/null/null/false/true`);
-			},
-			visible: true
+			}
 		},
-		// { name: 'Home', go: () => goto('/home') },
-		//TODO: change this later
-
 		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId || ''}`), visible: true },
 		{
 			name: 'Admin',
-			go: () => goto(`/admin/${selectedEnvId || ''}`),
-			visible: true //$store.currenUser?.admin
+			go: () => goto(`/admin/${selectedEnvId || ''}`)
 		},
 
 		{
 			name: 'Teacher',
-			go: () => goto(`/teacher/${selectedEnvId || ''}`),
-			visible: $store.currenUser?.teacher && selectedEnvId !== undefined
+			go: () => goto(`/teacher/${selectedEnvId || ''}`)
 		},
 
-		{ name: $langDict.sign_out, go: () => logOut(), visible: true }
+		{ name: $langDict.sign_out, go: () => logOut() }
 	];
+
+	$: console.log('sections', sections);
 
 	/**
 	 * Dynamic method to catch the size of the screen
@@ -111,7 +109,11 @@
 					transition:fly={{ x: 400, duration: 500, opacity: 1 }}
 					class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-50 bg-gray-700"
 				>
-					{#each sections.filter((d) => d.visible) as section}
+					{#each sections.filter((d) => {
+						if (d.name === 'Admin') return $store.currentUser?.admin;
+						if (d.name === 'Teacher') return $store.currentUser?.teacher;
+						return true;
+					}) as section}
 						<button
 							class="sm:text-xl text-2xl border-b hover:underline p-2"
 							on:click={(e) => {

@@ -58,7 +58,7 @@
 					on:keydown={() => {}}
 				>
 					<div class:text-green-700={user.uid === $store.currentUser?.uid}>
-						{user.email}{#if $store.currentUser.uid === user.uid}
+						{user.email}{#if $store.currentUser?.uid === user.uid}
 							{' '}(YOU)
 						{/if}
 					</div>

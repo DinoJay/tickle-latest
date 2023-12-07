@@ -6,9 +6,6 @@
 	// import { v4 as uuidv4 } from 'uuid';
 
 	export let isOpen = false;
-	/**
-	 * @type {(arg0: any) => void}
-	 */
 	export let isMandatory = false;
 </script>
 

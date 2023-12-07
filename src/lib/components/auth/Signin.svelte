@@ -40,7 +40,7 @@
 		loading = true;
 		signInWithEmailAndPassword(auth, email.trim(), pwd)
 			.then(() => {
-				goto('/cardview/environment');
+				goto('/cardview/environment/null/null/false/true');
 				loading = false;
 			})
 			.catch((error) => {

@@ -22,7 +22,7 @@
 	 * @type {{ url: any; }}
 	 */
 	export let img;
-	export let openEnv;
+	export let onEnvOpen;
 	/**
 	 * @type {any}
 	 */
@@ -54,7 +54,7 @@
 						hover:bg-c-light-gray
 						border border-black border-3"
 				on:click={() => {
-					goto(`/cardview/environment/${id}`);
+					onEnvOpen(id);
 				}}>Go!</button
 			>
 		</div>

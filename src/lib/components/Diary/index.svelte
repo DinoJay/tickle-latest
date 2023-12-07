@@ -3,8 +3,7 @@
 	import CollectedCards from './CollectedCards.svelte';
 	import { collection, getDoc, getDocs, doc } from 'firebase/firestore';
 	import { db } from '$lib/firebaseConfig/firebase';
-	import TickleWobble from '$lib/components/utils/TickleWobble.svelte';
-	import TinyEnvSelect from './TinyEnvSelect.svelte';
+	import TinyEnvSelect from '../utils/TinyEnvSelect.svelte';
 	// import Map from '$lib/components/map/Map.svelte';
 	import Map from '$lib/components/map/Map.svelte';
 
@@ -86,7 +85,7 @@
 	$: promise = selectedEnvId ? loadData() : null;
 </script>
 
-<div class="flex-grow flex flex-col m-2  mx-auto p-3 w-full sm:w-diary">
+<div class="flex-grow flex flex-col m-2 mx-auto p-3 w-full sm:w-diary">
 	<h1 class="text-2xl mb-2">{user.email}</h1>
 	<div class="relative mb-3 pointer-events-none" style="height:300px">
 		<ListenUserLocation>
