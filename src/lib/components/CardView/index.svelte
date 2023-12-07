@@ -6,8 +6,6 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import TickleWobble from '$lib/components/utils/TickleWobble.svelte';
 
-	import { store } from '/src/stores/index';
-
 	export let selectedEnvId;
 
 	// $: console.log('id environment', $page);

@@ -3,11 +3,16 @@
 
 	export let user;
 	export let card;
+	/**
+	 * @type {(arg0: any) => any}
+	 */
 	export let onDelete;
 	export let id;
 </script>
 
 <div class="p-1 flex">
 	<div><span class="italic">{user.email}</span> acquired Card "{card.title}"</div>
-	<button class="ml-auto" on:click={() => onDelete(id)}><DeleteIcon /></button>
+	{#if onDelete}
+		<button class="ml-auto" on:click={() => onDelete(id)}><DeleteIcon /></button>
+	{/if}
 </div>

@@ -7,6 +7,10 @@
 	import { goto } from '$app/navigation';
 	import TickleWobble from '../utils/TickleWobble.svelte';
 
+	export let onLoaded = () => {
+		console.log('loaded');
+	};
+
 	/**
 	 * Listener on the user auth state
 	 * If the user is not in the store, we update the store
@@ -28,6 +32,12 @@
 					...obj,
 					currentUser: { ...currentUser, ...u }
 				}));
+				// .then(() => {
+				//TODO hack
+				setTimeout(() => {
+					onLoaded();
+				}, 800);
+				// });
 			});
 			// }
 		});

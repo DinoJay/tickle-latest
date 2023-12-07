@@ -39,10 +39,13 @@
 		e.preventDefault();
 		if (!passwordIsValid()) {
 			addNotification({ text: errors['auth/password-confirmation'] });
+
+			loading = false;
 			return;
 		}
 		if (!userAvatar) {
 			addNotification({ text: errors['auth/avatar'] });
+			loading = false;
 			return;
 		}
 		signUpUser();
@@ -61,11 +64,12 @@
 					admin: true
 				}).then(() => {
 					loading = false;
-					goto('/cardview/environment');
+					goto('/cardview/environment/null/null/false/true');
 				});
 			})
 			.catch((error) => {
 				addNotification({ text: errors[error.code] });
+				loading = false;
 			});
 	};
 
@@ -121,14 +125,16 @@
 
 	<button
 		class="w-full m-auto mb-3 px-3 py-3 font-bold uppercase btn border-2 border-black custom-shadow
-				bg-white hover:bg-c-light-gray"
+				bg-white hover:bg-c-light-gray flex"
 		type="submit"
 	>
-		{#if loading === true}
-			<Spinner width="22px" height="22px" />
-		{:else}
-			{$langDict.sign_up.title}
-		{/if}
+		<div class="m-auto">
+			{#if loading === true}
+				<Spinner width="20px" height="20px" />
+			{:else}
+				{$langDict.sign_up.title}
+			{/if}
+		</div>
 	</button>
 	<p class="mx-auto">
 		Already have an account ?

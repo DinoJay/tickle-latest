@@ -72,7 +72,7 @@
 					const docSnap = await getDoc(docRef);
 					if (docSnap.exists()) {
 						console.log('user already exists');
-						goto('/cardview/environment');
+						goto('/cardview/environment/null/null/false/true');
 					} else {
 						setDoc(docRef, {
 							avatar: 'responsibility',
@@ -80,7 +80,7 @@
 							admin: true
 						}).then(() => {
 							loading = false;
-							goto('/cardview/environment');
+							goto('/cardview/environment/null/null/false/true');
 						});
 					}
 				} catch (error) {
@@ -117,8 +117,8 @@
 				height: 50,
 				longtitle: true,
 				theme: 'dark',
-				onsuccess: onSuccess,
-				onfailure: onFailure
+				onsuccess: (d) => console.log(d),
+				onfailure: (d) => console.log(d)
 			});
 		}
 	</script>

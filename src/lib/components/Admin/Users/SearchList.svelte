@@ -33,13 +33,13 @@
 	// }
 </script>
 
-<input class="input-text mb-1" placeholder="Search Env" bind:value={filterTxt} />
+<input class="input-text mb-3" placeholder="Search Env" bind:value={filterTxt} />
 {#if tmpEnvs.length === 0}
 	<div class="h-48 flex">
-		<div class="placeholder m-auto">No Env found</div>
+		<div class="text-gray-600 m-auto">No Env found</div>
 	</div>
 {:else}
-	<ul class="h-48 overflow-y-auto">
+	<ul class="h-48 overflow-y-auto flex-none">
 		{#each tmpEnvs as en}
 			<li class="flex">
 				<div>{en.title || en.id}</div>

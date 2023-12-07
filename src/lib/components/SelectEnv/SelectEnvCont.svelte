@@ -2,10 +2,11 @@
 	import { langDict } from './../../../stores/localizationStore.js';
 	import EnvDetail from './EnvDetail.svelte';
 	import LightBox from '$lib/components/utils/LightBox.svelte';
+	import { goto } from '$app/navigation';
 
-	export let isOpen = false;
 	export let isMandatory = false;
 	export let envs;
+	export let selectEnvOpen = false;
 
 	let selectedEnvId = null;
 
@@ -21,8 +22,12 @@
 	// $: console.log('elems', elems);
 </script>
 
-<LightBox {isOpen} close={() => (isOpen = false)} {isMandatory} fixedWidth={true}>
-	<h2 class="text-3xl mb-1 text-c-black">{$langDict.select_env.title}</h2>
+<LightBox
+	isOpen={selectEnvOpen}
+	close={() => goto(`/cardview/environment/null/null/false/false`)}
+	fixedWidth={true}
+	title={$langDict.select_env.title}
+>
 	<div class="flex-1 h-12 flex flex-col overflow-y-auto">
 		{#each envs as env, i (env.id)}
 			<div bind:this={elems[i]}>
@@ -34,4 +39,7 @@
 			</div>
 		{/each}
 	</div>
+	{#if envs.length === 0}
+		<div class="text-center text-xl m-12">{$langDict.select_env.no_envs}</div>
+	{/if}
 </LightBox>

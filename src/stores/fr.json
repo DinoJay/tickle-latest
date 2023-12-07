@@ -7,7 +7,9 @@
         "do_not_have_acc": "Si vous n'avez pas encore de compte, créez-en un."
     },
     "select_env": {
-        "title": "Bienvenue á TICKLE!"
+        "title": "Bienvenue á TICKLE!",
+        "no_envs": "Vous n'avez pas encore d'environnement",
+        "no_envs_no_env_selected": "pas d'environnement sélectionné"
     },
     "quiz": {
         "result": "Résultat",

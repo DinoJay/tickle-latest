@@ -12,7 +12,7 @@
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { locale, titleLocale } from '/src/stores/localizationStore';
 
-	$: selectedEnvId = $page.params.envId || '';
+	$: selectedEnvId = $page.params.envId !== 'null' ? $page.params.envId : null;
 	// $: console.log('page', $page);
 	// $: adminEnvId = $store.currentUser?.adminEnvId;
 
@@ -20,7 +20,7 @@
 	const adminRoute = '/admin/[[envId]]';
 
 	let collapsed = true;
-
+	let env = null;
 	$: envPromise = selectedEnvId
 		? getDoc(doc(db, 'card-envs', selectedEnvId)).then((d) => d.data())
 		: null;
@@ -29,15 +29,29 @@
 		{
 			name: 'Select environments/User View',
 			go: () => {
-				goto(`/cardview/environment/${currentRoute === adminRoute ? selectedEnvId : ''}`);
-			}
+				if (currentRoute === adminRoute && selectedEnvId)
+					goto(`/cardview/environment/${selectedEnvId}/null/false/true`);
+				else goto(`/cardview/environment/null/null/false/true`);
+			},
+			visible: true
 		},
 		// { name: 'Home', go: () => goto('/home') },
 		//TODO: change this later
-		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId}`) },
-		{ name: 'Admin', go: () => goto(`/admin/${selectedEnvId}`) },
 
-		{ name: $langDict.sign_out, go: () => logOut() }
+		{ name: 'Diary', go: () => goto(`/diary/${selectedEnvId || ''}`), visible: true },
+		{
+			name: 'Admin',
+			go: () => goto(`/admin/${selectedEnvId || ''}`),
+			visible: true //$store.currenUser?.admin
+		},
+
+		{
+			name: 'Teacher',
+			go: () => goto(`/teacher/${selectedEnvId || ''}`),
+			visible: $store.currenUser?.teacher && selectedEnvId !== undefined
+		},
+
+		{ name: $langDict.sign_out, go: () => logOut(), visible: true }
 	];
 
 	/**
@@ -71,7 +85,8 @@
 	 * Function use to logout the user
 	 */
 	const logOut = () => {
-		goto('/').then((d) => signOut(getAuth()));
+		signOut(getAuth());
+		// goto('/').then((d) => signOut(getAuth()));
 	};
 </script>
 
@@ -96,7 +111,7 @@
 					transition:fly={{ x: 400, duration: 500, opacity: 1 }}
 					class="flex flex-col h-auto w-screen max-w-xs absolute top-[4.1rem] right-0 z-50 bg-gray-700"
 				>
-					{#each sections as section}
+					{#each sections.filter((d) => d.visible) as section}
 						<button
 							class="sm:text-xl text-2xl border-b hover:underline p-2"
 							on:click={(e) => {

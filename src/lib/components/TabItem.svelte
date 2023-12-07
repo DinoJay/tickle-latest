@@ -7,7 +7,7 @@
 	const { tabs } = getContext('tabs');
 
 	export let title;
-	export let checked;
+	export let checked = null;
 	let index;
 
 	// pull out current tab, updates whenever store changes

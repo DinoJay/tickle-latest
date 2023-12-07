@@ -8,6 +8,8 @@
 
 	import { LOG_ACTIVITY_SUBTYPE } from './logTypes';
 	import { db } from '$lib/firebaseConfig/firebase';
+	import Tabs from '$lib/components/Tabs.svelte';
+	import TabItem from '$lib/components/TabItem.svelte';
 	export let cards;
 	// export let onDelete;
 	// export let userLogs;
@@ -27,28 +29,34 @@
 	});
 </script>
 
-<UsersList
-	{...$$props}
-	{users}
-	onDeleteUser={(uid) => (users = users.filter((d) => d.uid !== uid))}
-	onChangeUser={(u) => {
-		console.log('user u', u.envIds);
-		const docRef = doc(db, 'users', u.uid);
-		setDoc(docRef, u);
-		users = users.map((d) => {
-			if (d.uid === u.uid) {
-				return u;
-			}
-			return d;
-		});
-	}}
-/>
-
-<UserActivities
-	cls="mb-3"
-	{...$$props}
-	{userLogs}
-	onDelete={(logId) => {
-		userLogs = userLogs.filter((d) => d.id !== logId);
-	}}
-/>
+<Tabs single>
+	<TabItem title="Users">
+		<UsersList
+			{userLogs}
+			{...$$props}
+			{users}
+			onDeleteUser={(uid) => (users = users.filter((d) => d.uid !== uid))}
+			onChangeUser={(u) => {
+				console.log('user u', u.envIds);
+				const docRef = doc(db, 'users', u.uid);
+				setDoc(docRef, u);
+				users = users.map((d) => {
+					if (d.uid === u.uid) {
+						return u;
+					}
+					return d;
+				});
+			}}
+		/>
+	</TabItem>
+	<TabItem title="User Activities">
+		<UserActivities
+			cls="mb-3"
+			{...$$props}
+			{userLogs}
+			onDelete={(logId) => {
+				userLogs = userLogs.filter((d) => d.id !== logId);
+			}}
+		/>
+	</TabItem>
+</Tabs>

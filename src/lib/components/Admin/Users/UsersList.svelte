@@ -22,6 +22,11 @@
 	 */
 	export let onChangeUser;
 
+	/**
+	 * @type {any[]}
+	 */
+	export let userLogs;
+
 	$: selUid = null;
 
 	let userSearchVal = '';
@@ -32,15 +37,12 @@
 	$: console.log('currentUser', $store.currentUser);
 </script>
 
-<h2 class="text-lg label">Users</h2>
-<div class="flex flex-col flex-none max-h-72 overflow-y-auto">
+<div class="flex flex-col flex-none max-h-96 overflow-y-auto">
 	{#if users === undefined}
 		<div class="my-12 mx-auto">
 			<Spinner />
 		</div>
-	{:else if users === null}
-		<div class="m-12 placeholder-text">No users</div>
-	{:else if users.length === 0}
+	{:else if users === null || users.length === 0}
 		<div class="m-12 placeholder-text">No users</div>
 	{:else}
 		<input class="input-text mb-3" placeholder="Search User" bind:value={userSearchVal} />
@@ -55,7 +57,7 @@
 					on:click={() => (selUid = user.uid)}
 					on:keydown={() => {}}
 				>
-					<div class:text-green-700={user.uid === $store.currentUser.uid}>
+					<div class:text-green-700={user.uid === $store.currentUser?.uid}>
 						{user.email}{#if $store.currentUser.uid === user.uid}
 							{' '}(YOU)
 						{/if}
@@ -68,6 +70,7 @@
 	{/if}
 	<UserLightBox
 		{...$$props}
+		userLogs={userLogs ? userLogs.filter((s) => s.uid === selUid) : []}
 		selUser={users?.find((d) => d.uid === selUid)}
 		onClose={() => (selUid = null)}
 		{onDeleteUser}

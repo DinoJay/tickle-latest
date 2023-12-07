@@ -7,7 +7,9 @@
         "do_not_have_acc": "Als u nog geen account hebt, dient u er een aan te maken."
     },
     "select_env": {
-        "title": "Welkom bij TICKLE!"
+        "title": "Welkom bij TICKLE!",
+        "no_envs": "Er zijn geen omgevingen beschikbaar!",
+        "no_envs_no_env_selected": "Er zijn geen omgevingen beschikbaar. Selecteer een omgeving in de beheerdersinterface."
     },
     "quiz": {
         "result": "Resultaat",

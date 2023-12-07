@@ -7,7 +7,9 @@
         "do_not_have_acc": "You don't have an account?"
     },
     "select_env": {
-        "title": "Welcome to TICKLE!"
+        "title": "Welcome to TICKLE!",
+        "no_envs": "No environments assigned",
+        "no_envs_no_env_selected": "No environments assigned. Please select an environment or create one to continue."
     },
     "quiz": {
         "result": "Result",

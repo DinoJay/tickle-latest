@@ -84,7 +84,6 @@
 				{cards}
 				{selVisType}
 				{selectedEnv}
-				userViews={selectedEnv.userViews || VISTYPES}
 				onUserViewChange={(t) => (selVisType = t)}
 				onClose={() => {
 					//TODO: wrong fix that
@@ -93,9 +92,9 @@
 			/>
 		</Modal>
 
-		{#if selVisType === 'x'}
+		<!-- {#if selVisType === 'x'}
 			<Radial {cards} selectedCardId={selectedCardId || cards[0]?.id} />
-		{/if}
+		{/if} -->
 
 		<SwitchVisBtn
 			cls="absolute bottom-8 right-5"

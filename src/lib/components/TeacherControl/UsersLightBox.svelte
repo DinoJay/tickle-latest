@@ -38,9 +38,12 @@
 	</ul>
 	<button
 		class="btn mt-3"
+		class:disabled={uids.length === 0}
+		aria-disabled={uids.length === 0}
 		on:click={() => {
 			onGroupUidsChange(uids);
 			onClose();
-		}}>Add User(s)</button
+		}}
+		>Add {uids.length} User{#if uids.length > 1}(s){/if}</button
 	>
 </LightBox>

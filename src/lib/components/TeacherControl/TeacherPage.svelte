@@ -1,18 +1,22 @@
 <script>
 	import DeleteIcon from 'svelte-material-icons/Delete.svelte';
 	import { store } from '/src/stores/index';
+
+	import { v4 as uuidv4 } from 'uuid';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 	import UsersLightBox from './UsersLightBox.svelte';
 	import Spinner from '../utils/Spinner.svelte';
+	import ActivitySubLog from '../Admin/Users/ActivitySubLog.svelte';
 
 	// export let envId;
 	/**
 	 * @type {(arg0: { groups: any; }) => void}
 	 */
-	export let onUserChange;
+	export let onChange;
+	export let envId;
 
-	let counter = 1;
+	let counter = 0;
 
 	let selGroupId = null;
 
@@ -23,9 +27,16 @@
 		users = snap.docs.map((doc) => doc.data()).filter((d) => !!d.uid);
 	});
 
-	getDoc(doc(db, 'users', $store.currentUser.uid)).then((snap) => {
-		groups = snap.data().groups || [];
+	getDoc(doc(db, 'card-envs', envId)).then((snap) => {
+		groups = snap.data()?.groups || [];
 	});
+
+	const deleteGroup = (id) => {
+		groups = groups.filter((d) => d.id !== id);
+		onChange({ groups });
+	};
+
+	const abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 </script>
 
 <div class="flex flex-col flex-grow p-3 sm:p-12">
@@ -34,13 +45,23 @@
 			<div class="mb-auto w-full flex-grow overflow-auto h-96">
 				{#each groups as g}
 					<div class="mb-3">
-						<h2 class="text-lg label">{g.title}</h2>
+						<h2 class="text-lg label flex">
+							<span>{g.title}</span><span
+								class="text-red-500 ml-auto cursor-pointer"
+								on:keydown={(e) => {
+									if (e.key === 'Enter') {
+										deleteGroup(g.id);
+									}
+								}}
+								on:click={() => deleteGroup(g.id)}>X</span
+							>
+						</h2>
 						<ul class="max-h-32 overflow-auto">
 							{#each g.userIds as uid}
 								<li class="flex p-1 border-b-2">
 									<div>{users.find((u) => u.uid === uid).email}</div>
 									<button
-										class="ml-auto text-red-500"
+										class="ml-auto text-red-500 cursor-pointer"
 										on:click={() => {
 											groups = groups.map((d) => {
 												if (d.id === g.id) {
@@ -48,7 +69,7 @@
 												}
 												return d;
 											});
-											onUserChange({ groups });
+											onChange({ groups });
 										}}>X</button
 									>
 								</li>
@@ -68,10 +89,13 @@
 		<button
 			class="btn mb-3 create-btn flex-none"
 			on:click={() => {
-				groups = [...groups, { id: counter, title: `New Group ${counter}`, userIds: [] }];
+				groups = [
+					...groups,
+					{ id: uuidv4(), title: `Group ${abc[groups.length % abc.length]}`, userIds: [] }
+				];
 				counter = counter + 1;
 
-				onUserChange({ groups });
+				onChange({ groups });
 			}}>Add Group</button
 		>
 	{:else}
@@ -94,7 +118,7 @@
 			return d;
 		});
 
-		onUserChange({ groups });
+		onChange({ groups });
 	}}
 	onClose={() => (selGroupId = null)}
 />
