@@ -7,7 +7,7 @@
 	import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 	import UsersLightBox from './UsersLightBox.svelte';
 	import Spinner from '../utils/Spinner.svelte';
-	import ActivitySubLog from '../Admin/Users/ActivitySubLog.svelte';
+	import { togglePopUp } from '../../../stores/popUpStore';
 
 	// export let envId;
 	/**
@@ -32,8 +32,14 @@
 	});
 
 	const deleteGroup = (id) => {
-		groups = groups.filter((d) => d.id !== id);
-		onChange({ groups });
+		togglePopUp({
+			title: 'Delete Group',
+			text: 'Are you sure to delete the selected group?',
+			onConfirm: () => {
+				groups = groups.filter((d) => d.id !== id);
+				onChange({ groups });
+			}
+		});
 	};
 
 	const abc = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -63,13 +69,19 @@
 									<button
 										class="ml-auto text-red-500 cursor-pointer"
 										on:click={() => {
-											groups = groups.map((d) => {
-												if (d.id === g.id) {
-													return { ...d, userIds: d.userIds.filter((id) => id !== uid) };
+											togglePopUp({
+												title: 'Delete User',
+												text: 'Are you sure to delete the selected user?',
+												onConfirm: () => {
+													groups = groups.map((d) => {
+														if (d.id === g.id) {
+															return { ...d, userIds: d.userIds.filter((id) => id !== uid) };
+														}
+														return d;
+													});
+													onChange({ groups });
 												}
-												return d;
 											});
-											onChange({ groups });
 										}}>X</button
 									>
 								</li>

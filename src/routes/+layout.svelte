@@ -4,6 +4,7 @@
 	// import Dnd from 'svelte-drag-drop-touch';
 	// import '$lib/DragDropTouch';
 	import Notifications from '$lib/components/Notifications/index.svelte';
+	import DialogPopUp from '$lib/components/utils/DialogPopUp.svelte';
 	import NavBar from '$lib/components/NavBar/index.svelte';
 
 	import { locale } from '/src/stores/localizationStore';
@@ -23,6 +24,7 @@
 </script>
 
 <Notifications />
+<DialogPopUp />
 <div
 	class="flex flex-col w-full h-full sm:p-3 bg-cover bg-center"
 	style="background-image:url('/city-bg-yellow.png')"

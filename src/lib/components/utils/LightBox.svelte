@@ -1,6 +1,4 @@
 <script>
-	import { modalPortal } from '$lib/portalAction';
-	import { blur, fly, fade } from 'svelte/transition';
 	import LightBoxContent from './LightBoxContent.svelte';
 	import Modal from './Modal.svelte';
 	// import { v4 as uuidv4 } from 'uuid';
