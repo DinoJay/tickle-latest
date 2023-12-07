@@ -1,5 +1,4 @@
 <script>
-	import { select } from 'd3';
 	import { db } from '$lib/firebaseConfig/firebase';
 	import LightBox from '../../utils/LightBox.svelte';
 	import { doc, deleteDoc, setDoc } from 'firebase/firestore';
@@ -84,6 +83,7 @@
 <LightBox
 	title={selectedEnv[titleLocales[selLang]] || selectedEnv?.title || 'Edit Environment'}
 	isOpen={lbOpen}
+	fixedWidth={true}
 	close={() => (lbOpen = false)}
 >
 	<EditEnvironment

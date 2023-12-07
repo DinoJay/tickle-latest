@@ -1,14 +1,10 @@
 <script>
 	import WindowClose from 'svelte-material-icons/WindowClose.svelte';
-	import TurnIcon from 'svelte-material-icons/ArrowULeftTop.svelte';
-	import FlipCard from '../Card/FlipCard.svelte';
-	import { onMount, onDestroy } from 'svelte';
 
 	/**
 	 * @type {(arg0: any) => void}
 	 */
 	export let close;
-	export let onFlip = () => false;
 	export let isMandatory = false;
 	/**
 	 * @type {string|null}
@@ -17,12 +13,8 @@
 	export let width = '450px';
 	export let title = '';
 	// export let cls = '';
-	export let backCls = '';
-	export let flipped = false;
-	export let flipCls = '';
 	export let fixedHeight = false;
 
-	export let isDefaultSlot = false;
 	export let isFrontSlot = false;
 	export let isBackSlot = false;
 
@@ -30,6 +22,8 @@
 
 	$: flippable = isFrontSlot && isBackSlot;
 	let titleExpanded = false;
+
+	$: console.log('width§', width);
 </script>
 
 <div

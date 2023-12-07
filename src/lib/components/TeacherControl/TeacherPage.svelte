@@ -53,7 +53,7 @@
 					<div class="mb-3">
 						<h2 class="text-lg label flex">
 							<span>{g.title}</span><span
-								class="text-red-500 ml-auto cursor-pointer"
+								class="text-red-500 ml-auto cursor-pointer font-bold"
 								on:keydown={(e) => {
 									if (e.key === 'Enter') {
 										deleteGroup(g.id);
