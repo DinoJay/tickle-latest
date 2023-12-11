@@ -22,6 +22,8 @@
 	 */
 	export let onChangeUser;
 
+	export let selectedEnv;
+
 	/**
 	 * @type {any[]}
 	 */
@@ -62,6 +64,13 @@
 							{' '}(YOU)
 						{/if}
 					</div>
+					{#if user.envIds?.includes(selectedEnv?.id)}
+						<div class="ml-auto text-green-700">Enrolled</div>
+						<!-- {:else}
+						<div class="ml-auto text-red-700">Not Enrolled</div> -->
+					{/if}
+
+					<div />
 
 					<button class="ml-auto"><MagnifyIcon size={20} /></button>
 				</li>

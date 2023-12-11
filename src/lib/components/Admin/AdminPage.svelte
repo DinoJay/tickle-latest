@@ -110,7 +110,7 @@
 	</div>
 	<div>
 		<Panel title={`Users`} style="max-height:max-content">
-			<Users {cards} {selectedEnvId} {envs} />
+			<Users {cards} {selectedEnvId} {envs} {selectedEnv} />
 		</Panel>
 	</div>
 </div>

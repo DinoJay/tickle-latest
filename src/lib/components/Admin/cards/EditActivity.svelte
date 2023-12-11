@@ -1,11 +1,12 @@
 <script>
 	import LightBox from '$lib/components/utils/LightBox.svelte';
 	import EditQuiz from './EditQuiz.svelte';
-	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST } from './activityConsts';
+	import { QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST, GRIDGAME } from './activityConsts';
 	import EditGeoCaching from './EditGeoCaching/index.svelte';
 	import EditHangman from './EditHangman.svelte';
 	import EditDragDrop from './EditDragDrop.svelte';
 	import EditOrderList from './EditOrderList.svelte';
+	import EditGridGame from './EditGridGame/index.svelte';
 	import { activityLocales } from '$lib/constants/locales';
 	import TabItem from '$lib/components/TabItem.svelte';
 	import Tabs from '$lib/components/ResponsiveTabs.svelte';
@@ -36,7 +37,7 @@
 	 */
 	export let onRemove;
 
-	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST];
+	const ACTIVITIES = [QUIZ, GEOCACHING, HANGMAN, DRAGDROP, ORDERLIST, GRIDGAME];
 
 	/**
 	 * @type {string | null}
@@ -72,6 +73,32 @@
 		<button class="del-btn" on:click={onRemove}>Remove Activity</button>
 	{/if}
 </div>
+
+<LightBox
+	title={GRIDGAME}
+	isOpen={selectedActivity === GRIDGAME}
+	close={() => (selectedActivity = null)}
+	width="auto"
+>
+	<Tabs>
+		{#each langs as l, i}
+			<TabItem title={l}>
+				<h2 class="label text-xl">Grid Game {l}</h2>
+				<EditGridGame
+					onClose={() => (selectedActivity = null)}
+					value={$$props[activityLocales(l)]?.value}
+					onChange={(/** @type {any} */ value) => {
+						const activityField = activityLocales(l);
+						onChange({ [activityField]: { type: GRIDGAME, value } });
+					}}
+				/>
+			</TabItem>
+		{/each}
+	</Tabs>
+	<button class="w-full btn mt-3 max-w-2xl mx-auto" on:click={() => (selectedActivity = null)}>
+		Close
+	</button>
+</LightBox>
 
 <LightBox
 	title={QUIZ}

@@ -49,7 +49,7 @@
 	};
 
 	async function handleCredentialResponse(response) {
-		console.log('Encoded JWT ID token: ' + response.credential);
+		// console.log('Encoded JWT ID token: ' + response.credential);
 		// Build Firebase credential with the Google ID token.
 		const idToken = response.credential;
 		const credential = GoogleAuthProvider.credential(idToken);
@@ -65,18 +65,19 @@
 			})
 			.then(async (res) => {
 				const { user } = res;
-				console.log('signed in with google', user.uid);
+				console.log('signed in with google', user);
 
 				try {
 					const docRef = doc(db, 'users', user.uid);
 					const docSnap = await getDoc(docRef);
+					console.log('docSnap', docSnap.data());
 					if (docSnap.exists()) {
-						console.log('user already exists');
+						console.log('user already exists', user);
 						goto('/cardview/environment/null/null/false/true');
 					} else {
 						setDoc(docRef, {
-							avatar: 'responsibility',
-							email: email,
+							uid: user.uid,
+							email: user.email,
 							admin: true
 						}).then(() => {
 							loading = false;
